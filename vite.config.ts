@@ -1,11 +1,10 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
-  base: './', // ✅ Ensures relative paths for assets so they load on Netlify
+  base: './', // ✅ ensures relative asset paths so they work on Netlify
 });
