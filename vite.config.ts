@@ -7,4 +7,5 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
+  base: './', // ✅ Ensures relative paths for assets so they load on Netlify
 });
