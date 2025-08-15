@@ -49,7 +49,7 @@ export const Home: React.FC = () => {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative h-[65vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <div className="relative h-full">
             {breeds.map((breed, index) => (
@@ -61,21 +61,22 @@ export const Home: React.FC = () => {
               >
                 <img
                   src={breed.image}
+                  alt={`${breed.name} - Premium dog breed available for adoption`}
                   alt={breed.name}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent" />
               </div>
             ))}
           </div>
         </div>
 
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+          <h1 className="font-display text-5xl md:text-7xl font-bold mb-6 leading-tight tracking-wide">
             Find Your
-            <span className="text-warm-peach block">Furry Forever Friend</span>
+            <span className="text-warm-peach block drop-shadow-lg">Furry Forever Friend</span>
           </h1>
-          <p className="text-xl md:text-2xl mb-8 opacity-90">
+          <p className="font-sans text-xl md:text-2xl mb-8 opacity-90 font-medium tracking-wide">
             Discover love, loyalty, and endless joy with our carefully selected companions
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -125,6 +126,9 @@ export const Home: React.FC = () => {
       {/* FurryFriend vs Breeders Section */}
       <section className="py-20 bg-gradient-to-br from-cream via-white to-cream relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
+          <img src="/dog19.jpg" alt="" className="w-full h-full object-cover blur-sm" />
+        </div>
+        <div className="absolute inset-0 opacity-5">
           <div className="absolute top-10 left-10 text-6xl">🐕</div>
           <div className="absolute top-40 right-20 text-4xl">🐾</div>
           <div className="absolute top-60 left-1/4 text-3xl">🦴</div>
@@ -135,7 +139,7 @@ export const Home: React.FC = () => {
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <h2 className="text-4xl md:text-5xl font-bold text-center bg-gradient-to-r from-soft-brown via-warm-peach to-soft-brown bg-clip-text text-transparent mb-16">
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-center bg-gradient-to-r from-soft-brown via-warm-peach to-soft-brown bg-clip-text text-transparent mb-16 tracking-wide">
             Why Choose <span className="bg-gradient-to-r from-warm-peach to-orange-400 bg-clip-text text-transparent">FurryFriend</span>?
           </h2>
           
@@ -234,6 +238,9 @@ export const Home: React.FC = () => {
       {/* Breed Showcase Section */}
       <section id="breeds" className="py-20 bg-gradient-to-br from-cream via-orange-50 to-cream relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
+          <img src="/dog20.jpg" alt="" className="w-full h-full object-cover blur-sm" />
+        </div>
+        <div className="absolute inset-0 opacity-5">
           <div className="absolute top-20 left-16 text-5xl">🐕‍🦺</div>
           <div className="absolute top-32 right-24 text-4xl">🐾</div>
           <div className="absolute top-80 left-1/4 text-3xl">🦴</div>
@@ -244,7 +251,7 @@ export const Home: React.FC = () => {
           <div className="absolute top-60 left-1/2 text-3xl">🐕</div>
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl md:text-5xl font-bold text-center bg-gradient-to-r from-soft-brown via-warm-peach to-soft-brown bg-clip-text text-transparent mb-16">
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-center bg-gradient-to-r from-soft-brown via-warm-peach to-soft-brown bg-clip-text text-transparent mb-16 tracking-wide">
             Meet Our <span className="bg-gradient-to-r from-warm-peach to-orange-400 bg-clip-text text-transparent">Adorable Friends</span>
           </h2>
           
@@ -255,18 +262,19 @@ export const Home: React.FC = () => {
                 to={`/breed/${breed.slug}`}
                 className="group"
               >
-                <div className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all duration-500">
+                <div className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 hover:-translate-y-2 hover:rotate-1 transition-all duration-500 perspective-1000">
                   <div className="relative overflow-hidden">
                     <img
                       src={breed.image}
-                      alt={breed.name}
-                      className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
+                      alt={`${breed.name} - Premium dog breed for adoption with health guarantee`}
+                      className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500 filter group-hover:brightness-110"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-white/10 to-transparent backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
                   
                   <div className="p-6">
-                    <h3 className="text-xl font-bold text-soft-brown mb-2 group-hover:text-warm-peach transition-colors">
+                    <h3 className="font-display text-xl font-bold text-soft-brown mb-2 group-hover:text-warm-peach transition-colors tracking-wide">
                       {breed.name}
                     </h3>
                     <div className="flex flex-wrap gap-2 mb-4">
@@ -298,6 +306,9 @@ export const Home: React.FC = () => {
       {/* Testimonials Section */}
       <section className="py-20 bg-gradient-to-br from-white via-cream to-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
+          <img src="/dog21.jpg" alt="" className="w-full h-full object-cover blur-sm" />
+        </div>
+        <div className="absolute inset-0 opacity-5">
           <div className="absolute top-16 left-20 text-4xl">🐕</div>
           <div className="absolute top-40 right-28 text-3xl">🐾</div>
           <div className="absolute bottom-40 left-1/4 text-5xl">🐶</div>
@@ -305,7 +316,7 @@ export const Home: React.FC = () => {
           <div className="absolute top-1/2 left-1/2 text-3xl">🏠</div>
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl md:text-5xl font-bold text-center bg-gradient-to-r from-soft-brown via-warm-peach to-soft-brown bg-clip-text text-transparent mb-16">
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-center bg-gradient-to-r from-soft-brown via-warm-peach to-soft-brown bg-clip-text text-transparent mb-16 tracking-wide">
             Happy <span className="bg-gradient-to-r from-warm-peach to-orange-400 bg-clip-text text-transparent">Families</span>
           </h2>
           

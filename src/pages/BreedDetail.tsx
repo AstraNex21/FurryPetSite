@@ -161,8 +161,8 @@ export const BreedDetail: React.FC = () => {
             <div className="aspect-square rounded-2xl overflow-hidden shadow-lg">
               <img
                 src={breed.images[selectedImage]}
-                alt={breed.name}
-                className="w-full h-full object-cover"
+                alt={`${breed.name} - Premium dog breed with health guarantee and lifetime support`}
+                className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500 filter hover:brightness-110"
               />
             </div>
             <div className="grid grid-cols-3 gap-4">
@@ -170,14 +170,14 @@ export const BreedDetail: React.FC = () => {
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
-                  className={`aspect-square rounded-xl overflow-hidden ${
+                  className={`aspect-square rounded-xl overflow-hidden transform hover:scale-105 hover:rotate-1 transition-all duration-300 ${
                     selectedImage === index ? 'ring-4 ring-warm-peach' : 'ring-2 ring-gray-200'
                   }`}
                 >
                   <img
                     src={image}
-                    alt={`${breed.name} ${index + 1}`}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                    alt={`${breed.name} photo ${index + 1} - Premium dog breed for adoption`}
+                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-300 filter hover:brightness-110"
                   />
                 </button>
               ))}
@@ -187,7 +187,7 @@ export const BreedDetail: React.FC = () => {
           {/* Breed Information */}
           <div className="space-y-8">
             <div>
-              <h1 className="text-4xl md:text-5xl font-bold text-soft-brown mb-4">
+              <h1 className="font-display text-4xl md:text-5xl font-bold bg-gradient-to-r from-soft-brown via-warm-peach to-soft-brown bg-clip-text text-transparent mb-4 tracking-wide">
                 {breed.name}
               </h1>
               <div className="flex flex-wrap gap-2 mb-6">
@@ -279,19 +279,24 @@ export const BreedDetail: React.FC = () => {
             </div>
 
             {/* CTA */}
-            <div className="bg-gradient-to-r from-warm-peach to-warm-peach/80 p-8 rounded-2xl text-white text-center">
-              <h3 className="text-2xl font-bold mb-4">
+            <div className="relative bg-gradient-to-r from-warm-peach to-warm-peach/80 p-8 rounded-2xl text-white text-center overflow-hidden">
+              <div className="absolute inset-0 opacity-20">
+                <img src="/dog22.jpg" alt="" className="w-full h-full object-cover blur-sm" />
+              </div>
+              <div className="relative z-10">
+                <h3 className="font-display text-2xl font-bold mb-4 tracking-wide">
                 Ready to Meet Your New Best Friend?
               </h3>
-              <p className="mb-6 opacity-90">
+                <p className="font-sans mb-6 opacity-90 font-medium">
                 Contact us today to learn more about our available {breed.name} companions
               </p>
-              <Link
+                <Link
                 to="/contact"
-                className="inline-block bg-white text-warm-peach px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors"
+                  className="inline-block bg-white text-warm-peach px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
               >
                 Get in Touch
               </Link>
+              </div>
             </div>
           </div>
         </div>

@@ -28,10 +28,10 @@ export const Contact: React.FC = () => {
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-warm-peach to-warm-peach/80 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
+          <h1 className="font-display text-5xl md:text-6xl font-bold mb-6 tracking-wide">
             Get in <span className="text-cream">Touch</span>
           </h1>
-          <p className="text-xl md:text-2xl max-w-3xl mx-auto opacity-90">
+          <p className="font-sans text-xl md:text-2xl max-w-3xl mx-auto opacity-90 font-medium tracking-wide">
             Ready to welcome a new furry friend? We're here to help you find your perfect match!
           </p>
         </div>
@@ -41,7 +41,7 @@ export const Contact: React.FC = () => {
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Contact Form */}
           <div className="bg-white rounded-3xl shadow-lg p-8">
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-soft-brown via-warm-peach to-soft-brown bg-clip-text text-transparent mb-6">
+            <h2 className="font-display text-3xl font-bold bg-gradient-to-r from-soft-brown via-warm-peach to-soft-brown bg-clip-text text-transparent mb-6 tracking-wide">
               Let's Find Your Perfect Friend
             </h2>
             <p className="text-gray-600 mb-8">

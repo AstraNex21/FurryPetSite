@@ -46,10 +46,10 @@ export const AdoptionProcess: React.FC = () => {
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-warm-peach to-warm-peach/80 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
+          <h1 className="font-display text-5xl md:text-6xl font-bold mb-6 tracking-wide">
             Adoption <span className="text-cream">Process</span>
           </h1>
-          <p className="text-xl md:text-2xl max-w-3xl mx-auto opacity-90">
+          <p className="font-sans text-xl md:text-2xl max-w-3xl mx-auto opacity-90 font-medium tracking-wide">
             Six simple steps to welcome your new furry family member home
           </p>
         </div>
@@ -67,7 +67,7 @@ export const AdoptionProcess: React.FC = () => {
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold bg-gradient-to-r from-soft-brown via-warm-peach to-soft-brown bg-clip-text text-transparent mb-6">
+            <h2 className="font-display text-4xl font-bold bg-gradient-to-r from-soft-brown via-warm-peach to-soft-brown bg-clip-text text-transparent mb-6 tracking-wide">
               Your Journey to <span className="bg-gradient-to-r from-warm-peach to-orange-400 bg-clip-text text-transparent">Furry Friendship</span>
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
@@ -257,28 +257,33 @@ export const AdoptionProcess: React.FC = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-warm-peach to-warm-peach/80 text-white">
+      <section className="py-20 bg-gradient-to-r from-warm-peach to-warm-peach/80 text-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-20">
+          <img src="/dog24.jpg" alt="" className="w-full h-full object-cover blur-sm" />
+        </div>
+        <div className="relative z-10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-6">
+            <h2 className="font-display text-4xl font-bold mb-6 tracking-wide">
             Ready to Start Your Journey?
           </h2>
-          <p className="text-xl mb-8 opacity-90">
+            <p className="font-sans text-xl mb-8 opacity-90 font-medium tracking-wide">
             Take the first step towards welcoming your new best friend home today!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button 
               onClick={() => window.location.href = '/'}
-              className="bg-white text-warm-peach px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-100 transition-colors"
+                className="bg-white text-warm-peach px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
             >
               Browse Our Friends
             </button>
             <button 
               onClick={() => window.location.href = '/contact'}
-              className="border-2 border-white text-white hover:bg-white hover:text-warm-peach px-8 py-4 rounded-full text-lg font-semibold transition-colors"
+                className="border-2 border-white text-white hover:bg-white hover:text-warm-peach px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105"
             >
               Start Application
             </button>
           </div>
+        </div>
         </div>
       </section>
     </div>

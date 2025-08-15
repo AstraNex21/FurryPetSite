@@ -15,12 +15,16 @@ export default {
         'orange-900': '#7C2D12'
       },
       fontFamily: {
-        'sans': ['Inter', 'system-ui', 'sans-serif']
+        'sans': ['Nunito', 'system-ui', 'sans-serif'],
+        'display': ['Baloo 2', 'system-ui', 'sans-serif']
       },
       animation: {
         'bounce': 'bounce 1s infinite',
         'pulse': 'pulse 2s infinite',
         'ping': 'ping 1s infinite'
+      },
+      perspective: {
+        '1000': '1000px'
       }
     },
   },
