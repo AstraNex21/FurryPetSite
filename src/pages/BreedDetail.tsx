@@ -251,159 +251,149 @@ export const BreedDetail: React.FC = () => {
           </motion.div>
 
           <div className="grid lg:grid-cols-2 gap-12">
-          {/* Image Gallery */}
-          <motion.div 
-            className="space-y-4"
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <div className="aspect-square rounded-2xl overflow-hidden shadow-lg">
-              <img
-                src={breed.images[selectedImage]}
-                alt={`${breed.name} - Premium dog breed with health guarantee and lifetime support`}
-                className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500 filter hover:brightness-110"
-              />
-            </div>
-            <div className="grid grid-cols-3 gap-4">
-              {breed.images.map((image, index) => (
-                <button
-                  key={index}
-                  onClick={() => setSelectedImage(index)}
-                  className={`aspect-square rounded-xl overflow-hidden transform hover:scale-105 hover:rotate-1 transition-all duration-300 ${
-                    selectedImage === index ? 'ring-4 ring-warm-peach' : 'ring-2 ring-gray-200'
-                  }`}
-                >
-                  <img
-                    src={image}
-                    alt={`${breed.name} photo ${index + 1} - Premium dog breed for adoption`}
-                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-300 filter hover:brightness-110"
-                  />
-                </button>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Breed Information */}
-          <motion.div 
-            className="space-y-8"
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            <div>
-              <h1 className="font-display text-4xl md:text-5xl font-bold bg-gradient-to-r from-soft-brown via-warm-peach to-soft-brown bg-clip-text text-transparent mb-4 tracking-wide">
-                {breed.name}
-              </h1>
-              <div className="flex flex-wrap gap-2 mb-6">
-                {breed.temperament.map((trait) => (
-                  <span
-                    key={trait}
-                    className="px-4 py-2 bg-warm-peach/20 text-warm-peach rounded-full font-medium"
+            {/* Image Gallery */}
+            <div className="space-y-4">
+              <div className="aspect-square rounded-2xl overflow-hidden shadow-lg">
+                <img
+                  src={breed.images[selectedImage]}
+                  alt={`${breed.name} - Premium dog breed with health guarantee and lifetime support`}
+                  className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500 filter hover:brightness-110"
+                />
+              </div>
+              <div className="grid grid-cols-3 gap-4">
+                {breed.images.map((image, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setSelectedImage(index)}
+                    className={`aspect-square rounded-xl overflow-hidden transform hover:scale-105 hover:rotate-1 transition-all duration-300 ${
+                      selectedImage === index ? 'ring-4 ring-warm-peach' : 'ring-2 ring-gray-200'
+                    }`}
                   >
-                    {trait}
-                  </span>
+                    <img
+                      src={image}
+                      alt={`${breed.name} photo ${index + 1} - Premium dog breed for adoption`}
+                      className="w-full h-full object-cover hover:scale-110 transition-transform duration-300 filter hover:brightness-110"
+                    />
+                  </button>
                 ))}
               </div>
-              <p className="text-gray-600 text-lg leading-relaxed">
-                {breed.history}
-              </p>
             </div>
 
-            {/* Quick Facts */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="bg-white p-6 rounded-2xl shadow-lg">
-                <h3 className="font-semibold text-soft-brown mb-4 flex items-center">
-                  <Shield className="h-5 w-5 mr-2 text-warm-peach" />
-                  Characteristics
-                </h3>
-                <div className="space-y-3 text-sm">
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-600">Size:</span>
-                    <span className="font-medium text-right">{breed.characteristics.size}</span>
+            {/* Breed Information */}
+            <div className="space-y-8">
+              <div>
+                <h1 className="font-display text-4xl md:text-5xl font-bold bg-gradient-to-r from-soft-brown via-warm-peach to-soft-brown bg-clip-text text-transparent mb-4 tracking-wide">
+                  {breed.name}
+                </h1>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {breed.temperament.map((trait) => (
+                    <span
+                      key={trait}
+                      className="px-4 py-2 bg-warm-peach/20 text-warm-peach rounded-full font-medium"
+                    >
+                      {trait}
+                    </span>
+                  ))}
+                </div>
+                <p className="text-gray-600 text-lg leading-relaxed">
+                  {breed.history}
+                </p>
+              </div>
+
+              {/* Quick Facts */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="bg-white p-6 rounded-2xl shadow-lg">
+                  <h3 className="font-semibold text-soft-brown mb-4 flex items-center">
+                    <Shield className="h-5 w-5 mr-2 text-warm-peach" />
+                    Characteristics
+                  </h3>
+                  <div className="space-y-3 text-sm">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Size:</span>
+                      <span className="font-medium text-right">{breed.characteristics.size}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Lifespan:</span>
+                      <span className="font-medium text-right">{breed.characteristics.lifespan}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Grooming:</span>
+                      <span className="font-medium text-right">{breed.characteristics.grooming}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Exercise:</span>
+                      <span className="font-medium text-right">{breed.characteristics.exercise}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Training:</span>
+                      <span className="font-medium text-right">{breed.characteristics.training}</span>
+                    </div>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-600">Lifespan:</span>
-                    <span className="font-medium text-right">{breed.characteristics.lifespan}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-600">Grooming:</span>
-                    <span className="font-medium text-right">{breed.characteristics.grooming}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-600">Exercise:</span>
-                    <span className="font-medium text-right">{breed.characteristics.exercise}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-600">Training:</span>
-                    <span className="font-medium text-right">{breed.characteristics.training}</span>
+                </div>
+
+                <div className="bg-white p-6 rounded-2xl shadow-lg">
+                  <h3 className="font-semibold text-soft-brown mb-4 flex items-center">
+                    <Home className="h-5 w-5 mr-2 text-warm-peach" />
+                    Lifestyle Fit
+                  </h3>
+                  <div className="space-y-3 text-sm">
+                    <div>
+                      <span className="text-gray-600">Families:</span>
+                      <p className="font-medium">{breed.lifestyle.families}</p>
+                    </div>
+                    <div>
+                      <span className="text-gray-600">Apartments:</span>
+                      <p className="font-medium">{breed.lifestyle.apartments}</p>
+                    </div>
+                    <div>
+                      <span className="text-gray-600">Activity:</span>
+                      <p className="font-medium">{breed.lifestyle.activity}</p>
+                    </div>
+                    <div>
+                      <span className="text-gray-600">Climate:</span>
+                      <p className="font-medium">{breed.lifestyle.climate}</p>
+                    </div>
                   </div>
                 </div>
               </div>
 
+              {/* Care Guide */}
               <div className="bg-white p-6 rounded-2xl shadow-lg">
                 <h3 className="font-semibold text-soft-brown mb-4 flex items-center">
-                  <Home className="h-5 w-5 mr-2 text-warm-peach" />
-                  Lifestyle Fit
+                  <Heart className="h-5 w-5 mr-2 text-warm-peach" />
+                  Care Guidelines
                 </h3>
-                <div className="space-y-3 text-sm">
-                  <div>
-                    <span className="text-gray-600">Families:</span>
-                    <p className="font-medium">{breed.lifestyle.families}</p>
-                  </div>
-                  <div>
-                    <span className="text-gray-600">Apartments:</span>
-                    <p className="font-medium">{breed.lifestyle.apartments}</p>
-                  </div>
-                  <div>
-                    <span className="text-gray-600">Activity:</span>
-                    <p className="font-medium">{breed.lifestyle.activity}</p>
-                  </div>
-                  <div>
-                    <span className="text-gray-600">Climate:</span>
-                    <p className="font-medium">{breed.lifestyle.climate}</p>
-                  </div>
+                <ul className="space-y-3">
+                  {breed.care.map((tip, index) => (
+                    <li key={index} className="flex items-start space-x-3">
+                      <span className="text-warm-peach text-lg">•</span>
+                      <span className="text-gray-600">{tip}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* CTA */}
+              <div className="relative bg-gradient-to-r from-warm-peach to-warm-peach/80 p-8 rounded-2xl text-white text-center overflow-hidden">
+                <div className="absolute inset-0 opacity-20">
+                  <img src="/dog22.jpg" alt="" className="w-full h-full object-cover blur-sm" />
+                </div>
+                <div className="relative z-10">
+                  <h3 className="font-display text-2xl font-bold mb-4 tracking-wide">
+                    Ready to Meet Your New Best Friend?
+                  </h3>
+                  <p className="font-sans mb-6 opacity-90 font-medium">
+                    Contact us today to learn more about our available {breed.name} companions
+                  </p>
+                  <Link
+                    to="/contact"
+                    className="inline-block bg-white text-warm-peach px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
+                  >
+                    Get in Touch
+                  </Link>
                 </div>
               </div>
             </div>
-
-            {/* Care Guide */}
-            <div className="bg-white p-6 rounded-2xl shadow-lg">
-              <h3 className="font-semibold text-soft-brown mb-4 flex items-center">
-                <Heart className="h-5 w-5 mr-2 text-warm-peach" />
-                Care Guidelines
-              </h3>
-              <ul className="space-y-3">
-                {breed.care.map((tip, index) => (
-                  <li key={index} className="flex items-start space-x-3">
-                    <span className="text-warm-peach text-lg">•</span>
-                    <span className="text-gray-600">{tip}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* CTA */}
-            <div className="relative bg-gradient-to-r from-warm-peach to-warm-peach/80 p-8 rounded-2xl text-white text-center overflow-hidden">
-              <div className="absolute inset-0 opacity-20">
-                <img src="/dog22.jpg" alt="" className="w-full h-full object-cover blur-sm" />
-              </div>
-              <div className="relative z-10">
-                <h3 className="font-display text-2xl font-bold mb-4 tracking-wide">
-                Ready to Meet Your New Best Friend?
-              </h3>
-                <p className="font-sans mb-6 opacity-90 font-medium">
-                Contact us today to learn more about our available {breed.name} companions
-              </p>
-                <Link
-                to="/contact"
-                  className="inline-block bg-white text-warm-peach px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
-              >
-                Get in Touch
-              </Link>
-              </div>
-            </div>
-          </motion.div>
           </div>
         </div>
       </div>
