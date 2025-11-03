@@ -25,6 +25,9 @@ export default {
       },
       perspective: {
         '1000': '1000px'
+      },
+      backdropBlur: {
+        'xs': '2px'
       }
     },
   },

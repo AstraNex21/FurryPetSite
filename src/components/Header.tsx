@@ -46,8 +46,15 @@ export const Header: React.FC = () => {
         </div>
 
         {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-warm-peach/20">
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div 
+              className="md:hidden py-4 border-t border-warm-peach/20"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+            >
             <nav className="flex flex-col space-y-4">
               <Link 
                 to="/" 
@@ -78,9 +85,10 @@ export const Header: React.FC = () => {
                 Contact
               </Link>
             </nav>
-          </div>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
-    </header>
+    </motion.header>
   );
 };

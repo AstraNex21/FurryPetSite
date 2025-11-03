@@ -252,7 +252,12 @@ export const BreedDetail: React.FC = () => {
 
           <div className="grid lg:grid-cols-2 gap-12">
           {/* Image Gallery */}
-          <div className="space-y-4">
+          <motion.div 
+            className="space-y-4"
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
             <div className="aspect-square rounded-2xl overflow-hidden shadow-lg">
               <img
                 src={breed.images[selectedImage]}
@@ -277,10 +282,15 @@ export const BreedDetail: React.FC = () => {
                 </button>
               ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Breed Information */}
-          <div className="space-y-8">
+          <motion.div 
+            className="space-y-8"
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
             <div>
               <h1 className="font-display text-4xl md:text-5xl font-bold bg-gradient-to-r from-soft-brown via-warm-peach to-soft-brown bg-clip-text text-transparent mb-4 tracking-wide">
                 {breed.name}
@@ -393,6 +403,7 @@ export const BreedDetail: React.FC = () => {
               </Link>
               </div>
             </div>
+          </motion.div>
           </div>
         </div>
       </div>

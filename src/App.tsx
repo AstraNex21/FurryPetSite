@@ -47,6 +47,7 @@ function App() {
         </Routes>
         <Footer />
         <FloatingContacts />
+        <ScrollToTopButton />
       </div>
     </Router>
   );
