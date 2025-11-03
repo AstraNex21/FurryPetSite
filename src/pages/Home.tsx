@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Shield, Heart, Award, Users, AlertTriangle, HelpCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const breeds = [
   {
@@ -65,7 +66,6 @@ export const Home: React.FC = () => {
                 <img
                   src={breed.image}
                   alt={`${breed.name} - Premium dog breed available for adoption`}
-                  alt={breed.name}
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent" />
