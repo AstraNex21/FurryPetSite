@@ -49,15 +49,18 @@ export const Home: React.FC = () => {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative h-[65vh] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <div className="relative h-full">
             {breeds.map((breed, index) => (
-              <div
+              <motion.div
                 key={breed.name}
                 className={`absolute inset-0 transition-opacity duration-1000 ${
                   index === currentSlide ? 'opacity-100' : 'opacity-0'
                 }`}
+                initial={{ scale: 1.1 }}
+                animate={{ scale: index === currentSlide ? 1 : 1.1 }}
+                transition={{ duration: 1.5, ease: "easeOut" }}
               >
                 <img
                   src={breed.image}
@@ -66,20 +69,35 @@ export const Home: React.FC = () => {
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent" />
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
 
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
-          <h1 className="font-display text-5xl md:text-7xl font-bold mb-6 leading-tight tracking-wide">
+          <motion.h1 
+            className="font-display text-5xl md:text-7xl font-bold mb-6 leading-tight tracking-wide"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.5 }}
+          >
             Find Your
             <span className="text-warm-peach block drop-shadow-lg">Furry Forever Friend</span>
-          </h1>
-          <p className="font-sans text-xl md:text-2xl mb-8 opacity-90 font-medium tracking-wide">
+          </motion.h1>
+          <motion.p 
+            className="font-sans text-xl md:text-2xl mb-8 opacity-90 font-medium tracking-wide"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.8 }}
+          >
             Discover love, loyalty, and endless joy with our carefully selected companions
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          </motion.p>
+          <motion.div 
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 1.1 }}
+          >
             <button 
               onClick={() => document.getElementById('breeds')?.scrollIntoView({ behavior: 'smooth' })}
               className="bg-warm-peach hover:bg-warm-peach/90 text-white px-8 py-4 rounded-full text-lg font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg"
@@ -92,7 +110,7 @@ export const Home: React.FC = () => {
             >
               Get in Touch
             </Link>
-          </div>
+          </motion.div>
         </div>
 
         {/* Carousel Controls */}
@@ -257,11 +275,15 @@ export const Home: React.FC = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {breeds.map((breed, index) => (
-              <Link
+              <motion.div
                 key={breed.name}
-                to={`/breed/${breed.slug}`}
-                className="group"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                whileHover={{ y: -8, rotateY: 5 }}
+                className="group perspective-1000"
               >
+                <Link to={`/breed/${breed.slug}`} className="block">
                 <div className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 hover:-translate-y-2 hover:rotate-1 transition-all duration-500 perspective-1000">
                   <div className="relative overflow-hidden">
                     <img
@@ -297,7 +319,8 @@ export const Home: React.FC = () => {
                     </div>
                   </div>
                 </div>
-              </Link>
+                </Link>
+              </motion.div>
             ))}
           </div>
         </div>

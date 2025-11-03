@@ -1,10 +1,32 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { ArrowLeft, Heart, Shield, Award, Home } from 'lucide-react';
+import { GrowthVisualization } from '../components/GrowthVisualization';
 
 const breedData = {
   'french-mastiff': {
     name: 'French Mastiff',
+    growthStages: [
+      {
+        stage: 'Puppy',
+        image: '/dog25.jpg',
+        age: '8-16 weeks',
+        description: 'Adorable and playful, French Mastiff puppies are gentle giants in the making. At this stage, they are curious, loving, and beginning to show their protective instincts.'
+      },
+      {
+        stage: 'Young Adult',
+        image: '/dog26.jpg',
+        age: '6-18 months',
+        description: 'Growing rapidly, young French Mastiffs develop their distinctive features and calm temperament. They are learning boundaries and becoming more confident.'
+      },
+      {
+        stage: 'Adult',
+        image: '/dog27.jpg',
+        age: '2+ years',
+        description: 'Fully mature French Mastiffs are majestic, loyal companions. Their gentle nature with family and protective instincts make them excellent guardians and loving pets.'
+      }
+    ],
     images: [
       '/dog1.jpg',
       '/dog2.jpg',
@@ -34,6 +56,26 @@ const breedData = {
   },
   'maltese': {
     name: 'Maltese',
+    growthStages: [
+      {
+        stage: 'Puppy',
+        image: '/dog28.jpg',
+        age: '8-12 weeks',
+        description: 'Tiny and fluffy, Maltese puppies are bundles of joy with silky white coats. They are playful, affectionate, and already showing their charming personalities.'
+      },
+      {
+        stage: 'Young Adult',
+        image: '/dog29.jpg',
+        age: '6-12 months',
+        description: 'Developing their elegant coat and refined features, young Maltese are active and intelligent. They are learning social skills and house training.'
+      },
+      {
+        stage: 'Adult',
+        image: '/dog30.jpg',
+        age: '1+ years',
+        description: 'Adult Maltese are elegant, confident companions with flowing white coats. They are gentle, alert, and make perfect lap dogs with big personalities.'
+      }
+    ],
     images: [
       '/dog4.jpg',
       '/dog5.jpg',
@@ -63,6 +105,26 @@ const breedData = {
   },
   'toy-poodle': {
     name: 'Toy Poodle',
+    growthStages: [
+      {
+        stage: 'Puppy',
+        image: '/dog31.jpg',
+        age: '8-12 weeks',
+        description: 'Intelligent and curly-coated, Toy Poodle puppies are quick learners with boundless energy. They are already showing their smart, trainable nature.'
+      },
+      {
+        stage: 'Young Adult',
+        image: '/dog32.jpg',
+        age: '6-12 months',
+        description: 'Growing into their distinctive poodle features, young Toy Poodles are active and eager to please. Their hypoallergenic coat is developing its adult texture.'
+      },
+      {
+        stage: 'Adult',
+        image: '/dog33.jpg',
+        age: '1+ years',
+        description: 'Adult Toy Poodles are intelligent, athletic, and elegant. Despite their small size, they have the heart and intelligence of their larger poodle cousins.'
+      }
+    ],
     images: [
       '/dog7.jpg',
       '/dog8.jpg',
@@ -92,6 +154,26 @@ const breedData = {
   },
   'yorkshire-terrier': {
     name: 'Yorkshire Terrier',
+    growthStages: [
+      {
+        stage: 'Puppy',
+        image: '/dog34.jpg',
+        age: '8-12 weeks',
+        description: 'Tiny but mighty, Yorkshire Terrier puppies are bold and confident from an early age. Their coat is developing the characteristic blue and tan colors.'
+      },
+      {
+        stage: 'Young Adult',
+        image: '/dog35.jpg',
+        age: '6-12 months',
+        description: 'Young Yorkies are developing their fearless personality and silky coat. They are energetic, curious, and showing their terrier instincts.'
+      },
+      {
+        stage: 'Adult',
+        image: '/dog36.jpg',
+        age: '1+ years',
+        description: 'Adult Yorkshire Terriers are confident, courageous, and elegant. Their beautiful silky coat and bold personality make them excellent companions.'
+      }
+    ],
     images: [
       '/dog10.jpg',
       '/dog11.jpg',
@@ -155,7 +237,20 @@ export const BreedDetail: React.FC = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid lg:grid-cols-2 gap-12">
+        <div className="space-y-12">
+          {/* Growth Visualization Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <GrowthVisualization 
+              breedName={breed.name}
+              stages={breed.growthStages}
+            />
+          </motion.div>
+
+          <div className="grid lg:grid-cols-2 gap-12">
           {/* Image Gallery */}
           <div className="space-y-4">
             <div className="aspect-square rounded-2xl overflow-hidden shadow-lg">
