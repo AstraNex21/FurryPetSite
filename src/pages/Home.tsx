@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Shield, Heart, Award, Users, AlertTriangle, HelpCircle, ArrowDown } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 const breeds = [
   {
@@ -34,7 +33,6 @@ const breeds = [
   }
 ];
 
-// Marquee images
 const marqueeImages = [
   "/marquee/4907.JPEG",
   "/marquee/7703.JPEG",
@@ -66,9 +64,8 @@ const marqueeImages = [
   "/marquee/YTmom2.JPEG"
 ];
 
-// Image Marquee Component
-const ImageMarquee: React.FC = () => {
-  const marqueeRef = useRef<HTMLDivElement>(null);
+const ImageMarquee = () => {
+  const marqueeRef = useRef(null);
   const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
@@ -93,100 +90,72 @@ const ImageMarquee: React.FC = () => {
         ref={marqueeRef}
         className={`flex ${isPaused ? '' : 'animate-marquee'} whitespace-nowrap`}
       >
-        {/* First set of images */}
         {marqueeImages.map((img, index) => (
           <div key={`first-${index}`} className="inline-block mx-3 relative group">
             <div className="relative overflow-hidden rounded-lg h-32 w-24 md:h-40 md:w-28 shadow-lg transform transition-all duration-300 group-hover:scale-105">
-              {/* Orange-pink gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-br from-orange-400/20 via-pink-400/20 to-purple-400/20 z-10"></div>
-              
-              {/* Frame border */}
               <div className="absolute inset-0 border-2 border-gradient-to-r from-orange-300 to-pink-300 rounded-lg z-20 pointer-events-none"></div>
-              
-              {/* Image with lazy loading */}
               <img
                 src={img}
                 alt={`Pet portrait ${index + 1}`}
                 loading="lazy"
                 className="h-full w-full object-cover object-center"
               />
-              
-              {/* Subtle glow effect on hover */}
               <div className="absolute inset-0 bg-gradient-to-t from-orange-300/30 to-pink-300/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
             </div>
           </div>
         ))}
         
-        {/* Duplicate set for seamless loop */}
         {marqueeImages.map((img, index) => (
           <div key={`second-${index}`} className="inline-block mx-3 relative group">
             <div className="relative overflow-hidden rounded-lg h-32 w-24 md:h-40 md:w-28 shadow-lg transform transition-all duration-300 group-hover:scale-105">
-              {/* Orange-pink gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-br from-orange-400/20 via-pink-400/20 to-purple-400/20 z-10"></div>
-              
-              {/* Frame border */}
               <div className="absolute inset-0 border-2 border-gradient-to-r from-orange-300 to-pink-300 rounded-lg z-20 pointer-events-none"></div>
-              
-              {/* Image with lazy loading */}
               <img
                 src={img}
                 alt={`Pet portrait ${index + 1}`}
                 loading="lazy"
                 className="h-full w-full object-cover object-center"
               />
-              
-              {/* Subtle glow effect on hover */}
               <div className="absolute inset-0 bg-gradient-to-t from-orange-300/30 to-pink-300/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
             </div>
           </div>
         ))}
       </div>
       
-      {/* Gradient fade edges for smooth transition */}
       <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-white to-transparent z-30"></div>
       <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-white to-transparent z-30"></div>
     </div>
   );
 };
 
-export const Home: React.FC = () => {
+export const Home = () => {
   return (
     <div>
-      {/* Hero Section with Image - Fixed height and object position */}
       <section className="relative h-[70vh] overflow-hidden">
         <div className="absolute inset-0">
           <img
+            src="/HeroMob.png"
+            alt="FurryFriend - Find your perfect companion"
+            className="md:hidden w-full h-full object-cover object-center"
+          />
+          <img
             src="/Hero.png"
             alt="FurryFriend - Find your perfect companion"
-            className="w-full h-full object-cover object-top md:object-center"
+            className="hidden md:block w-full h-full object-cover object-top md:object-center"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent" />
         </div>
 
         <div className="relative z-10 h-full flex flex-col items-center justify-center text-center text-white max-w-4xl mx-auto px-4">
-          <motion.h1 
-            className="font-display text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight tracking-wide"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.5 }}
-          >
+          <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight tracking-wide">
             Find Your
             <span className="text-warm-peach block drop-shadow-lg">Furry Forever Friend</span>
-          </motion.h1>
-          <motion.p 
-            className="font-sans text-lg md:text-xl lg:text-2xl mb-8 opacity-90 font-medium tracking-wide max-w-2xl"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.8 }}
-          >
+          </h1>
+          <p className="font-sans text-lg md:text-xl lg:text-2xl mb-8 opacity-90 font-medium tracking-wide max-w-2xl">
             Discover love, loyalty, and endless joy with our carefully selected companions
-          </motion.p>
-          <motion.div 
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 1.1 }}
-          >
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button 
               onClick={() => document.getElementById('breeds')?.scrollIntoView({ behavior: 'smooth' })}
               className="bg-warm-peach hover:bg-warm-peach/90 text-white px-8 py-4 rounded-full text-lg font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg"
@@ -199,26 +168,19 @@ export const Home: React.FC = () => {
             >
               Get in Touch
             </Link>
-          </motion.div>
+          </div>
           
-          {/* Scroll Indicator */}
-          <motion.div 
-            className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 1.4 }}
-          >
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
             <button 
               onClick={() => document.getElementById('marquee-section')?.scrollIntoView({ behavior: 'smooth' })}
               className="text-white/80 hover:text-white transition-colors"
             >
               <ArrowDown className="h-6 w-6 animate-bounce" />
             </button>
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Image Marquee Section */}
       <section id="marquee-section" className="py-8 bg-gradient-to-r from-orange-50 via-pink-50 to-purple-50 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-6">
@@ -230,7 +192,6 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* FurryFriend vs Breeders Section */}
       <section className="py-20 bg-gradient-to-br from-cream via-white to-cream relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <img src="/dog19.jpg" alt="" className="w-full h-full object-cover blur-sm" />
@@ -251,7 +212,6 @@ export const Home: React.FC = () => {
           </h2>
           
           <div className="grid md:grid-cols-2 gap-12">
-            {/* FurryFriend Benefits */}
             <div className="bg-gradient-to-br from-warm-peach/10 to-cream p-8 rounded-3xl shadow-lg border-2 border-warm-peach/20">
               <div className="text-center mb-8">
                 <div className="bg-warm-peach p-4 rounded-full w-16 h-16 mx-auto mb-4">
@@ -295,7 +255,6 @@ export const Home: React.FC = () => {
               </div>
             </div>
             
-            {/* Breeder Risks */}
             <div className="bg-gray-50 p-8 rounded-3xl shadow-lg border-2 border-gray-200">
               <div className="text-center mb-8">
                 <div className="bg-gray-400 p-4 rounded-full w-16 h-16 mx-auto mb-4">
@@ -342,7 +301,6 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Breed Showcase Section */}
       <section id="breeds" className="py-20 bg-gradient-to-br from-cream via-orange-50 to-cream relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <img src="/dog20.jpg" alt="" className="w-full h-full object-cover blur-sm" />
@@ -364,12 +322,8 @@ export const Home: React.FC = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {breeds.map((breed, index) => (
-              <motion.div
+              <div
                 key={breed.name}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                whileHover={{ y: -8, rotateY: 5 }}
                 className="group perspective-1000"
               >
                 <Link to={`/breed/${breed.slug}`} className="block">
@@ -411,13 +365,12 @@ export const Home: React.FC = () => {
                   </div>
                 </div>
                 </Link>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Testimonials Section with Indian Names and Family Images */}
       <section className="py-20 bg-gradient-to-br from-white via-cream to-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <img src="/dog21.jpg" alt="" className="w-full h-full object-cover blur-sm" />
@@ -477,3 +430,5 @@ export const Home: React.FC = () => {
     </div>
   );
 };
+
+export default Home;
