@@ -37,7 +37,7 @@ export const About: React.FC = () => {
                 perfect matches between loving families and our carefully selected, health-guaranteed companions.
               </p>
               <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                We're not just a petshop – we're matchmakers for life. Every dog in our care receives 
+                We're not just a pet shop – we're matchmakers for life. Every dog in our care receives 
                 the love, attention, and medical care they deserve while waiting for their forever family.
               </p>
               <div className="grid grid-cols-2 gap-6">
@@ -52,11 +52,15 @@ export const About: React.FC = () => {
               </div>
             </div>
             <div className="relative">
-              <img
-                src="/dog16.jpg"
-                alt="Happy family with their adopted dog from FurryFriend - Premium pet adoption service"
-                className="rounded-2xl shadow-2xl transform hover:scale-105 transition-transform duration-500 filter hover:brightness-110"
-              />
+              <div className="bg-gray-100 rounded-2xl shadow-2xl overflow-hidden">
+                <div className="aspect-[4/3] w-full">
+                  <img
+                    src="/maltshappy.png"
+                    alt="Happy Maltese dogs - FurryFriend adoption service"
+                    className="w-full h-full object-cover object-center"
+                  />
+                </div>
+              </div>
               <div className="absolute -bottom-6 -left-6 bg-warm-peach text-white p-6 rounded-2xl shadow-lg">
                 <div className="flex items-center space-x-2">
                   <Heart className="h-8 w-8 fill-current" />
@@ -184,23 +188,22 @@ export const About: React.FC = () => {
                   </div>
                   <div>
                     <h4 className="font-semibold text-soft-brown mb-1">Perfect Match Promise</h4>
-                    <p className="text-gray-600">We take time to understand your lifestyle and preferences to ensure the perfect match between you and your new companion.</p>
+                    <p className="text-gray-600">We take time to understand your lifestyle and preferences to ensure a perfect match between you and your new companion.</p>
                   </div>
                 </div>
               </div>
             </div>
             
             <div className="space-y-6">
-              <img
-                src="/dog17.jpg"
-                alt="Veterinarian with dog"
-                className="w-full h-64 object-cover rounded-2xl shadow-lg"
-              />
-              <img
-                src="/dog18.jpg"
-                alt="Happy dog playing"
-                className="w-full h-64 object-cover rounded-2xl shadow-lg"
-              />
+              <div className="bg-gray-100 rounded-2xl shadow-lg overflow-hidden">
+                <div className="aspect-[7/9] w-full">
+                  <img
+                    src="/indianvetwithmalt.png"
+                    alt="Veterinarian with Maltese dog"
+                    className="w-full h-full object-cover object-center"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -244,7 +247,7 @@ export const About: React.FC = () => {
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-warm-peach to-warm-peach/80 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-20">
-          <img src="/dog23.jpg" alt="" className="w-full h-full object-cover blur-sm" />
+          <img src="/maltshappy.png" alt="" className="w-full h-full object-cover blur-sm" />
         </div>
         <div className="relative z-10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
