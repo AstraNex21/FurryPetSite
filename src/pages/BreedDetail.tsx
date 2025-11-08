@@ -121,16 +121,13 @@ const breedDatabase: Record<string, BreedDetails> = {
     image: '/dog7.jpg',
     gallery: [
       '/TP/TPpup.JPEG',
-      '/TP/TPmom2.JPEG',
-      '/TP/28463.JPEG',
       '/TP/pexels-jacob-sierra-419902407-16603124 (1).jpg',
       '/TP/pexels-katia-oleksa-661981532-29595140 (1).jpg',
       '/TP/pexels-valeriya-14095698 (1).jpg',
-      '/TP/pexels-valeriya-14095707 (1).jpg'
     ],
     puppyToAdult: {
       puppy: '/TP/TPpup.JPEG',
-      adult: '/TP/TPmom2.JPEG'
+      adult: '/TP/pexels-jacob-sierra-419902407-16603124 (1).jpg'
     },
     description: 'The Toy Poodle is an exceptionally intelligent and elegant breed that combines beauty with brains. These versatile dogs are perfect companions for those who appreciate an active, trainable, and hypoallergenic pet.',
     temperament: ['Intelligent', 'Active', 'Trainable', 'Alert', 'Friendly'],
@@ -158,18 +155,18 @@ const breedDatabase: Record<string, BreedDetails> = {
     slug: 'yorkshire-terrier',
     image: '/dog10.jpg',
     gallery: [
-      '/YT/YTBed.jpg',
-      '/YT/YTCute.jpg',
+      '/YT/YT1.jpg',
+      '/YT/YT2.jpg',
       '/YT/YTfriend.jpg',
-      '/YT/YTHome.jpg',
+      '/YT/YTCute.jpg',
       '/YT/YTpupcar.jpg',
       '/YT/YTPupface.jpg',
       '/YT/YTAesthetic.jpg',
       '/YT/YTaesthetic2.jpg'
     ],
     puppyToAdult: {
-      puppy: '/YT/YTPupface.jpg',
-      adult: '/YT/YTAesthetic.jpg'
+      puppy: '/YT/YTpupcar.jpg',
+      adult: '/YT/YTPupface.jpg'
     },
     description: 'The Yorkshire Terrier is a feisty and confident toy breed with a big personality in a small package. These brave little dogs are loyal companions with beautiful silky coats and spirited attitudes.',
     temperament: ['Bold', 'Confident', 'Courageous', 'Energetic', 'Affectionate'],
