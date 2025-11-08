@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Header } from './components/Header';
 import { FloatingContacts } from './components/FloatingContacts';
-import { Home } from './pages/Home';
+import { Home } from './pages/Home'; // This now includes the marquee
 import { BreedDetail } from './pages/BreedDetail';
 import { About } from './pages/About';
 import { Contact } from './pages/Contact';
@@ -38,13 +38,15 @@ function App() {
       <div className="min-h-screen bg-cream">
         <ScrollToTop />
         <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/breed/:breedName" element={<BreedDetail />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/adoption-process" element={<AdoptionProcess />} />
-        </Routes>
+        <main className="relative">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/breed/:slug" element={<BreedDetail />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/adoption-process" element={<AdoptionProcess />} />
+          </Routes>
+        </main>
         <Footer />
         <FloatingContacts />
       </div>

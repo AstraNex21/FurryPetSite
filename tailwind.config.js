@@ -18,10 +18,17 @@ export default {
         'sans': ['Nunito', 'system-ui', 'sans-serif'],
         'display': ['Baloo 2', 'system-ui', 'sans-serif']
       },
+      keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
+      },
       animation: {
         'bounce': 'bounce 1s infinite',
         'pulse': 'pulse 2s infinite',
-        'ping': 'ping 1s infinite'
+        'ping': 'ping 1s infinite',
+        'marquee': 'marquee 30s linear infinite'
       },
       perspective: {
         '1000': '1000px'

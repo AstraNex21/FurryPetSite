@@ -1,82 +1,171 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Shield, Heart, Award, Users, AlertTriangle, HelpCircle } from 'lucide-react';
+import { Shield, Heart, Award, Users, AlertTriangle, HelpCircle, ArrowDown } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const breeds = [
   {
     name: 'French Mastiff',
     slug: 'french-mastiff',
-    image: '/dog1.jpg',
+    image: '/FM/FMX.jpg',
     temperament: ['Loyal', 'Gentle', 'Protective'],
     traits: ['family-friendly', 'protective', 'calm']
   },
   {
     name: 'Maltese',
     slug: 'maltese',
-    image: '/dog4.jpg',
+    image: '/Malt/maltcute.jpg',
     temperament: ['Playful', 'Gentle', 'Affectionate'],
     traits: ['hypoallergenic', 'small', 'playful']
   },
   {
     name: 'Toy Poodle',
     slug: 'toy-poodle',
-    image: '/dog7.jpg',
+    image: '/TP/pexels-valeriya-14095707 (1).jpg',
     temperament: ['Intelligent', 'Active', 'Trainable'],
     traits: ['hypoallergenic', 'smart', 'active']
   },
   {
     name: 'Yorkshire Terrier',
     slug: 'yorkshire-terrier',
-    image: '/dog10.jpg',
+    image: '/YT/YTAesthetic.jpg',
     temperament: ['Bold', 'Confident', 'Courageous'],
     traits: ['small', 'brave', 'energetic']
   }
 ];
 
-export const Home: React.FC = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
+// Marquee images
+const marqueeImages = [
+  "/marquee/4907.JPEG",
+  "/marquee/7703.JPEG",
+  "/marquee/25748.JPEG",
+  "/marquee/26525.JPEG",
+  "/marquee/32460.JPEG",
+  "/marquee/79128.JPEG",
+  "/marquee/FMtall.JPEG",
+  "/marquee/Frenchmastfamily1.JPEG",
+  "/marquee/GSDdad.JPEG",
+  "/marquee/maltaesthetic.jpg",
+  "/marquee/maltdress1.jpg",
+  "/marquee/maltdress2.jpg",
+  "/marquee/maltfam.JPEG",
+  "/marquee/maltmom.JPEG",
+  "/marquee/maltmom2.JPEG",
+  "/marquee/maltmom3.JPEG",
+  "/marquee/maltmom4.JPEG",
+  "/marquee/maltmom5.JPEG",
+  "/marquee/maltmom6.JPEG",
+  "/marquee/maltmom7.JPEG",
+  "/marquee/maltstory.jpg",
+  "/marquee/maltytmom.JPEG",
+  "/marquee/Petfam.JPEG",
+  "/marquee/TPmom.JPEG",
+  "/marquee/TPmom2.JPEG",
+  "/marquee/YTCar.JPEG",
+  "/marquee/YTMom.JPEG",
+  "/marquee/YTmom2.JPEG"
+];
+
+// Image Marquee Component
+const ImageMarquee: React.FC = () => {
+  const marqueeRef = useRef<HTMLDivElement>(null);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % breeds.length);
-    }, 5000);
-    return () => clearInterval(timer);
+    const marqueeElement = marqueeRef.current;
+    if (!marqueeElement) return;
+
+    const handleMouseEnter = () => setIsPaused(true);
+    const handleMouseLeave = () => setIsPaused(false);
+
+    marqueeElement.addEventListener('mouseenter', handleMouseEnter);
+    marqueeElement.addEventListener('mouseleave', handleMouseLeave);
+
+    return () => {
+      marqueeElement.removeEventListener('mouseenter', handleMouseEnter);
+      marqueeElement.removeEventListener('mouseleave', handleMouseLeave);
+    };
   }, []);
 
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % breeds.length);
-  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + breeds.length) % breeds.length);
+  return (
+    <div className="relative overflow-hidden h-32 md:h-40">
+      <div 
+        ref={marqueeRef}
+        className={`flex ${isPaused ? '' : 'animate-marquee'} whitespace-nowrap`}
+      >
+        {/* First set of images */}
+        {marqueeImages.map((img, index) => (
+          <div key={`first-${index}`} className="inline-block mx-3 relative group">
+            <div className="relative overflow-hidden rounded-lg h-32 w-24 md:h-40 md:w-28 shadow-lg transform transition-all duration-300 group-hover:scale-105">
+              {/* Orange-pink gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-400/20 via-pink-400/20 to-purple-400/20 z-10"></div>
+              
+              {/* Frame border */}
+              <div className="absolute inset-0 border-2 border-gradient-to-r from-orange-300 to-pink-300 rounded-lg z-20 pointer-events-none"></div>
+              
+              {/* Image with lazy loading */}
+              <img
+                src={img}
+                alt={`Pet portrait ${index + 1}`}
+                loading="lazy"
+                className="h-full w-full object-cover object-center"
+              />
+              
+              {/* Subtle glow effect on hover */}
+              <div className="absolute inset-0 bg-gradient-to-t from-orange-300/30 to-pink-300/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
+            </div>
+          </div>
+        ))}
+        
+        {/* Duplicate set for seamless loop */}
+        {marqueeImages.map((img, index) => (
+          <div key={`second-${index}`} className="inline-block mx-3 relative group">
+            <div className="relative overflow-hidden rounded-lg h-32 w-24 md:h-40 md:w-28 shadow-lg transform transition-all duration-300 group-hover:scale-105">
+              {/* Orange-pink gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-400/20 via-pink-400/20 to-purple-400/20 z-10"></div>
+              
+              {/* Frame border */}
+              <div className="absolute inset-0 border-2 border-gradient-to-r from-orange-300 to-pink-300 rounded-lg z-20 pointer-events-none"></div>
+              
+              {/* Image with lazy loading */}
+              <img
+                src={img}
+                alt={`Pet portrait ${index + 1}`}
+                loading="lazy"
+                className="h-full w-full object-cover object-center"
+              />
+              
+              {/* Subtle glow effect on hover */}
+              <div className="absolute inset-0 bg-gradient-to-t from-orange-300/30 to-pink-300/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      {/* Gradient fade edges for smooth transition */}
+      <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-white to-transparent z-30"></div>
+      <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-white to-transparent z-30"></div>
+    </div>
+  );
+};
 
+export const Home: React.FC = () => {
   return (
     <div>
-      {/* Hero Section */}
-      <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
+      {/* Hero Section with Image - Fixed height and object position */}
+      <section className="relative h-[70vh] overflow-hidden">
         <div className="absolute inset-0">
-          <div className="relative h-full">
-            {breeds.map((breed, index) => (
-              <motion.div
-                key={breed.name}
-                className={`absolute inset-0 transition-opacity duration-1000 ${
-                  index === currentSlide ? 'opacity-100' : 'opacity-0'
-                }`}
-                initial={{ scale: 1.1 }}
-                animate={{ scale: index === currentSlide ? 1 : 1.1 }}
-                transition={{ duration: 1.5, ease: "easeOut" }}
-              >
-                <img
-                  src={breed.image}
-                  alt={`${breed.name} - Premium dog breed available for adoption`}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent" />
-              </motion.div>
-            ))}
-          </div>
+          <img
+            src="/Hero.png"
+            alt="FurryFriend - Find your perfect companion"
+            className="w-full h-full object-cover object-top md:object-center"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent" />
         </div>
 
-        <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
+        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center text-white max-w-4xl mx-auto px-4">
           <motion.h1 
-            className="font-display text-5xl md:text-7xl font-bold mb-6 leading-tight tracking-wide"
+            className="font-display text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight tracking-wide"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.5 }}
@@ -85,7 +174,7 @@ export const Home: React.FC = () => {
             <span className="text-warm-peach block drop-shadow-lg">Furry Forever Friend</span>
           </motion.h1>
           <motion.p 
-            className="font-sans text-xl md:text-2xl mb-8 opacity-90 font-medium tracking-wide"
+            className="font-sans text-lg md:text-xl lg:text-2xl mb-8 opacity-90 font-medium tracking-wide max-w-2xl"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.8 }}
@@ -111,33 +200,33 @@ export const Home: React.FC = () => {
               Get in Touch
             </Link>
           </motion.div>
+          
+          {/* Scroll Indicator */}
+          <motion.div 
+            className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 1.4 }}
+          >
+            <button 
+              onClick={() => document.getElementById('marquee-section')?.scrollIntoView({ behavior: 'smooth' })}
+              className="text-white/80 hover:text-white transition-colors"
+            >
+              <ArrowDown className="h-6 w-6 animate-bounce" />
+            </button>
+          </motion.div>
         </div>
+      </section>
 
-        {/* Carousel Controls */}
-        <button
-          onClick={prevSlide}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/40 text-white p-3 rounded-full transition-all duration-300"
-        >
-          <ChevronLeft className="h-6 w-6" />
-        </button>
-        <button
-          onClick={nextSlide}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/40 text-white p-3 rounded-full transition-all duration-300"
-        >
-          <ChevronRight className="h-6 w-6" />
-        </button>
-
-        {/* Slide Indicators */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2">
-          {breeds.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                index === currentSlide ? 'bg-warm-peach' : 'bg-white/50'
-              }`}
-            />
-          ))}
+      {/* Image Marquee Section */}
+      <section id="marquee-section" className="py-8 bg-gradient-to-r from-orange-50 via-pink-50 to-purple-50 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-6">
+            <h2 className="font-display text-3xl font-bold bg-gradient-to-r from-orange-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+              Meet Our Adorable Friends
+            </h2>
+          </div>
+          <ImageMarquee />
         </div>
       </section>
 
@@ -285,12 +374,14 @@ export const Home: React.FC = () => {
               >
                 <Link to={`/breed/${breed.slug}`} className="block">
                 <div className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 hover:-translate-y-2 hover:rotate-1 transition-all duration-500 perspective-1000">
-                  <div className="relative overflow-hidden">
-                    <img
-                      src={breed.image}
-                      alt={`${breed.name} - Premium dog breed for adoption with health guarantee`}
-                      className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500 filter group-hover:brightness-110"
-                    />
+                  <div className="relative overflow-hidden bg-gray-100">
+                    <div className="aspect-[7/9] w-full">
+                      <img
+                        src={breed.image}
+                        alt={`${breed.name} - Premium dog breed for adoption with health guarantee`}
+                        className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500 filter group-hover:brightness-110"
+                      />
+                    </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-white/10 to-transparent backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
@@ -326,7 +417,7 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
+      {/* Testimonials Section with Indian Names and Family Images */}
       <section className="py-20 bg-gradient-to-br from-white via-cream to-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <img src="/dog21.jpg" alt="" className="w-full h-full object-cover blur-sm" />
@@ -346,19 +437,19 @@ export const Home: React.FC = () => {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                name: "Sarah & Max",
-                text: "FurryFriend helped us find the perfect addition to our family. Max is everything they promised and more!",
-                image: "/dog13.jpg"
+                name: "Priya & Bruno",
+                text: "FurryFriend helped us find perfect addition to our family. Bruno has brought so much joy to our home!",
+                image: "/marquee/maltfam.JPEG"
               },
               {
-                name: "James & Luna",
-                text: "The support we received was incredible. Luna settled in beautifully and we couldn't be happier!",
-                image: "/dog14.jpg"
+                name: "Rahul & Luna",
+                text: "The support we received was incredible. Luna settled in beautifully and our kids absolutely adore her!",
+                image: "/marquee/Petfam.JPEG"
               },
               {
-                name: "Emma & Buddy",
-                text: "Professional, caring, and so knowledgeable. Buddy has brought so much joy to our home!",
-                image: "/dog15.jpg"
+                name: "Anjali & Buddy",
+                text: "Professional, caring, and so knowledgeable. Buddy has become an inseparable part of our family!",
+                image: "/marquee/Frenchmastfamily1.JPEG"
               }
             ].map((testimonial, index) => (
               <div key={index} className="bg-cream p-6 rounded-2xl shadow-lg">
