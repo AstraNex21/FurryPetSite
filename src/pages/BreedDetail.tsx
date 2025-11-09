@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Heart, Shield, Award, Users, Calendar, Weight, Activity, CheckCircle, Star, MapPin, Phone, Mail } from 'lucide-react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { Heart, Shield, Award, Users, Calendar, Weight, Activity, CheckCircle, Star, MapPin, Phone, Mail, Menu, X, ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface BreedDetails {
@@ -191,6 +191,137 @@ const breedDatabase: Record<string, BreedDetails> = {
   }
 };
 
+// Navigation Bar Component matching Home page
+const NavigationBar = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isBreedsDropdownOpen, setIsBreedsDropdownOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const toggleBreedsDropdown = () => {
+    setIsBreedsDropdownOpen(!isBreedsDropdownOpen);
+  };
+
+  const handleBreedClick = (slug) => {
+    navigate(`/breed/${slug}`);
+    setIsBreedsDropdownOpen(false);
+    setIsMobileMenuOpen(false);
+  };
+
+  return (
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-[#E97451] via-[#FFB5A7] to-[#E6B8D4] shadow-lg">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          <div className="flex items-center">
+            <Link to="/" className="text-white font-bold text-xl md:text-2xl font-display">
+              FurryFriend
+            </Link>
+          </div>
+          
+          {/* Desktop Navigation */}
+          <div className="hidden md:block">
+            <div className="ml-10 flex items-baseline space-x-6">
+              <Link to="/" className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                Home
+              </Link>
+              <Link to="/about" className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                About Us
+              </Link>
+              
+              {/* Breeds Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={toggleBreedsDropdown}
+                  className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center"
+                >
+                  Our Breeds
+                  <ChevronDown className={`ml-1 h-4 w-4 transform transition-transform ${isBreedsDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+                
+                {isBreedsDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                    <div className="py-1">
+                      {Object.values(breedDatabase).map((breed) => (
+                        <button
+                          key={breed.slug}
+                          onClick={() => handleBreedClick(breed.slug)}
+                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                        >
+                          {breed.name}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+              
+              <Link to="/contact" className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                Contact
+              </Link>
+            </div>
+          </div>
+          
+          {/* Mobile menu button */}
+          <div className="md:hidden">
+            <button
+              onClick={toggleMobileMenu}
+              className="text-white hover:text-gray-200 p-2 rounded-md"
+            >
+              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      {/* Mobile Navigation */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden bg-white/95 backdrop-blur-sm">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <Link to="/" className="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
+              Home
+            </Link>
+            <Link to="/about" className="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
+              About Us
+            </Link>
+            
+            {/* Mobile Breeds Dropdown */}
+            <div>
+              <button
+                onClick={toggleBreedsDropdown}
+                className="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium w-full text-left flex items-center justify-between"
+              >
+                Our Breeds
+                <ChevronDown className={`h-4 w-4 transform transition-transform ${isBreedsDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+              
+              {isBreedsDropdownOpen && (
+                <div className="pl-6 pr-3 py-2 space-y-1">
+                  {Object.values(breedDatabase).map((breed) => (
+                    <button
+                      key={breed.slug}
+                      onClick={() => handleBreedClick(breed.slug)}
+                      className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:text-gray-900"
+                    >
+                      {breed.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+            
+            <Link to="/contact" className="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
+              Contact
+            </Link>
+          </div>
+        </div>
+      )}
+    </nav>
+  );
+};
+
 export const BreedDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const [breed, setBreed] = useState<BreedDetails | null>(null);
@@ -206,10 +337,10 @@ export const BreedDetail: React.FC = () => {
 
   if (!breed) {
     return (
-      <div className="min-h-screen bg-cream flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-[#FFB5A7] to-[#F4C2C2] flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-soft-brown mb-4">Breed Not Found</h1>
-          <Link to="/" className="text-warm-peach hover:text-warm-peach/80 underline">
+          <h1 className="text-3xl font-bold text-gray-800 mb-4">Breed Not Found</h1>
+          <Link to="/" className="text-[#E97451] hover:text-[#E97451]/80 underline">
             Return to Home
           </Link>
         </div>
@@ -218,31 +349,12 @@ export const BreedDetail: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-cream to-white">
-      {/* Header */}
-      <header className="bg-white shadow-sm sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <Link 
-              to="/" 
-              className="flex items-center space-x-2 text-soft-brown hover:text-warm-peach transition-colors"
-            >
-              <ArrowLeft className="h-5 w-5" />
-              <span className="font-display text-xl">Back to Home</span>
-            </Link>
-            
-            <button
-              onClick={() => setIsFavorite(!isFavorite)}
-              className="p-2 rounded-full hover:bg-warm-peach/10 transition-colors"
-            >
-              <Heart className={`h-6 w-6 ${isFavorite ? 'text-warm-peach fill-current' : 'text-gray-400'}`} />
-            </button>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-gradient-to-br from-[#FFB5A7] to-[#F4C2C2]">
+      {/* Navigation Bar matching Home page */}
+      <NavigationBar />
 
-      {/* Hero Section with Image Gallery */}
-      <section className="relative">
+      {/* Hero Section with Image Gallery - No spacing with top bar */}
+      <section className="relative pt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <motion.div 
             className="grid lg:grid-cols-2 gap-8 items-start"
@@ -269,7 +381,7 @@ export const BreedDetail: React.FC = () => {
                     key={index}
                     onClick={() => setSelectedImage(index)}
                     className={`flex-shrink-0 w-20 h-24 rounded-lg overflow-hidden border-2 transition-all ${
-                      selectedImage === index ? 'border-warm-peach scale-105' : 'border-gray-200'
+                      selectedImage === index ? 'border-[#E97451] scale-105' : 'border-gray-200'
                     }`}
                   >
                     <img 
@@ -285,12 +397,12 @@ export const BreedDetail: React.FC = () => {
             {/* Breed Information */}
             <div className="space-y-6">
               <div>
-                <h1 className="font-display text-4xl md:text-5xl font-bold text-soft-brown mb-2">
+                <h1 className="font-display text-4xl md:text-5xl font-bold text-gray-800 mb-2">
                   {breed.name}
                 </h1>
                 <div className="flex items-center space-x-4 text-gray-600">
                   <span className="flex items-center">
-                    <Star className="h-4 w-4 text-warm-peach fill-current" />
+                    <Star className="h-4 w-4 text-[#E97451] fill-current" />
                     <span className="ml-1">4.9 (127 reviews)</span>
                   </span>
                   <span>•</span>
@@ -302,30 +414,30 @@ export const BreedDetail: React.FC = () => {
 
               {/* Quick Stats */}
               <div className="grid grid-cols-2 gap-4">
-                <div className="bg-warm-peach/10 p-4 rounded-xl">
+                <div className="bg-white p-4 rounded-xl shadow-md">
                   <div className="flex items-center space-x-2 mb-1">
-                    <Weight className="h-4 w-4 text-warm-peach" />
+                    <Weight className="h-4 w-4 text-[#E97451]" />
                     <span className="text-sm text-gray-600">Weight</span>
                   </div>
-                  <p className="font-semibold text-soft-brown">{breed.weight}</p>
+                  <p className="font-semibold text-gray-800">{breed.weight}</p>
                 </div>
-                <div className="bg-warm-peach/10 p-4 rounded-xl">
+                <div className="bg-white p-4 rounded-xl shadow-md">
                   <div className="flex items-center space-x-2 mb-1">
-                    <Calendar className="h-4 w-4 text-warm-peach" />
+                    <Calendar className="h-4 w-4 text-[#E97451]" />
                     <span className="text-sm text-gray-600">Lifespan</span>
                   </div>
-                  <p className="font-semibold text-soft-brown">{breed.lifespan}</p>
+                  <p className="font-semibold text-gray-800">{breed.lifespan}</p>
                 </div>
               </div>
 
               {/* Traits */}
               <div>
-                <h3 className="font-semibold text-soft-brown mb-3">Key Traits</h3>
+                <h3 className="font-semibold text-gray-800 mb-3">Key Traits</h3>
                 <div className="flex flex-wrap gap-2">
                   {breed.traits.map((trait) => (
                     <span
                       key={trait}
-                      className="px-3 py-1 bg-warm-peach/20 text-warm-peach rounded-full text-sm"
+                      className="px-3 py-1 bg-[#FFB5A7]/30 text-gray-800 rounded-full text-sm"
                     >
                       {trait}
                     </span>
@@ -335,7 +447,7 @@ export const BreedDetail: React.FC = () => {
 
               {/* CTA - Removed price and availability */}
               <div className="space-y-3 pt-4">
-                <button className="bg-warm-peach hover:bg-warm-peach/90 text-white px-6 py-3 rounded-full font-semibold transform hover:scale-105 transition-all w-full">
+                <button className="bg-[#E97451] hover:bg-[#E97451]/90 text-white px-6 py-3 rounded-full font-semibold transform hover:scale-105 transition-all w-full">
                   Learn More About Adoption
                 </button>
                 <p className="text-sm text-gray-600 text-center">Health guarantee & lifetime support included</p>
@@ -348,7 +460,7 @@ export const BreedDetail: React.FC = () => {
       {/* Puppy to Adult Comparison Section */}
       <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-center bg-gradient-to-r from-soft-brown via-warm-peach to-soft-brown bg-clip-text text-transparent mb-10">
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-center text-gray-800 mb-10">
             From Puppy to Adult
           </h2>
           
@@ -360,8 +472,8 @@ export const BreedDetail: React.FC = () => {
               transition={{ duration: 0.6 }}
               className="relative"
             >
-              <div className="bg-gradient-to-br from-orange-50 to-pink-50 p-6 rounded-2xl">
-                <h3 className="font-display text-2xl font-bold text-soft-brown mb-4">Puppy Stage</h3>
+              <div className="bg-gradient-to-br from-[#FFB5A7]/20 to-[#F4C2C2]/20 p-6 rounded-2xl">
+                <h3 className="font-display text-2xl font-bold text-gray-800 mb-4">Puppy Stage</h3>
                 <div className="relative overflow-hidden rounded-xl shadow-lg mb-4 bg-gray-100">
                   <div className="aspect-[7/9] w-full">
                     <img
@@ -385,8 +497,8 @@ export const BreedDetail: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative"
             >
-              <div className="bg-gradient-to-br from-warm-peach/10 to-cream p-6 rounded-2xl">
-                <h3 className="font-display text-2xl font-bold text-soft-brown mb-4">Adult Stage</h3>
+              <div className="bg-gradient-to-br from-[#E6B8D4]/20 to-white p-6 rounded-2xl">
+                <h3 className="font-display text-2xl font-bold text-gray-800 mb-4">Adult Stage</h3>
                 <div className="relative overflow-hidden rounded-xl shadow-lg mb-4 bg-gray-100">
                   <div className="aspect-[7/9] w-full">
                     <img
@@ -407,9 +519,15 @@ export const BreedDetail: React.FC = () => {
       </section>
 
       {/* Breed Gallery Section */}
-      <section className="py-12 bg-gradient-to-br from-cream to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-center bg-gradient-to-r from-soft-brown via-warm-peach to-soft-brown bg-clip-text text-transparent mb-10">
+      <section className="py-12 bg-gradient-to-br from-[#F4C2C2] to-[#E6B8D4] relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 left-10 text-6xl animate-bounce" style={{ animationDelay: '0s', animationDuration: '3s' }}>🐕</div>
+          <div className="absolute top-40 right-20 text-4xl animate-bounce" style={{ animationDelay: '0.5s', animationDuration: '2.5s' }}>🐾</div>
+          <div className="absolute bottom-20 left-1/3 text-5xl animate-bounce" style={{ animationDelay: '1.5s', animationDuration: '2.8s' }}>🐶</div>
+          <div className="absolute bottom-40 right-10 text-3xl animate-pulse" style={{ animationDuration: '2s' }}>❤️</div>
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-center text-gray-800 mb-10">
             {breed.name} Gallery
           </h2>
           
@@ -445,16 +563,16 @@ export const BreedDetail: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="bg-gradient-to-br from-warm-peach/10 to-cream p-6 rounded-2xl"
+              className="bg-gradient-to-br from-[#FFB5A7]/20 to-white p-6 rounded-2xl"
             >
               <div className="flex items-center space-x-3 mb-4">
-                <Heart className="h-6 w-6 text-warm-peach" />
-                <h3 className="font-display text-xl font-bold text-soft-brown">Temperament</h3>
+                <Heart className="h-6 w-6 text-[#E97451]" />
+                <h3 className="font-display text-xl font-bold text-gray-800">Temperament</h3>
               </div>
               <div className="space-y-2">
                 {breed.temperament.map((temp) => (
                   <div key={temp} className="flex items-center space-x-2">
-                    <CheckCircle className="h-4 w-4 text-warm-peach" />
+                    <CheckCircle className="h-4 w-4 text-[#E97451]" />
                     <span className="text-gray-700">{temp}</span>
                   </div>
                 ))}
@@ -466,11 +584,11 @@ export const BreedDetail: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="bg-gradient-to-br from-warm-peach/10 to-cream p-6 rounded-2xl"
+              className="bg-gradient-to-br from-[#F4C2C2]/20 to-white p-6 rounded-2xl"
             >
               <div className="flex items-center space-x-3 mb-4">
-                <Shield className="h-6 w-6 text-warm-peach" />
-                <h3 className="font-display text-xl font-bold text-soft-brown">Health Care</h3>
+                <Shield className="h-6 w-6 text-[#E97451]" />
+                <h3 className="font-display text-xl font-bold text-gray-800">Health Care</h3>
               </div>
               <div className="space-y-3">
                 <div>
@@ -495,11 +613,11 @@ export const BreedDetail: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="bg-gradient-to-br from-warm-peach/10 to-cream p-6 rounded-2xl"
+              className="bg-gradient-to-br from-[#E6B8D4]/20 to-white p-6 rounded-2xl"
             >
               <div className="flex items-center space-x-3 mb-4">
-                <Activity className="h-6 w-6 text-warm-peach" />
-                <h3 className="font-display text-xl font-bold text-soft-brown">Care Needs</h3>
+                <Activity className="h-6 w-6 text-[#E97451]" />
+                <h3 className="font-display text-xl font-bold text-gray-800">Care Needs</h3>
               </div>
               <div className="space-y-2 text-sm">
                 <div>
@@ -521,11 +639,17 @@ export const BreedDetail: React.FC = () => {
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-16 bg-gradient-to-br from-cream to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16 bg-gradient-to-br from-[#FFB5A7] to-[#F4C2C2] relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 left-10 text-6xl animate-bounce" style={{ animationDelay: '0s', animationDuration: '3s' }}>🐕</div>
+          <div className="absolute top-40 right-20 text-4xl animate-bounce" style={{ animationDelay: '0.5s', animationDuration: '2.5s' }}>🐾</div>
+          <div className="absolute bottom-20 left-1/3 text-5xl animate-bounce" style={{ animationDelay: '1.5s', animationDuration: '2.8s' }}>🐶</div>
+          <div className="absolute bottom-40 right-10 text-3xl animate-pulse" style={{ animationDuration: '2s' }}>❤️</div>
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-12">
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-soft-brown mb-4">
-              Why Choose <span className="text-warm-peach">FurryFriend</span>?
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+              Why Choose <span className="text-[#E97451]">FurryFriend</span>?
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
               We're committed to connecting you with healthy, happy puppies from trusted breeders
@@ -546,10 +670,10 @@ export const BreedDetail: React.FC = () => {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="text-center"
               >
-                <div className="bg-warm-peach p-4 rounded-full w-16 h-16 mx-auto mb-4">
+                <div className="bg-[#E97451] p-4 rounded-full w-16 h-16 mx-auto mb-4">
                   <feature.icon className="h-8 w-8 text-white mx-auto" />
                 </div>
-                <h3 className="font-semibold text-soft-brown mb-2">{feature.title}</h3>
+                <h3 className="font-semibold text-gray-800 mb-2">{feature.title}</h3>
                 <p className="text-sm text-gray-600">{feature.desc}</p>
               </motion.div>
             ))}
@@ -558,7 +682,7 @@ export const BreedDetail: React.FC = () => {
       </section>
 
       {/* Contact CTA */}
-      <section className="py-16 bg-gradient-to-r from-warm-peach to-orange-400">
+      <section className="py-16 bg-gradient-to-r from-[#E97451] to-[#FFA07A]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
             Ready to Meet Your New Best Friend?
@@ -586,10 +710,10 @@ export const BreedDetail: React.FC = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-warm-peach px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors">
+            <button className="bg-white text-[#E97451] px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors">
               Schedule Visit
             </button>
-            <button className="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-warm-peach transition-all">
+            <button className="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-[#E97451] transition-all">
               Ask Questions
             </button>
           </div>
@@ -598,3 +722,5 @@ export const BreedDetail: React.FC = () => {
     </div>
   );
 };
+
+export default BreedDetail;

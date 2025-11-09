@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { Shield, Heart, Award, Users, AlertTriangle, HelpCircle, ArrowDown } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Shield, Heart, Award, Users, AlertTriangle, HelpCircle, ArrowDown, Menu, X, ChevronDown } from 'lucide-react';
 
 const breeds = [
   {
@@ -64,9 +64,153 @@ const marqueeImages = [
   "/marquee/YTmom2.JPEG"
 ];
 
+// Navigation Bar Component
+const NavigationBar = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isBreedsDropdownOpen, setIsBreedsDropdownOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const toggleBreedsDropdown = () => {
+    setIsBreedsDropdownOpen(!isBreedsDropdownOpen);
+  };
+
+  const handleBreedClick = (slug) => {
+    navigate(`/breed/${slug}`);
+    setIsBreedsDropdownOpen(false);
+    setIsMobileMenuOpen(false);
+  };
+
+  return (
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-[#E97451] via-[#FFB5A7] to-[#E6B8D4] shadow-lg">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          <div className="flex items-center">
+            <Link to="/" className="text-white font-bold text-xl md:text-2xl font-display">
+              FurryFriend
+            </Link>
+          </div>
+          
+          {/* Desktop Navigation */}
+          <div className="hidden md:block">
+            <div className="ml-10 flex items-baseline space-x-6">
+              <Link to="/" className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                Home
+              </Link>
+              <Link to="/about" className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                About Us
+              </Link>
+              
+              {/* Breeds Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={toggleBreedsDropdown}
+                  className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center"
+                >
+                  Our Breeds
+                  <ChevronDown className={`ml-1 h-4 w-4 transform transition-transform ${isBreedsDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+                
+                {isBreedsDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                    <div className="py-1">
+                      {breeds.map((breed) => (
+                        <button
+                          key={breed.slug}
+                          onClick={() => handleBreedClick(breed.slug)}
+                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                        >
+                          {breed.name}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+              
+              <Link to="/contact" className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                Contact
+              </Link>
+            </div>
+          </div>
+          
+          {/* Mobile menu button */}
+          <div className="md:hidden">
+            <button
+              onClick={toggleMobileMenu}
+              className="text-white hover:text-gray-200 p-2 rounded-md"
+            >
+              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      {/* Mobile Navigation */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden bg-white/95 backdrop-blur-sm">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <Link to="/" className="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
+              Home
+            </Link>
+            <Link to="/about" className="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
+              About Us
+            </Link>
+            
+            {/* Mobile Breeds Dropdown */}
+            <div>
+              <button
+                onClick={toggleBreedsDropdown}
+                className="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium w-full text-left flex items-center justify-between"
+              >
+                Our Breeds
+                <ChevronDown className={`h-4 w-4 transform transition-transform ${isBreedsDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+              
+              {isBreedsDropdownOpen && (
+                <div className="pl-6 pr-3 py-2 space-y-1">
+                  {breeds.map((breed) => (
+                    <button
+                      key={breed.slug}
+                      onClick={() => handleBreedClick(breed.slug)}
+                      className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:text-gray-900"
+                    >
+                      {breed.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+            
+            <Link to="/contact" className="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
+              Contact
+            </Link>
+          </div>
+        </div>
+      )}
+    </nav>
+  );
+};
+
+// Image Marquee Component with Mobile Speed Adjustment
 const ImageMarquee = () => {
   const marqueeRef = useRef(null);
   const [isPaused, setIsPaused] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     const marqueeElement = marqueeRef.current;
@@ -88,7 +232,7 @@ const ImageMarquee = () => {
     <div className="relative overflow-hidden h-32 md:h-40">
       <div 
         ref={marqueeRef}
-        className={`flex ${isPaused ? '' : 'animate-marquee'} whitespace-nowrap`}
+        className={`flex ${isPaused ? '' : isMobile ? 'animate-marquee-mobile' : 'animate-marquee'} whitespace-nowrap`}
       >
         {marqueeImages.map((img, index) => (
           <div key={`first-${index}`} className="inline-block mx-3 relative group">
@@ -123,16 +267,48 @@ const ImageMarquee = () => {
         ))}
       </div>
       
-      <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-white to-transparent z-30"></div>
-      <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-white to-transparent z-30"></div>
+      <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-[#FFB5A7] to-transparent z-30"></div>
+      <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#E6B8D4] to-transparent z-30"></div>
     </div>
   );
 };
 
 export const Home = () => {
   return (
-    <div>
-      <section className="relative h-[70vh] overflow-hidden">
+    <div className="min-h-screen">
+      <style>{`
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        @keyframes marquee-mobile {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+          animation: marquee 30s linear infinite;
+        }
+        .animate-marquee-mobile {
+          animation: marquee-mobile 15s linear infinite;
+        }
+        .text-hero {
+          text-shadow: 0px 4px 8px rgba(0, 0, 0, 0.8), 0px 2px 4px rgba(0, 0, 0, 0.6);
+        }
+        .text-section {
+          text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .card-overlay {
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+      `}</style>
+
+      {/* Navigation Bar */}
+      <NavigationBar />
+
+      {/* Hero Section - Fixed spacing issue */}
+      <section className="relative h-screen overflow-hidden">
         <div className="absolute inset-0">
           <img
             src="/HeroMob.png"
@@ -142,29 +318,29 @@ export const Home = () => {
           <img
             src="/Hero.png"
             alt="FurryFriend - Find your perfect companion"
-            className="hidden md:block w-full h-full object-cover object-top md:object-center"
+            className="hidden md:block w-full h-full object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
         </div>
 
         <div className="relative z-10 h-full flex flex-col items-center justify-center text-center text-white max-w-4xl mx-auto px-4">
-          <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight tracking-wide">
+          <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight tracking-wide text-hero">
             Find Your
-            <span className="text-warm-peach block drop-shadow-lg">Furry Forever Friend</span>
+            <span className="text-orange-300 block drop-shadow-lg">Furry Forever Friend</span>
           </h1>
-          <p className="font-sans text-lg md:text-xl lg:text-2xl mb-8 opacity-90 font-medium tracking-wide max-w-2xl">
+          <p className="font-sans text-lg md:text-xl lg:text-2xl mb-8 font-medium tracking-wide max-w-2xl text-hero">
             Discover love, loyalty, and endless joy with our carefully selected companions
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button 
               onClick={() => document.getElementById('breeds')?.scrollIntoView({ behavior: 'smooth' })}
-              className="bg-warm-peach hover:bg-warm-peach/90 text-white px-8 py-4 rounded-full text-lg font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg"
+              className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-full text-lg font-semibold transform hover:scale-105 transition-all duration-300 shadow-xl"
             >
               Meet Our Friends
             </button>
             <Link
               to="/contact"
-              className="border-2 border-white text-white hover:bg-white hover:text-soft-brown px-8 py-4 rounded-full text-lg font-semibold transform hover:scale-105 transition-all duration-300"
+              className="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-8 py-4 rounded-full text-lg font-semibold transform hover:scale-105 transition-all duration-300"
             >
               Get in Touch
             </Link>
@@ -181,10 +357,17 @@ export const Home = () => {
         </div>
       </section>
 
-      <section id="marquee-section" className="py-8 bg-gradient-to-r from-orange-50 via-pink-50 to-purple-50 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Marquee Section - Static Gradient */}
+      <section id="marquee-section" className="py-8 bg-gradient-to-br from-[#E97451] via-[#FFB5A7] to-[#FFC0CB] relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 left-10 text-6xl animate-bounce" style={{ animationDelay: '0s', animationDuration: '3s' }}>🐕</div>
+          <div className="absolute top-40 right-20 text-4xl animate-bounce" style={{ animationDelay: '0.5s', animationDuration: '2.5s' }}>🐾</div>
+          <div className="absolute bottom-20 left-1/3 text-5xl animate-bounce" style={{ animationDelay: '1.5s', animationDuration: '2.8s' }}>🐶</div>
+          <div className="absolute bottom-40 right-10 text-3xl animate-pulse" style={{ animationDuration: '2s' }}>❤️</div>
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-6">
-            <h2 className="font-display text-3xl font-bold bg-gradient-to-r from-orange-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+            <h2 className="font-display text-3xl font-bold text-white text-section drop-shadow-lg">
               Meet Our Adorable Friends
             </h2>
           </div>
@@ -192,79 +375,77 @@ export const Home = () => {
         </div>
       </section>
 
-      <section className="py-20 bg-gradient-to-br from-cream via-white to-cream relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5">
-          <img src="/dog19.jpg" alt="" className="w-full h-full object-cover blur-sm" />
-        </div>
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-10 left-10 text-6xl">🐕</div>
-          <div className="absolute top-40 right-20 text-4xl">🐾</div>
-          <div className="absolute top-60 left-1/4 text-3xl">🦴</div>
-          <div className="absolute bottom-20 left-1/3 text-5xl">🐶</div>
-          <div className="absolute bottom-40 right-10 text-3xl">❤️</div>
-          <div className="absolute top-1/3 right-1/3 text-4xl">🏠</div>
-          <div className="absolute bottom-60 right-1/4 text-3xl">🎾</div>
+      {/* Why Choose Section - Static Gradient */}
+      <section className="py-20 bg-gradient-to-br from-[#FFB5A7] via-[#FFC0CB] to-[#F4C2C2] relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 left-10 text-6xl animate-bounce" style={{ animationDelay: '0s', animationDuration: '3s' }}>🐕</div>
+          <div className="absolute top-40 right-20 text-4xl animate-bounce" style={{ animationDelay: '0.5s', animationDuration: '2.5s' }}>🐾</div>
+          <div className="absolute top-60 left-1/4 text-3xl animate-bounce" style={{ animationDelay: '1s', animationDuration: '3.5s' }}>🦴</div>
+          <div className="absolute bottom-20 left-1/3 text-5xl animate-bounce" style={{ animationDelay: '1.5s', animationDuration: '2.8s' }}>🐶</div>
+          <div className="absolute bottom-40 right-10 text-3xl animate-pulse" style={{ animationDuration: '2s' }}>❤️</div>
+          <div className="absolute top-1/3 right-1/3 text-4xl animate-bounce" style={{ animationDelay: '0.8s', animationDuration: '3.2s' }}>🏠</div>
+          <div className="absolute bottom-60 right-1/4 text-3xl animate-bounce" style={{ animationDelay: '1.2s', animationDuration: '2.7s' }}>🎾</div>
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-center bg-gradient-to-r from-soft-brown via-warm-peach to-soft-brown bg-clip-text text-transparent mb-16 tracking-wide">
-            Why Choose <span className="bg-gradient-to-r from-warm-peach to-orange-400 bg-clip-text text-transparent">FurryFriend</span>?
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-white text-section mb-16 tracking-wide drop-shadow-lg">
+            Why Choose <span className="text-orange-300">FurryFriend</span>?
           </h2>
           
           <div className="grid md:grid-cols-2 gap-12">
-            <div className="bg-gradient-to-br from-warm-peach/10 to-cream p-8 rounded-3xl shadow-lg border-2 border-warm-peach/20">
+            <div className="card-overlay p-8 rounded-3xl shadow-xl">
               <div className="text-center mb-8">
-                <div className="bg-warm-peach p-4 rounded-full w-16 h-16 mx-auto mb-4">
+                <div className="bg-gradient-to-br from-orange-500 to-pink-500 p-4 rounded-full w-16 h-16 mx-auto mb-4 shadow-lg">
                   <Heart className="h-8 w-8 text-white fill-current" />
                 </div>
-                <h3 className="text-2xl font-bold text-soft-brown">FurryFriend Promise</h3>
+                <h3 className="text-2xl font-bold text-gray-800">FurryFriend Promise</h3>
               </div>
               
               <div className="space-y-6">
-                <div className="flex items-center space-x-4">
-                  <Shield className="h-6 w-6 text-warm-peach flex-shrink-0" />
+                <div className="flex items-center space-x-4 bg-white/80 p-4 rounded-xl backdrop-blur-sm">
+                  <Shield className="h-6 w-6 text-orange-600 flex-shrink-0" />
                   <div>
-                    <h4 className="font-semibold text-soft-brown">Verified Health Checks</h4>
-                    <p className="text-gray-600">Complete medical history and health guarantees</p>
+                    <h4 className="font-semibold text-gray-800">Verified Health Checks</h4>
+                    <p className="text-gray-700">Complete medical history and health guarantees</p>
                   </div>
                 </div>
                 
-                <div className="flex items-center space-x-4">
-                  <Award className="h-6 w-6 text-warm-peach flex-shrink-0" />
+                <div className="flex items-center space-x-4 bg-white/80 p-4 rounded-xl backdrop-blur-sm">
+                  <Award className="h-6 w-6 text-pink-600 flex-shrink-0" />
                   <div>
-                    <h4 className="font-semibold text-soft-brown">Certified Lineage</h4>
-                    <p className="text-gray-600">Documented breeding history and genetics</p>
+                    <h4 className="font-semibold text-gray-800">Certified Lineage</h4>
+                    <p className="text-gray-700">Documented breeding history and genetics</p>
                   </div>
                 </div>
                 
-                <div className="flex items-center space-x-4">
-                  <Users className="h-6 w-6 text-warm-peach flex-shrink-0" />
+                <div className="flex items-center space-x-4 bg-white/80 p-4 rounded-xl backdrop-blur-sm">
+                  <Users className="h-6 w-6 text-purple-600 flex-shrink-0" />
                   <div>
-                    <h4 className="font-semibold text-soft-brown">Lifetime Support</h4>
-                    <p className="text-gray-600">Ongoing guidance for your furry friend's journey</p>
+                    <h4 className="font-semibold text-gray-800">Lifetime Support</h4>
+                    <p className="text-gray-700">Ongoing guidance for your furry friend's journey</p>
                   </div>
                 </div>
                 
-                <div className="flex items-center space-x-4">
-                  <Heart className="h-6 w-6 text-warm-peach flex-shrink-0" />
+                <div className="flex items-center space-x-4 bg-white/80 p-4 rounded-xl backdrop-blur-sm">
+                  <Heart className="h-6 w-6 text-red-500 flex-shrink-0" />
                   <div>
-                    <h4 className="font-semibold text-soft-brown">Care Packages</h4>
-                    <p className="text-gray-600">Breed-specific starter kits and resources</p>
+                    <h4 className="font-semibold text-gray-800">Care Packages</h4>
+                    <p className="text-gray-700">Breed-specific starter kits and resources</p>
                   </div>
                 </div>
               </div>
             </div>
             
-            <div className="bg-gray-50 p-8 rounded-3xl shadow-lg border-2 border-gray-200">
+            <div className="bg-gradient-to-br from-gray-100 to-gray-200 p-8 rounded-3xl shadow-xl border-2 border-gray-300">
               <div className="text-center mb-8">
-                <div className="bg-gray-400 p-4 rounded-full w-16 h-16 mx-auto mb-4">
+                <div className="bg-gray-400 p-4 rounded-full w-16 h-16 mx-auto mb-4 shadow-lg">
                   <AlertTriangle className="h-8 w-8 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold text-gray-700">Unknown Breeders</h3>
               </div>
               
               <div className="space-y-6">
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-4 bg-white/60 p-4 rounded-xl">
                   <HelpCircle className="h-6 w-6 text-gray-400 flex-shrink-0" />
                   <div>
                     <h4 className="font-semibold text-gray-700">Unverified Health</h4>
@@ -272,7 +453,7 @@ export const Home = () => {
                   </div>
                 </div>
                 
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-4 bg-white/60 p-4 rounded-xl">
                   <HelpCircle className="h-6 w-6 text-gray-400 flex-shrink-0" />
                   <div>
                     <h4 className="font-semibold text-gray-700">Questionable Lineage</h4>
@@ -280,7 +461,7 @@ export const Home = () => {
                   </div>
                 </div>
                 
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-4 bg-white/60 p-4 rounded-xl">
                   <HelpCircle className="h-6 w-6 text-gray-400 flex-shrink-0" />
                   <div>
                     <h4 className="font-semibold text-gray-700">Limited Support</h4>
@@ -288,7 +469,7 @@ export const Home = () => {
                   </div>
                 </div>
                 
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-4 bg-white/60 p-4 rounded-xl">
                   <HelpCircle className="h-6 w-6 text-gray-400 flex-shrink-0" />
                   <div>
                     <h4 className="font-semibold text-gray-700">No Resources</h4>
@@ -301,23 +482,21 @@ export const Home = () => {
         </div>
       </section>
 
-      <section id="breeds" className="py-20 bg-gradient-to-br from-cream via-orange-50 to-cream relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5">
-          <img src="/dog20.jpg" alt="" className="w-full h-full object-cover blur-sm" />
+      {/* Breeds Section - Static Gradient */}
+      <section id="breeds" className="py-20 bg-gradient-to-br from-[#FFC0CB] via-[#F4C2C2] to-[#E6B8D4] relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-20 left-16 text-5xl animate-bounce" style={{ animationDelay: '0.3s', animationDuration: '3.5s' }}>🐕‍🦺</div>
+          <div className="absolute top-32 right-24 text-4xl animate-bounce" style={{ animationDelay: '0.7s', animationDuration: '2.8s' }}>🐾</div>
+          <div className="absolute top-80 left-1/4 text-3xl animate-bounce" style={{ animationDelay: '1.1s', animationDuration: '3.2s' }}>🦴</div>
+          <div className="absolute bottom-32 left-1/3 text-6xl animate-bounce" style={{ animationDelay: '0.5s', animationDuration: '3.8s' }}>🐶</div>
+          <div className="absolute bottom-20 right-16 text-4xl animate-pulse" style={{ animationDuration: '2.5s' }}>❤️</div>
+          <div className="absolute top-1/2 right-1/3 text-3xl animate-bounce" style={{ animationDelay: '1.4s', animationDuration: '2.9s' }}>🏠</div>
+          <div className="absolute bottom-80 right-1/4 text-4xl animate-bounce" style={{ animationDelay: '0.9s', animationDuration: '3.3s' }}>🎾</div>
+          <div className="absolute top-60 left-1/2 text-3xl animate-bounce" style={{ animationDelay: '1.6s', animationDuration: '3.1s' }}>🐕</div>
         </div>
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-20 left-16 text-5xl">🐕‍🦺</div>
-          <div className="absolute top-32 right-24 text-4xl">🐾</div>
-          <div className="absolute top-80 left-1/4 text-3xl">🦴</div>
-          <div className="absolute bottom-32 left-1/3 text-6xl">🐶</div>
-          <div className="absolute bottom-20 right-16 text-4xl">❤️</div>
-          <div className="absolute top-1/2 right-1/3 text-3xl">🏠</div>
-          <div className="absolute bottom-80 right-1/4 text-4xl">🎾</div>
-          <div className="absolute top-60 left-1/2 text-3xl">🐕</div>
-        </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-center bg-gradient-to-r from-soft-brown via-warm-peach to-soft-brown bg-clip-text text-transparent mb-16 tracking-wide">
-            Meet Our <span className="bg-gradient-to-r from-warm-peach to-orange-400 bg-clip-text text-transparent">Adorable Friends</span>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-white text-section mb-16 tracking-wide drop-shadow-lg">
+            Meet Our <span className="text-orange-300">Adorable Friends</span>
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -327,28 +506,27 @@ export const Home = () => {
                 className="group perspective-1000"
               >
                 <Link to={`/breed/${breed.slug}`} className="block">
-                <div className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 hover:-translate-y-2 hover:rotate-1 transition-all duration-500 perspective-1000">
-                  <div className="relative overflow-hidden bg-gray-100">
+                <div className="card-overlay rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transform hover:scale-105 hover:-translate-y-2 hover:rotate-1 transition-all duration-500 perspective-1000">
+                  <div className="relative overflow-hidden">
                     <div className="aspect-[7/9] w-full">
                       <img
                         src={breed.image}
                         alt={`${breed.name} - Premium dog breed for adoption with health guarantee`}
-                        className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500 filter group-hover:brightness-110"
+                        className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
                       />
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-white/10 to-transparent backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
                   
                   <div className="p-6">
-                    <h3 className="font-display text-xl font-bold text-soft-brown mb-2 group-hover:text-warm-peach transition-colors tracking-wide">
+                    <h3 className="font-display text-xl font-bold text-gray-800 mb-2 group-hover:text-orange-600 transition-all tracking-wide">
                       {breed.name}
                     </h3>
                     <div className="flex flex-wrap gap-2 mb-4">
                       {breed.temperament.slice(0, 2).map((trait) => (
                         <span
                           key={trait}
-                          className="px-3 py-1 bg-warm-peach/20 text-warm-peach text-sm rounded-full"
+                          className="px-3 py-1 bg-gradient-to-r from-orange-100 to-pink-100 text-gray-700 text-sm rounded-full font-medium"
                         >
                           {trait}
                         </span>
@@ -371,20 +549,18 @@ export const Home = () => {
         </div>
       </section>
 
-      <section className="py-20 bg-gradient-to-br from-white via-cream to-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5">
-          <img src="/dog21.jpg" alt="" className="w-full h-full object-cover blur-sm" />
+      {/* Testimonials Section - Static Gradient */}
+      <section className="py-20 bg-gradient-to-br from-[#E6B8D4] via-[#F5F5F5] to-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-16 left-20 text-4xl animate-bounce" style={{ animationDelay: '0.4s', animationDuration: '3.4s' }}>🐕</div>
+          <div className="absolute top-40 right-28 text-3xl animate-bounce" style={{ animationDelay: '0.8s', animationDuration: '2.9s' }}>🐾</div>
+          <div className="absolute bottom-40 left-1/4 text-5xl animate-bounce" style={{ animationDelay: '1.2s', animationDuration: '3.6s' }}>🐶</div>
+          <div className="absolute bottom-24 right-20 text-4xl animate-pulse" style={{ animationDuration: '2.3s' }}>❤️</div>
+          <div className="absolute top-1/2 left-1/2 text-3xl animate-bounce" style={{ animationDelay: '1.5s', animationDuration: '3s' }}>🏠</div>
         </div>
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-16 left-20 text-4xl">🐕</div>
-          <div className="absolute top-40 right-28 text-3xl">🐾</div>
-          <div className="absolute bottom-40 left-1/4 text-5xl">🐶</div>
-          <div className="absolute bottom-24 right-20 text-4xl">❤️</div>
-          <div className="absolute top-1/2 left-1/2 text-3xl">🏠</div>
-        </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-center bg-gradient-to-r from-soft-brown via-warm-peach to-soft-brown bg-clip-text text-transparent mb-16 tracking-wide">
-            Happy <span className="bg-gradient-to-r from-warm-peach to-orange-400 bg-clip-text text-transparent">Families</span>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-white text-section mb-16 tracking-wide drop-shadow-lg">
+            Happy <span className="text-orange-300">Families</span>
           </h2>
           
           <div className="grid md:grid-cols-3 gap-8">
@@ -405,23 +581,23 @@ export const Home = () => {
                 image: "/marquee/Frenchmastfamily1.JPEG"
               }
             ].map((testimonial, index) => (
-              <div key={index} className="bg-cream p-6 rounded-2xl shadow-lg">
+              <div key={index} className="card-overlay p-6 rounded-2xl shadow-xl hover:scale-105 transition-transform duration-300">
                 <div className="flex items-center space-x-4 mb-4">
                   <img
                     src={testimonial.image}
                     alt={testimonial.name}
-                    className="w-16 h-16 rounded-full object-cover"
+                    className="w-16 h-16 rounded-full object-cover border-2 border-orange-400 shadow-md"
                   />
                   <div>
-                    <h4 className="font-semibold text-soft-brown">{testimonial.name}</h4>
-                    <div className="flex space-x-1 text-warm-peach">
+                    <h4 className="font-semibold text-gray-800">{testimonial.name}</h4>
+                    <div className="flex space-x-1 text-yellow-400">
                       {[...Array(5)].map((_, i) => (
                         <span key={i}>⭐</span>
                       ))}
                     </div>
                   </div>
                 </div>
-                <p className="text-gray-600 italic">"{testimonial.text}"</p>
+                <p className="text-gray-700 italic">"{testimonial.text}"</p>
               </div>
             ))}
           </div>
