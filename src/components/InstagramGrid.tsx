@@ -64,7 +64,7 @@ const InstagramProfile = () => {
     <div className="w-full max-w-5xl mx-auto bg-white border border-gray-200 md:border-none md:shadow-sm">
       {/* Profile Header */}
       <div className="p-4 md:p-8 md:px-16">
-        <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-8">
+        <div className="flex flex-col md:flex-row items-start md:items-start gap-4 md:gap-8">
           {/* Profile Picture */}
           <div className="flex-shrink-0">
             <div className="w-20 h-20 md:w-40 md:h-40 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 p-0.5">
@@ -80,10 +80,54 @@ const InstagramProfile = () => {
             </div>
           </div>
 
-          {/* Profile Info */}
-          <div className="flex-1 w-full md:w-auto">
+          {/* Profile Info - Mobile */}
+          <div className="flex-1 w-full md:hidden">
+            {/* Username and buttons - Mobile */}
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-light">furryfriend.in</h2>
+              <button className="bg-gray-100 hover:bg-gray-200 text-gray-800 p-1.5 rounded transition-colors">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Stats - Mobile */}
+            <div className="flex gap-8 mb-4">
+              <div>
+                <span className="font-semibold">64</span>
+                <span className="text-gray-500 ml-1">posts</span>
+              </div>
+              <div>
+                <span className="font-semibold">287</span>
+                <span className="text-gray-500 ml-1">followers</span>
+              </div>
+              <div>
+                <span className="font-semibold">40</span>
+                <span className="text-gray-500 ml-1">following</span>
+              </div>
+            </div>
+
+            {/* Buttons - Mobile */}
+            <div className="flex gap-2 mb-4">
+              <a
+                href={instagramProfileUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-4 py-1.5 rounded text-sm font-medium transition-colors text-center"
+              >
+                Follow
+              </a>
+              <button className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-1.5 rounded text-sm font-medium transition-colors">
+                Message
+              </button>
+            </div>
+          </div>
+
+          {/* Profile Info - Desktop */}
+          <div className="hidden md:flex-1 md:block md:w-auto">
             {/* Username and buttons - Desktop */}
-            <div className="hidden md:flex items-center gap-4 mb-4">
+            <div className="flex items-center gap-4 mb-4">
               <h2 className="text-2xl font-light">furryfriend.in</h2>
               <a
                 href={instagramProfileUrl}
@@ -103,21 +147,8 @@ const InstagramProfile = () => {
               </button>
             </div>
 
-            {/* Username and button - Mobile */}
-            <div className="flex md:hidden items-center justify-between w-full mb-4">
-              <h2 className="text-xl font-light">furryfriend.in</h2>
-              <a
-                href={instagramProfileUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded text-sm font-medium transition-colors"
-              >
-                Follow
-              </a>
-            </div>
-
             {/* Stats - Desktop */}
-            <div className="hidden md:flex gap-10 mb-4 text-base">
+            <div className="flex gap-10 mb-4 text-base">
               <div>
                 <span className="font-semibold">64</span>
                 <span className="text-gray-500 ml-1">posts</span>
@@ -133,7 +164,7 @@ const InstagramProfile = () => {
             </div>
 
             {/* Bio - Desktop */}
-            <div className="hidden md:block">
+            <div>
               <p className="font-semibold text-gray-900 mb-1">Furryfriend.in</p>
               <p className="text-gray-700">Get your best friend. Ethically bred puppies sent all across 🇮🇳</p>
               <a href="https://furryfriend.in" target="_blank" rel="noopener noreferrer" className="text-blue-500 text-sm">
@@ -150,22 +181,6 @@ const InstagramProfile = () => {
           <a href="https://furryfriend.in" target="_blank" rel="noopener noreferrer" className="text-blue-500 text-sm">
             furryfriend.in
           </a>
-        </div>
-
-        {/* Stats - Mobile */}
-        <div className="md:hidden flex justify-around text-center mt-4 pt-4 border-t border-gray-200">
-          <div>
-            <div className="font-semibold text-gray-900">64</div>
-            <div className="text-gray-500 text-xs">posts</div>
-          </div>
-          <div>
-            <div className="font-semibold text-gray-900">287</div>
-            <div className="text-gray-500 text-xs">followers</div>
-          </div>
-          <div>
-            <div className="font-semibold text-gray-900">40</div>
-            <div className="text-gray-500 text-xs">following</div>
-          </div>
         </div>
       </div>
 
