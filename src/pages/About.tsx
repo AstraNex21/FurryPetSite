@@ -1,5 +1,6 @@
 import React from 'react';
 import { Heart, Shield, Award, Users, Star, Check } from 'lucide-react';
+import InstagramGrid from '../components/InstagramGrid';
 
 export const About: React.FC = () => {
   return (
@@ -210,7 +211,7 @@ export const About: React.FC = () => {
       </section>
 
       {/* Trust Indicators */}
-      <section className="py-20 bg-soft-brown text-white">
+      <section className="py-20 bg-[#FFD1DC]/50 text-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-bold text-center mb-16">
             Trusted by <span className="text-warm-peach">Families Everywhere</span>
@@ -220,27 +221,44 @@ export const About: React.FC = () => {
             <div>
               <Star className="h-12 w-12 text-warm-peach mx-auto mb-4 fill-current" />
               <div className="text-2xl font-bold mb-2">4.9/5</div>
-              <div className="text-white/80">Customer Rating</div>
+              <div className="text-gray-700">Customer Rating</div>
             </div>
             
             <div>
               <Shield className="h-12 w-12 text-warm-peach mx-auto mb-4" />
               <div className="text-2xl font-bold mb-2">100%</div>
-              <div className="text-white/80">Health Guaranteed</div>
+              <div className="text-gray-700">Health Guaranteed</div>
             </div>
             
             <div>
               <Users className="h-12 w-12 text-warm-peach mx-auto mb-4" />
               <div className="text-2xl font-bold mb-2">500+</div>
-              <div className="text-white/80">Happy Families</div>
+              <div className="text-gray-700">Happy Families</div>
             </div>
             
             <div>
               <Heart className="h-12 w-12 text-warm-peach mx-auto mb-4 fill-current" />
               <div className="text-2xl font-bold mb-2">Lifetime</div>
-              <div className="text-white/80">Support Promise</div>
+              <div className="text-gray-700">Support Promise</div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Instagram Feed Section */}
+      <section className="py-20 bg-gradient-to-br from-[#FFD1DC]/30 via-cream to-white relative overflow-hidden backdrop-blur-sm">
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute top-16 left-20 text-4xl animate-bounce" style={{ animationDelay: '0.4s', animationDuration: '3.4s' }}>📸</div>
+          <div className="absolute top-40 right-28 text-3xl animate-bounce" style={{ animationDelay: '0.8s', animationDuration: '2.9s' }}>🐾</div>
+          <div className="absolute bottom-40 left-1/4 text-5xl animate-bounce" style={{ animationDelay: '1.2s', animationDuration: '3.6s' }}>📱</div>
+          <div className="absolute bottom-24 right-20 text-4xl animate-pulse" style={{ animationDuration: '2.3s' }}>❤️</div>
+          <div className="absolute top-1/2 left-1/2 text-3xl animate-bounce" style={{ animationDelay: '1.5s', animationDuration: '3s' }}>🐶</div>
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 text-section mb-16 tracking-wide drop-shadow-lg">
+            Follow Our <span className="text-warm-peach">Journey</span>
+          </h2>
+          <InstagramGrid />
         </div>
       </section>
 

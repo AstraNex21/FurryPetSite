@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Shield, Heart, Award, Users, AlertTriangle, HelpCircle, ArrowDown, Menu, X, ChevronDown } from 'lucide-react';
+import InstagramGrid from '../components/InstagramGrid';
 
 const breeds = [
   {
@@ -85,7 +86,7 @@ const NavigationBar = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-[#E97451] via-[#FFB5A7] to-[#E6B8D4] shadow-lg">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-[#E97451]/70 via-[#FFB5A7]/70 to-[#E6B8D4]/70 backdrop-blur-md shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
@@ -97,10 +98,10 @@ const NavigationBar = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-6">
-              <Link to="/" className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+              <Link to="/" className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-base font-bold transition-colors text-shadow">
                 Home
               </Link>
-              <Link to="/about" className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+              <Link to="/about" className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-base font-bold transition-colors text-shadow">
                 About Us
               </Link>
               
@@ -108,14 +109,14 @@ const NavigationBar = () => {
               <div className="relative">
                 <button
                   onClick={toggleBreedsDropdown}
-                  className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center"
+                  className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-base font-bold transition-colors flex items-center text-shadow"
                 >
                   Our Breeds
                   <ChevronDown className={`ml-1 h-4 w-4 transform transition-transform ${isBreedsDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
                 
                 {isBreedsDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                  <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white/95 backdrop-blur-sm ring-1 ring-black ring-opacity-20">
                     <div className="py-1">
                       {breeds.map((breed) => (
                         <button
@@ -131,7 +132,7 @@ const NavigationBar = () => {
                 )}
               </div>
               
-              <Link to="/contact" className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+              <Link to="/contact" className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-base font-bold transition-colors text-shadow">
                 Contact
               </Link>
             </div>
@@ -151,7 +152,7 @@ const NavigationBar = () => {
       
       {/* Mobile Navigation */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-white/95 backdrop-blur-sm">
+        <div className="md:hidden bg-white/90 backdrop-blur-md">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <Link to="/" className="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
               Home
@@ -237,15 +238,15 @@ const ImageMarquee = () => {
         {marqueeImages.map((img, index) => (
           <div key={`first-${index}`} className="inline-block mx-3 relative group">
             <div className="relative overflow-hidden rounded-lg h-32 w-24 md:h-40 md:w-28 shadow-lg transform transition-all duration-300 group-hover:scale-105">
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-400/20 via-pink-400/20 to-purple-400/20 z-10"></div>
-              <div className="absolute inset-0 border-2 border-gradient-to-r from-orange-300 to-pink-300 rounded-lg z-20 pointer-events-none"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-400/10 via-pink-400/10 to-purple-400/10 z-10"></div>
+              <div className="absolute inset-0 border-2 border-gradient-to-r from-orange-300/30 to-pink-300/30 rounded-lg z-20 pointer-events-none"></div>
               <img
                 src={img}
                 alt={`Pet portrait ${index + 1}`}
                 loading="lazy"
                 className="h-full w-full object-cover object-center"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-orange-300/30 to-pink-300/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-orange-300/20 to-pink-300/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
             </div>
           </div>
         ))}
@@ -253,22 +254,22 @@ const ImageMarquee = () => {
         {marqueeImages.map((img, index) => (
           <div key={`second-${index}`} className="inline-block mx-3 relative group">
             <div className="relative overflow-hidden rounded-lg h-32 w-24 md:h-40 md:w-28 shadow-lg transform transition-all duration-300 group-hover:scale-105">
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-400/20 via-pink-400/20 to-purple-400/20 z-10"></div>
-              <div className="absolute inset-0 border-2 border-gradient-to-r from-orange-300 to-pink-300 rounded-lg z-20 pointer-events-none"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-400/10 via-pink-400/10 to-purple-400/10 z-10"></div>
+              <div className="absolute inset-0 border-2 border-gradient-to-r from-orange-300/30 to-pink-300/30 rounded-lg z-20 pointer-events-none"></div>
               <img
                 src={img}
                 alt={`Pet portrait ${index + 1}`}
                 loading="lazy"
                 className="h-full w-full object-cover object-center"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-orange-300/30 to-pink-300/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-orange-300/20 to-pink-300/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
             </div>
           </div>
         ))}
       </div>
       
-      <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-[#FFB5A7] to-transparent z-30"></div>
-      <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#E6B8D4] to-transparent z-30"></div>
+      <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-[#FFB5A7]/40 to-transparent z-30"></div>
+      <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#E6B8D4]/40 to-transparent z-30"></div>
     </div>
   );
 };
@@ -297,8 +298,11 @@ export const Home = () => {
         .text-section {
           text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
         }
+        .text-shadow {
+          text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5);
+        }
         .card-overlay {
-          background: rgba(255, 255, 255, 0.95);
+          background: rgba(255, 255, 255, 0.85);
           backdrop-filter: blur(10px);
           border: 1px solid rgba(255, 255, 255, 0.3);
         }
@@ -320,7 +324,7 @@ export const Home = () => {
             alt="FurryFriend - Find your perfect companion"
             className="hidden md:block w-full h-full object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/40 to-transparent" />
         </div>
 
         <div className="relative z-10 h-full flex flex-col items-center justify-center text-center text-white max-w-4xl mx-auto px-4">
@@ -334,13 +338,13 @@ export const Home = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button 
               onClick={() => document.getElementById('breeds')?.scrollIntoView({ behavior: 'smooth' })}
-              className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-full text-lg font-semibold transform hover:scale-105 transition-all duration-300 shadow-xl"
+              className="bg-orange-500/80 hover:bg-orange-600/80 text-white px-8 py-4 rounded-full text-lg font-semibold transform hover:scale-105 transition-all duration-300 shadow-xl backdrop-blur-sm"
             >
               Meet Our Friends
             </button>
             <Link
               to="/contact"
-              className="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-8 py-4 rounded-full text-lg font-semibold transform hover:scale-105 transition-all duration-300"
+              className="border-2 border-white/80 text-white hover:bg-white/80 hover:text-gray-900 px-8 py-4 rounded-full text-lg font-semibold transform hover:scale-105 transition-all duration-300 backdrop-blur-sm"
             >
               Get in Touch
             </Link>
@@ -357,9 +361,9 @@ export const Home = () => {
         </div>
       </section>
 
-      {/* Marquee Section - Static Gradient */}
-      <section id="marquee-section" className="py-8 bg-gradient-to-br from-[#E97451] via-[#FFB5A7] to-[#FFC0CB] relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
+      {/* Marquee Section - Original Colors with Low Opacity */}
+      <section id="marquee-section" className="py-8 bg-gradient-to-br from-[#E97451]/50 via-[#FFB5A7]/50 to-[#FFC0CB]/50 relative overflow-hidden backdrop-blur-sm">
+        <div className="absolute inset-0 opacity-5">
           <div className="absolute top-10 left-10 text-6xl animate-bounce" style={{ animationDelay: '0s', animationDuration: '3s' }}>🐕</div>
           <div className="absolute top-40 right-20 text-4xl animate-bounce" style={{ animationDelay: '0.5s', animationDuration: '2.5s' }}>🐾</div>
           <div className="absolute bottom-20 left-1/3 text-5xl animate-bounce" style={{ animationDelay: '1.5s', animationDuration: '2.8s' }}>🐶</div>
@@ -367,7 +371,7 @@ export const Home = () => {
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-6">
-            <h2 className="font-display text-3xl font-bold text-white text-section drop-shadow-lg">
+            <h2 className="font-display text-3xl font-bold text-gray-900 text-section drop-shadow-lg">
               Meet Our Adorable Friends
             </h2>
           </div>
@@ -375,9 +379,9 @@ export const Home = () => {
         </div>
       </section>
 
-      {/* Why Choose Section - Static Gradient */}
-      <section className="py-20 bg-gradient-to-br from-[#FFB5A7] via-[#FFC0CB] to-[#F4C2C2] relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
+      {/* Why Choose Section - Original Colors with Low Opacity */}
+      <section className="py-20 bg-gradient-to-br from-[#FFB5A7]/50 via-[#FFC0CB]/50 to-[#F4C2C2]/50 relative overflow-hidden backdrop-blur-sm">
+        <div className="absolute inset-0 opacity-5">
           <div className="absolute top-10 left-10 text-6xl animate-bounce" style={{ animationDelay: '0s', animationDuration: '3s' }}>🐕</div>
           <div className="absolute top-40 right-20 text-4xl animate-bounce" style={{ animationDelay: '0.5s', animationDuration: '2.5s' }}>🐾</div>
           <div className="absolute top-60 left-1/4 text-3xl animate-bounce" style={{ animationDelay: '1s', animationDuration: '3.5s' }}>🦴</div>
@@ -388,8 +392,8 @@ export const Home = () => {
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-white text-section mb-16 tracking-wide drop-shadow-lg">
-            Why Choose <span className="text-orange-300">FurryFriend</span>?
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 text-section mb-16 tracking-wide drop-shadow-lg">
+            Why Choose <span className="text-orange-600">FurryFriend</span>?
           </h2>
           
           <div className="grid md:grid-cols-2 gap-12">
@@ -398,82 +402,82 @@ export const Home = () => {
                 <div className="bg-gradient-to-br from-orange-500 to-pink-500 p-4 rounded-full w-16 h-16 mx-auto mb-4 shadow-lg">
                   <Heart className="h-8 w-8 text-white fill-current" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-800">FurryFriend Promise</h3>
+                <h3 className="text-2xl font-bold text-gray-900">FurryFriend Promise</h3>
               </div>
               
               <div className="space-y-6">
                 <div className="flex items-center space-x-4 bg-white/80 p-4 rounded-xl backdrop-blur-sm">
                   <Shield className="h-6 w-6 text-orange-600 flex-shrink-0" />
                   <div>
-                    <h4 className="font-semibold text-gray-800">Verified Health Checks</h4>
-                    <p className="text-gray-700">Complete medical history and health guarantees</p>
+                    <h4 className="font-semibold text-gray-900">Verified Health Checks</h4>
+                    <p className="text-gray-800">Complete medical history and health guarantees</p>
                   </div>
                 </div>
                 
                 <div className="flex items-center space-x-4 bg-white/80 p-4 rounded-xl backdrop-blur-sm">
                   <Award className="h-6 w-6 text-pink-600 flex-shrink-0" />
                   <div>
-                    <h4 className="font-semibold text-gray-800">Certified Lineage</h4>
-                    <p className="text-gray-700">Documented breeding history and genetics</p>
+                    <h4 className="font-semibold text-gray-900">Certified Lineage</h4>
+                    <p className="text-gray-800">Documented breeding history and genetics</p>
                   </div>
                 </div>
                 
                 <div className="flex items-center space-x-4 bg-white/80 p-4 rounded-xl backdrop-blur-sm">
                   <Users className="h-6 w-6 text-purple-600 flex-shrink-0" />
                   <div>
-                    <h4 className="font-semibold text-gray-800">Lifetime Support</h4>
-                    <p className="text-gray-700">Ongoing guidance for your furry friend's journey</p>
+                    <h4 className="font-semibold text-gray-900">Lifetime Support</h4>
+                    <p className="text-gray-800">Ongoing guidance for your furry friend's journey</p>
                   </div>
                 </div>
                 
                 <div className="flex items-center space-x-4 bg-white/80 p-4 rounded-xl backdrop-blur-sm">
                   <Heart className="h-6 w-6 text-red-500 flex-shrink-0" />
                   <div>
-                    <h4 className="font-semibold text-gray-800">Care Packages</h4>
-                    <p className="text-gray-700">Breed-specific starter kits and resources</p>
+                    <h4 className="font-semibold text-gray-900">Care Packages</h4>
+                    <p className="text-gray-800">Breed-specific starter kits and resources</p>
                   </div>
                 </div>
               </div>
             </div>
             
-            <div className="bg-gradient-to-br from-gray-100 to-gray-200 p-8 rounded-3xl shadow-xl border-2 border-gray-300">
+            <div className="bg-gradient-to-br from-gray-100/80 to-gray-200/80 p-8 rounded-3xl shadow-xl border-2 border-gray-300/50 backdrop-blur-sm">
               <div className="text-center mb-8">
                 <div className="bg-gray-400 p-4 rounded-full w-16 h-16 mx-auto mb-4 shadow-lg">
                   <AlertTriangle className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-700">Unknown Breeders</h3>
+                <h3 className="text-2xl font-bold text-gray-900">Unknown Breeders</h3>
               </div>
               
               <div className="space-y-6">
                 <div className="flex items-center space-x-4 bg-white/60 p-4 rounded-xl">
-                  <HelpCircle className="h-6 w-6 text-gray-400 flex-shrink-0" />
+                  <HelpCircle className="h-6 w-6 text-gray-600 flex-shrink-0" />
                   <div>
-                    <h4 className="font-semibold text-gray-700">Unverified Health</h4>
-                    <p className="text-gray-500">No guarantee of medical history or health status</p>
+                    <h4 className="font-semibold text-gray-900">Unverified Health</h4>
+                    <p className="text-gray-800">No guarantee of medical history or health status</p>
                   </div>
                 </div>
                 
                 <div className="flex items-center space-x-4 bg-white/60 p-4 rounded-xl">
-                  <HelpCircle className="h-6 w-6 text-gray-400 flex-shrink-0" />
+                  <HelpCircle className="h-6 w-6 text-gray-600 flex-shrink-0" />
                   <div>
-                    <h4 className="font-semibold text-gray-700">Questionable Lineage</h4>
-                    <p className="text-gray-500">Unclear breeding practices and genetics</p>
+                    <h4 className="font-semibold text-gray-900">Questionable Lineage</h4>
+                    <p className="text-gray-800">Unclear breeding practices and genetics</p>
                   </div>
                 </div>
                 
                 <div className="flex items-center space-x-4 bg-white/60 p-4 rounded-xl">
-                  <HelpCircle className="h-6 w-6 text-gray-400 flex-shrink-0" />
+                  <HelpCircle className="h-6 w-6 text-gray-600 flex-shrink-0" />
                   <div>
-                    <h4 className="font-semibold text-gray-700">Limited Support</h4>
-                    <p className="text-gray-500">Little to no ongoing guidance or assistance</p>
+                    <h4 className="font-semibold text-gray-900">Limited Support</h4>
+                    <p className="text-gray-800">Little to no ongoing guidance or assistance</p>
                   </div>
                 </div>
                 
                 <div className="flex items-center space-x-4 bg-white/60 p-4 rounded-xl">
-                  <HelpCircle className="h-6 w-6 text-gray-400 flex-shrink-0" />
+                  <HelpCircle className="h-6 w-6 text-gray-600 flex-shrink-0" />
                   <div>
-                    <h4 className="font-semibold text-gray-700">No Resources</h4>
-                    <p className="text-gray-500">You're on your own for care and training</p>
+                    <h4 className="font-semibold text-gray-900">No Resources</h4>
+                    <p className="text-gray-800">You're on your own for care and training</p>
                   </div>
                 </div>
               </div>
@@ -482,9 +486,9 @@ export const Home = () => {
         </div>
       </section>
 
-      {/* Breeds Section - Static Gradient */}
-      <section id="breeds" className="py-20 bg-gradient-to-br from-[#FFC0CB] via-[#F4C2C2] to-[#E6B8D4] relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
+      {/* Breeds Section - Original Colors with Low Opacity */}
+      <section id="breeds" className="py-20 bg-gradient-to-br from-[#FFC0CB]/50 via-[#F4C2C2]/50 to-[#E6B8D4]/50 relative overflow-hidden backdrop-blur-sm">
+        <div className="absolute inset-0 opacity-5">
           <div className="absolute top-20 left-16 text-5xl animate-bounce" style={{ animationDelay: '0.3s', animationDuration: '3.5s' }}>🐕‍🦺</div>
           <div className="absolute top-32 right-24 text-4xl animate-bounce" style={{ animationDelay: '0.7s', animationDuration: '2.8s' }}>🐾</div>
           <div className="absolute top-80 left-1/4 text-3xl animate-bounce" style={{ animationDelay: '1.1s', animationDuration: '3.2s' }}>🦴</div>
@@ -495,8 +499,8 @@ export const Home = () => {
           <div className="absolute top-60 left-1/2 text-3xl animate-bounce" style={{ animationDelay: '1.6s', animationDuration: '3.1s' }}>🐕</div>
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-white text-section mb-16 tracking-wide drop-shadow-lg">
-            Meet Our <span className="text-orange-300">Adorable Friends</span>
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 text-section mb-16 tracking-wide drop-shadow-lg">
+            Meet Our <span className="text-orange-600">Adorable Friends</span>
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -515,24 +519,24 @@ export const Home = () => {
                         className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
                       />
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
                   
                   <div className="p-6">
-                    <h3 className="font-display text-xl font-bold text-gray-800 mb-2 group-hover:text-orange-600 transition-all tracking-wide">
+                    <h3 className="font-display text-xl font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-all tracking-wide">
                       {breed.name}
                     </h3>
                     <div className="flex flex-wrap gap-2 mb-4">
                       {breed.temperament.slice(0, 2).map((trait) => (
                         <span
                           key={trait}
-                          className="px-3 py-1 bg-gradient-to-r from-orange-100 to-pink-100 text-gray-700 text-sm rounded-full font-medium"
+                          className="px-3 py-1 bg-gradient-to-r from-orange-100 to-pink-100 text-gray-800 text-sm rounded-full font-medium"
                         >
                           {trait}
                         </span>
                       ))}
                     </div>
-                    <div className="flex items-center space-x-2 text-sm text-gray-600">
+                    <div className="flex items-center space-x-2 text-sm text-gray-700">
                       {breed.traits.includes('family-friendly') && <span>👨‍👩‍👧‍👦</span>}
                       {breed.traits.includes('hypoallergenic') && <span>🌿</span>}
                       {breed.traits.includes('small') && <span>🐕</span>}
@@ -549,9 +553,26 @@ export const Home = () => {
         </div>
       </section>
 
-      {/* Testimonials Section - Static Gradient */}
-      <section className="py-20 bg-gradient-to-br from-[#E6B8D4] via-[#F5F5F5] to-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
+      {/* Instagram Feed Section */}
+      <section className="py-20 bg-gradient-to-br from-[#F4C2C2]/50 via-[#E6B8D4]/50 to-[#F5F5F5]/50 relative overflow-hidden backdrop-blur-sm">
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute top-16 left-20 text-4xl animate-bounce" style={{ animationDelay: '0.4s', animationDuration: '3.4s' }}>📸</div>
+          <div className="absolute top-40 right-28 text-3xl animate-bounce" style={{ animationDelay: '0.8s', animationDuration: '2.9s' }}>🐾</div>
+          <div className="absolute bottom-40 left-1/4 text-5xl animate-bounce" style={{ animationDelay: '1.2s', animationDuration: '3.6s' }}>📱</div>
+          <div className="absolute bottom-24 right-20 text-4xl animate-pulse" style={{ animationDuration: '2.3s' }}>❤️</div>
+          <div className="absolute top-1/2 left-1/2 text-3xl animate-bounce" style={{ animationDelay: '1.5s', animationDuration: '3s' }}>🐶</div>
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 text-section mb-16 tracking-wide drop-shadow-lg">
+            Follow Our <span className="text-orange-600">Journey</span>
+          </h2>
+          <InstagramGrid />
+        </div>
+      </section>
+
+      {/* Testimonials Section - Original Colors with Low Opacity */}
+      <section className="py-20 bg-gradient-to-br from-[#E6B8D4]/50 via-[#F5F5F5]/50 to-white/70 relative overflow-hidden backdrop-blur-sm">
+        <div className="absolute inset-0 opacity-5">
           <div className="absolute top-16 left-20 text-4xl animate-bounce" style={{ animationDelay: '0.4s', animationDuration: '3.4s' }}>🐕</div>
           <div className="absolute top-40 right-28 text-3xl animate-bounce" style={{ animationDelay: '0.8s', animationDuration: '2.9s' }}>🐾</div>
           <div className="absolute bottom-40 left-1/4 text-5xl animate-bounce" style={{ animationDelay: '1.2s', animationDuration: '3.6s' }}>🐶</div>
@@ -559,8 +580,8 @@ export const Home = () => {
           <div className="absolute top-1/2 left-1/2 text-3xl animate-bounce" style={{ animationDelay: '1.5s', animationDuration: '3s' }}>🏠</div>
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-white text-section mb-16 tracking-wide drop-shadow-lg">
-            Happy <span className="text-orange-300">Families</span>
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 text-section mb-16 tracking-wide drop-shadow-lg">
+            Happy <span className="text-orange-600">Families</span>
           </h2>
           
           <div className="grid md:grid-cols-3 gap-8">
@@ -589,7 +610,7 @@ export const Home = () => {
                     className="w-16 h-16 rounded-full object-cover border-2 border-orange-400 shadow-md"
                   />
                   <div>
-                    <h4 className="font-semibold text-gray-800">{testimonial.name}</h4>
+                    <h4 className="font-semibold text-gray-900">{testimonial.name}</h4>
                     <div className="flex space-x-1 text-yellow-400">
                       {[...Array(5)].map((_, i) => (
                         <span key={i}>⭐</span>
@@ -597,7 +618,7 @@ export const Home = () => {
                     </div>
                   </div>
                 </div>
-                <p className="text-gray-700 italic">"{testimonial.text}"</p>
+                <p className="text-gray-800 italic">"{testimonial.text}"</p>
               </div>
             ))}
           </div>

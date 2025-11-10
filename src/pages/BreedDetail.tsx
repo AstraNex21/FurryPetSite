@@ -17,6 +17,7 @@ interface BreedDetails {
   traits: string[];
   size: string;
   weight: string;
+  puppyWeight: string;
   lifespan: string;
   coat: string;
   colors: string[];
@@ -55,7 +56,8 @@ const breedDatabase: Record<string, BreedDetails> = {
     temperament: ['Loyal', 'Gentle', 'Protective', 'Calm', 'Affectionate'],
     traits: ['family-friendly', 'protective', 'calm', 'low-energy'],
     size: 'Large',
-    weight: '99-110 lbs',
+    weight: '45-50 kg',
+    puppyWeight: '14-20 kg (3 months)',
     lifespan: '5-8 years',
     coat: 'Short, Fine',
     colors: ['Fawn', 'Mahogany', 'Red'],
@@ -98,7 +100,8 @@ const breedDatabase: Record<string, BreedDetails> = {
     temperament: ['Playful', 'Gentle', 'Affectionate', 'Intelligent', 'Social'],
     traits: ['hypoallergenic', 'small', 'playful', 'apartment-friendly'],
     size: 'Toy',
-    weight: '4-7 lbs',
+    weight: '1.8-3.2 kg',
+    puppyWeight: '0.9-1.8 kg (3 months)',
     lifespan: '12-15 years',
     coat: 'Long, Silky',
     colors: ['White'],
@@ -133,7 +136,8 @@ const breedDatabase: Record<string, BreedDetails> = {
     temperament: ['Intelligent', 'Active', 'Trainable', 'Alert', 'Friendly'],
     traits: ['hypoallergenic', 'smart', 'active', 'low-shedding'],
     size: 'Toy',
-    weight: '4-6 lbs',
+    weight: '1.8-2.7 kg',
+    puppyWeight: '1.1-1.9 kg (3 months)',
     lifespan: '10-18 years',
     coat: 'Curly, Dense',
     colors: ['White', 'Black', 'Apricot', 'Silver'],
@@ -172,7 +176,8 @@ const breedDatabase: Record<string, BreedDetails> = {
     temperament: ['Bold', 'Confident', 'Courageous', 'Energetic', 'Affectionate'],
     traits: ['small', 'brave', 'energetic', 'low-shedding'],
     size: 'Toy',
-    weight: '4-7 lbs',
+    weight: '1.8-3.2 kg',
+    puppyWeight: '0.9-1.6 kg (3 months)',
     lifespan: '13-16 years',
     coat: 'Long, Silky',
     colors: ['Black & Tan', 'Blue & Gold'],
@@ -385,9 +390,16 @@ export const BreedDetail: React.FC = () => {
                 <div className="bg-white p-3 rounded-xl shadow-md">
                   <div className="flex items-center space-x-2 mb-1">
                     <Weight className="h-4 w-4 text-[#E97451]" />
-                    <span className="text-xs text-gray-600">Weight</span>
+                    <span className="text-xs text-gray-600">Adult Weight</span>
                   </div>
                   <p className="font-semibold text-gray-800 text-sm">{breed.weight}</p>
+                </div>
+                <div className="bg-white p-3 rounded-xl shadow-md">
+                  <div className="flex items-center space-x-2 mb-1">
+                    <Weight className="h-4 w-4 text-[#E97451]" />
+                    <span className="text-xs text-gray-600">Puppy Weight</span>
+                  </div>
+                  <p className="font-semibold text-gray-800 text-sm">{breed.puppyWeight}</p>
                 </div>
                 <div className="bg-white p-3 rounded-xl shadow-md">
                   <div className="flex items-center space-x-2 mb-1">
@@ -456,9 +468,16 @@ export const BreedDetail: React.FC = () => {
                   <div className="bg-white p-4 rounded-xl shadow-md">
                     <div className="flex items-center space-x-2 mb-1">
                       <Weight className="h-4 w-4 text-[#E97451]" />
-                      <span className="text-sm text-gray-600">Weight</span>
+                      <span className="text-sm text-gray-600">Adult Weight</span>
                     </div>
                     <p className="font-semibold text-gray-800">{breed.weight}</p>
+                  </div>
+                  <div className="bg-white p-4 rounded-xl shadow-md">
+                    <div className="flex items-center space-x-2 mb-1">
+                      <Weight className="h-4 w-4 text-[#E97451]" />
+                      <span className="text-sm text-gray-600">Puppy Weight</span>
+                    </div>
+                    <p className="font-semibold text-gray-800">{breed.puppyWeight}</p>
                   </div>
                   <div className="bg-white p-4 rounded-xl shadow-md">
                     <div className="flex items-center space-x-2 mb-1">
