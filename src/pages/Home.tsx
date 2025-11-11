@@ -424,25 +424,27 @@ export const Home: React.FC = () => {
             </button>
             <Link
               to="/contact"
-              className="hidden sm:block px-10 py-4 rounded-full text-lg font-bold transform hover:scale-110 transition-all duration-300 border-2 backdrop-blur-sm shadow-lg hover:shadow-xl"
+              className="hidden sm:block px-12 py-4 rounded-full text-lg font-bold transform hover:scale-110 transition-all duration-300 border-2 shadow-2xl hover:shadow-3xl backdrop-blur-md"
               style={{
-                backgroundColor: '#FFB6D9',
+                backgroundColor: 'rgba(255, 182, 217, 0.7)',
                 color: '#1F2937',
-                borderColor: 'white'
+                borderColor: 'rgba(255, 255, 255, 0.8)',
+                backdropFilter: 'blur(10px)'
               }}
             >
               Get in Touch
             </Link>
             <Link
               to="/contact"
-              className="sm:hidden px-5 py-2 rounded-3xl text-sm font-semibold transform hover:scale-105 transition-all duration-300 backdrop-blur-sm"
+              className="sm:hidden px-8 py-4 rounded-full text-lg font-semibold transform hover:scale-105 transition-all duration-300 border-2 shadow-xl"
               style={{
-                backgroundColor: '#FFB6D9',
+                backgroundColor: 'rgba(255, 182, 217, 0.7)',
                 color: '#1F2937',
-                border: '2px solid white'
+                borderColor: 'rgba(255, 255, 255, 0.8)',
+                backdropFilter: 'blur(10px)'
               }}
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#FFA0CC'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#FFB6D9'}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 160, 204, 0.8)'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 182, 217, 0.7)'}
             >
               Get in Touch
             </Link>
