@@ -278,6 +278,8 @@ export const Home = () => {
   return (
     <div className="min-h-screen">
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Pacifico&display=swap');
+        
         @keyframes marquee {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
@@ -306,25 +308,19 @@ export const Home = () => {
           backdrop-filter: blur(10px);
           border: 1px solid rgba(255, 255, 255, 0.3);
         }
-        .hero-gradient {
-          background: linear-gradient(to right, #E97451, #FFB5A7, #E6B8D4);
-          -webkit-background-clip: text;
-          background-clip: text;
-          color: transparent;
+        .font-display {
+          font-family: 'Quicksand', sans-serif;
         }
-        .button-glow {
-          box-shadow: 0 0 15px rgba(233, 116, 81, 0.5);
-        }
-        .button-glow:hover {
-          box-shadow: 0 0 20px rgba(233, 116, 81, 0.7);
+        .font-brand {
+          font-family: 'Pacifico', cursive;
         }
       `}</style>
 
       {/* Navigation Bar */}
       <NavigationBar />
 
-      {/* Hero Section - Increased height and improved typography */}
-      <section className="relative md:h-[110vh] h-[110vh] overflow-hidden">
+      {/* Hero Section - Modified height and content */}
+      <section className="relative h-[115vh] md:h-screen overflow-hidden">
         <div className="absolute inset-0">
           <img
             src="/HeroMob.png"
@@ -336,24 +332,26 @@ export const Home = () => {
             alt="FurryFriend - Find your perfect companion"
             className="hidden md:block w-full h-full object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/40 to-transparent" />
         </div>
 
         <div className="relative z-10 h-full flex flex-col items-center justify-center text-center text-white max-w-4xl mx-auto px-4">
-          <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-black mb-8 leading-tight tracking-wider text-hero">
-            <span className="block">FIND YOUR</span>
-            <span className="hero-gradient block">FURRY FRIEND</span>
+          <h1 className="font-brand text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight tracking-wide text-hero bg-gradient-to-r from-orange-300 via-pink-300 to-purple-300 bg-clip-text text-transparent">
+            FIND YOUR FURRY FRIEND
           </h1>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center">
+          <p className="font-display text-xl md:text-2xl mb-8 max-w-2xl text-white/90">
+            Discover the perfect companion who will fill your life with joy, love, and endless tail wags
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button 
               onClick={() => document.getElementById('breeds')?.scrollIntoView({ behavior: 'smooth' })}
-              className="bg-gradient-to-r from-[#E97451] to-[#FFB5A7] hover:from-[#FFB5A7] hover:to-[#E97451] text-white px-10 py-5 rounded-full text-xl font-bold transform hover:scale-105 transition-all duration-300 shadow-2xl button-glow"
+              className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-8 py-4 rounded-full text-lg font-semibold transform hover:scale-105 transition-all duration-300 shadow-xl backdrop-blur-sm"
             >
               Meet Our Friends
             </button>
             <Link
               to="/contact"
-              className="border-3 border-white text-white hover:bg-white hover:text-[#E97451] px-10 py-5 rounded-full text-xl font-bold transform hover:scale-105 transition-all duration-300 shadow-2xl"
+              className="border-2 border-white/80 text-white hover:bg-white/80 hover:text-gray-900 px-8 py-4 rounded-full text-lg font-semibold transform hover:scale-105 transition-all duration-300 backdrop-blur-sm"
             >
               Get in Touch
             </Link>
@@ -364,7 +362,7 @@ export const Home = () => {
               onClick={() => document.getElementById('marquee-section')?.scrollIntoView({ behavior: 'smooth' })}
               className="text-white/80 hover:text-white transition-colors"
             >
-              <ArrowDown className="h-8 w-8 animate-bounce" />
+              <ArrowDown className="h-6 w-6 animate-bounce" />
             </button>
           </div>
         </div>
