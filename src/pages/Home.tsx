@@ -306,13 +306,25 @@ export const Home = () => {
           backdrop-filter: blur(10px);
           border: 1px solid rgba(255, 255, 255, 0.3);
         }
+        .hero-gradient {
+          background: linear-gradient(to right, #E97451, #FFB5A7, #E6B8D4);
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+        }
+        .button-glow {
+          box-shadow: 0 0 15px rgba(233, 116, 81, 0.5);
+        }
+        .button-glow:hover {
+          box-shadow: 0 0 20px rgba(233, 116, 81, 0.7);
+        }
       `}</style>
 
       {/* Navigation Bar */}
       <NavigationBar />
 
-      {/* Hero Section - Modified height and content */}
-      <section className="relative md:h-screen overflow-hidden">
+      {/* Hero Section - Increased height and improved typography */}
+      <section className="relative md:h-[110vh] h-[110vh] overflow-hidden">
         <div className="absolute inset-0">
           <img
             src="/HeroMob.png"
@@ -324,23 +336,24 @@ export const Home = () => {
             alt="FurryFriend - Find your perfect companion"
             className="hidden md:block w-full h-full object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/50 to-transparent" />
         </div>
 
         <div className="relative z-10 h-full flex flex-col items-center justify-center text-center text-white max-w-4xl mx-auto px-4">
-          <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight tracking-wide text-hero">
-            FIND YOUR FURRY FRIEND
+          <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-black mb-8 leading-tight tracking-wider text-hero">
+            <span className="block">FIND YOUR</span>
+            <span className="hero-gradient block">FURRY FRIEND</span>
           </h1>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <button 
               onClick={() => document.getElementById('breeds')?.scrollIntoView({ behavior: 'smooth' })}
-              className="bg-orange-500/80 hover:bg-orange-600/80 text-white px-8 py-4 rounded-full text-lg font-semibold transform hover:scale-105 transition-all duration-300 shadow-xl backdrop-blur-sm"
+              className="bg-gradient-to-r from-[#E97451] to-[#FFB5A7] hover:from-[#FFB5A7] hover:to-[#E97451] text-white px-10 py-5 rounded-full text-xl font-bold transform hover:scale-105 transition-all duration-300 shadow-2xl button-glow"
             >
               Meet Our Friends
             </button>
             <Link
               to="/contact"
-              className="border-2 border-white/80 text-white hover:bg-white/80 hover:text-gray-900 px-8 py-4 rounded-full text-lg font-semibold transform hover:scale-105 transition-all duration-300 backdrop-blur-sm"
+              className="border-3 border-white text-white hover:bg-white hover:text-[#E97451] px-10 py-5 rounded-full text-xl font-bold transform hover:scale-105 transition-all duration-300 shadow-2xl"
             >
               Get in Touch
             </Link>
@@ -351,7 +364,7 @@ export const Home = () => {
               onClick={() => document.getElementById('marquee-section')?.scrollIntoView({ behavior: 'smooth' })}
               className="text-white/80 hover:text-white transition-colors"
             >
-              <ArrowDown className="h-6 w-6 animate-bounce" />
+              <ArrowDown className="h-8 w-8 animate-bounce" />
             </button>
           </div>
         </div>
