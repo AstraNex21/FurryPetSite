@@ -4,7 +4,7 @@ import { Heart, Facebook } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-gradient-to-br from-[#E97451] via-[#FFB5A7] to-[#E6B8D4] text-white relative overflow-hidden">
+    <footer className="bg-gradient-to-br from-[#F8F6F3] via-[#FAF8F5] to-[#F6F3F0] text-gray-900 relative overflow-hidden">
       <style>{`
         @keyframes footer-wave {
           0% { background-position: 0% 0%; }
@@ -29,13 +29,13 @@ export const Footer: React.FC = () => {
       `}</style>
       
       {/* Dynamic Animated Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#E97451] via-[#FFC0CB] to-[#E6B8D4] animate-footer-wave"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-[#F8F6F3] via-[#FAF8F5] to-[#F6F3F0] animate-footer-wave"></div>
       
       {/* Floating Blob Animations */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-10 left-10 w-96 h-96 bg-[#E97451] rounded-full filter blur-3xl animate-float-blob-footer"></div>
-        <div className="absolute bottom-10 right-10 w-80 h-80 bg-[#FFB5A7] rounded-full filter blur-3xl animate-float-blob-footer" style={{ animationDelay: '8s' }}></div>
-        <div className="absolute top-1/2 left-1/2 w-72 h-72 bg-[#E6B8D4] rounded-full filter blur-3xl animate-float-blob-footer" style={{ animationDelay: '16s' }}></div>
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute top-10 left-10 w-96 h-96 bg-[#F5E6E0] rounded-full filter blur-3xl animate-float-blob-footer"></div>
+        <div className="absolute bottom-10 right-10 w-80 h-80 bg-[#F0DACD] rounded-full filter blur-3xl animate-float-blob-footer" style={{ animationDelay: '8s' }}></div>
+        <div className="absolute top-1/2 left-1/2 w-72 h-72 bg-[#EBD0C0] rounded-full filter blur-3xl animate-float-blob-footer" style={{ animationDelay: '16s' }}></div>
       </div>
       
       {/* Decorative Emojis */}
@@ -55,51 +55,51 @@ export const Footer: React.FC = () => {
           {/* Brand */}
           <div className="text-center md:text-left">
             <div className="flex items-center justify-center md:justify-start space-x-2 mb-3">
-              <div className="bg-white/50 backdrop-blur-sm p-2 rounded-full shadow-lg">
-                <Heart className="h-5 w-5 text-[#E97451] fill-current" />
+              <div className="bg-gray-900/50 backdrop-blur-sm p-2 rounded-full shadow-lg">
+                <Heart className="h-5 w-5 text-pink-500 fill-current" />
               </div>
-              <span className="text-2xl font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">FurryFriend</span>
+              <span className="text-2xl font-bold text-gray-900 drop-shadow-[0_2px_8px_rgba(255,255,255,0.3)]">FurryFriend</span>
             </div>
-            <p className="text-white font-medium text-sm drop-shadow-[0_1px_4px_rgba(0,0,0,0.3)]">Find Your Furry Forever Friend</p>
-            <p className="text-white/95 text-xs mt-2 drop-shadow-[0_1px_4px_rgba(0,0,0,0.2)]">
+            <p className="text-gray-800 font-medium text-sm drop-shadow-[0_1px_4px_rgba(255,255,255,0.3)]">Find Your Furry Forever Friend</p>
+            <p className="text-gray-700 text-xs mt-2 drop-shadow-[0_1px_4px_rgba(255,255,255,0.2)]">
               Connecting loving families with adorable companions since 2024
             </p>
           </div>
 
           {/* Quick Links */}
           <div className="text-center">
-            <h4 className="font-bold text-xl mb-4 text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Quick Links</h4>
-            <div className="space-y-2">
+            <h4 className="font-bold text-lg mb-3 text-gray-900 drop-shadow-[0_2px_8px_rgba(255,255,255,0.3)]">Quick Links</h4>
+            <div className="grid grid-cols-2 gap-3 justify-items-center">
               <Link 
                 to="/" 
-                className="block text-white font-semibold hover:text-[#8B4513] hover:scale-110 transition-all duration-300 drop-shadow-[0_1px_4px_rgba(0,0,0,0.3)]"
+                className="text-gray-800 font-medium text-sm hover:text-pink-600 hover:scale-105 transition-all duration-300 drop-shadow-[0_1px_4px_rgba(255,255,255,0.3)]"
               >
                 🏠 Home
               </Link>
               <Link 
                 to="/about" 
-                className="block text-white font-semibold hover:text-[#8B4513] hover:scale-110 transition-all duration-300 drop-shadow-[0_1px_4px_rgba(0,0,0,0.3)]"
+                className="text-gray-800 font-medium text-sm hover:text-pink-600 hover:scale-105 transition-all duration-300 drop-shadow-[0_1px_4px_rgba(255,255,255,0.3)]"
               >
-                ℹ️ About Us
+                ℹ️ About
               </Link>
               <Link 
                 to="/adoption-process" 
-                className="block text-white font-semibold hover:text-[#8B4513] hover:scale-110 transition-all duration-300 drop-shadow-[0_1px_4px_rgba(0,0,0,0.3)]"
+                className="text-gray-800 font-medium text-sm hover:text-pink-600 hover:scale-105 transition-all duration-300 drop-shadow-[0_1px_4px_rgba(255,255,255,0.3)]"
               >
-                📋 Adoption Process
+                📋 Adoption
               </Link>
               <Link 
                 to="/contact" 
-                className="block text-white font-semibold hover:text-[#8B4513] hover:scale-110 transition-all duration-300 drop-shadow-[0_1px_4px_rgba(0,0,0,0.3)]"
+                className="text-gray-800 font-medium text-sm hover:text-pink-600 hover:scale-105 transition-all duration-300 drop-shadow-[0_1px_4px_rgba(255,255,255,0.3)]"
               >
-                📞 Contact Us
+                📞 Contact
               </Link>
             </div>
           </div>
 
           {/* Social Media */}
           <div className="text-center md:text-right">
-            <h4 className="font-bold text-xl mb-4 text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Follow Us</h4>
+            <h4 className="font-bold text-xl mb-4 text-gray-900 drop-shadow-[0_2px_8px_rgba(255,255,255,0.3)]">Follow Us</h4>
             <div className="flex justify-center md:justify-end space-x-4">
               <a
                 href="https://www.instagram.com/furryfriend.in?igsh=MTM5YjYxbzJlZzQ3bA%3D%3D&utm_source=qr"
@@ -109,7 +109,7 @@ export const Footer: React.FC = () => {
                 title="Follow us on Instagram"
               >
                 <svg 
-                  className="h-6 w-6 text-[#E97451] group-hover:text-pink-600 transition-colors" 
+                  className="h-6 w-6 text-pink-500 group-hover:text-pink-700 transition-colors" 
                   fill="currentColor" 
                   viewBox="0 0 24 24"
                   aria-label="Instagram"
@@ -119,29 +119,26 @@ export const Footer: React.FC = () => {
               </a>
               <a
                 href="#"
-                className="bg-white/50 backdrop-blur-sm p-3 rounded-full hover:bg-white hover:scale-110 transition-all duration-300 shadow-xl group"
+                className="bg-gray-300/60 backdrop-blur-sm p-3 rounded-full hover:bg-gray-300 hover:scale-110 transition-all duration-300 shadow-xl group"
                 title="Follow us on Facebook"
               >
-                <Facebook className="h-6 w-6 text-[#E97451] group-hover:text-blue-600 transition-colors" />
+                <Facebook className="h-6 w-6 text-pink-500 group-hover:text-blue-600 transition-colors" />
               </a>
             </div>
-            <p className="text-white font-semibold text-sm mt-4 drop-shadow-[0_1px_4px_rgba(0,0,0,0.3)]">
+            <p className="text-gray-800 font-semibold text-sm mt-4 drop-shadow-[0_1px_4px_rgba(255,255,255,0.3)]">
               Join our community!
             </p>
           </div>
         </div>
 
         {/* Bottom Section */}
-        <div className="border-t border-white/40 mt-10 pt-6">
+        <div className="border-t border-gray-400/40 mt-8 pt-4">
           <div className="text-center">
-            <p className="text-white font-bold text-base mb-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">
-              Because every friend deserves a forever home 🐾❤️
+            <p className="text-gray-900 font-bold text-sm drop-shadow-[0_2px_8px_rgba(255,255,255,0.3)]">
+              Because every furry friend deserves a forever home 🐾❤️
             </p>
-            <p className="text-white font-medium text-sm mb-1 drop-shadow-[0_1px_4px_rgba(0,0,0,0.3)]">
-              📍 Based in Delhi, India | Serving families with love and care
-            </p>
-            <p className="text-white/95 text-xs drop-shadow-[0_1px_4px_rgba(0,0,0,0.2)]">
-              © 2024 FurryFriend. All rights reserved. Made with 💖 for pet lovers
+            <p className="text-gray-800 font-medium text-xs mt-2 drop-shadow-[0_1px_4px_rgba(255,255,255,0.3)]">
+              © 2024 FurryFriend. All rights reserved.
             </p>
           </div>
         </div>

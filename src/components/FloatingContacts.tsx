@@ -1,19 +1,65 @@
-import React, { useState } from 'react';
-import { MessageCircle, Phone } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { MessageCircle, Phone, X } from 'lucide-react';
+
+const breeds = [
+  'French Mastiff',
+  'Maltese',
+  'Toy Poodle',
+  'Yorkshire Terrier'
+];
 
 const FloatingContacts = () => {
   const [showForm, setShowForm] = useState(false);
+  const [showGetInTouchButton, setShowGetInTouchButton] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    breed: '',
+    message: ''
+  });
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Hero section height is approximately 85vh on mobile, 100vh on desktop
+      const heroHeight = window.innerHeight * 0.85;
+      setShowGetInTouchButton(window.scrollY > heroHeight);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleWhatsApp = () => {
-    // Replace with your WhatsApp number
     const phoneNumber = '1234567890';
     const message = 'Hello! I would like to inquire about your pets.';
     window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
   };
 
   const handleCall = () => {
-    // Replace with your phone number
     window.open('tel:1234567890');
+  };
+
+  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    if (!formData.breed) {
+      alert('Please select a breed');
+      return;
+    }
+
+    // Handle form submission
+    console.log('Form submitted:', formData);
+    setShowForm(false);
+    setFormData({ name: '', email: '', phone: '', breed: '', message: '' });
   };
 
   return (
@@ -42,15 +88,34 @@ const FloatingContacts = () => {
         </span>
       </button>
 
-      {/* Get in Touch - Vertical Right Side */}
-      <button
-        onClick={() => setShowForm(true)}
-        className="fixed right-0 top-1/2 transform -translate-y-1/2 bg-gradient-to-b from-yellow-400 via-pink-400 to-white text-gray-800 py-6 px-3 shadow-lg hover:shadow-xl transition-all duration-300 z-50 writing-mode-vertical"
-        title="Get in Touch"
-        style={{ writingMode: 'vertical-rl' }}
-      >
-        <span className="font-medium tracking-wider text-sm">GET IN TOUCH</span>
-      </button>
+      {/* Get in Touch - Vertical Button (appears after hero section) */}
+      {showGetInTouchButton && (
+        <button
+          onClick={() => setShowForm(true)}
+          className="fixed right-0 top-1/3 transform -translate-y-1/2 z-50 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 group"
+          title="Get in Touch"
+          style={{
+            backgroundColor: '#FFB6D9',
+            border: '2px solid white',
+            padding: '16px 8px',
+            borderRadius: '12px 0 0 12px',
+            writingMode: 'vertical-rl',
+            textOrientation: 'mixed',
+            color: 'white',
+            fontWeight: '600',
+            fontSize: '12px',
+            letterSpacing: '1px',
+            cursor: 'pointer',
+            minHeight: '120px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            textTransform: 'uppercase'
+          }}
+        >
+          Get in Touch
+        </button>
+      )}
 
       {/* Contact Form Modal */}
       {showForm && (
@@ -60,32 +125,68 @@ const FloatingContacts = () => {
               onClick={() => setShowForm(false)}
               className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
             >
-              <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              <X className="h-6 w-6" />
             </button>
-            <h3 className="text-2xl font-bold mb-4">Get in Touch</h3>
-            <form className="space-y-4">
-              <input
-                type="text"
-                placeholder="Your Name"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-              />
-              <input
-                type="email"
-                placeholder="Your Email"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-              />
-              <input
-                type="tel"
-                placeholder="Your Phone"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-              />
-              <textarea
-                placeholder="Your Message"
-                rows={4}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-              />
+            <h3 className="text-2xl font-bold mb-6 text-gray-900">Get in Touch</h3>
+            <form onSubmit={handleFormSubmit} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleFormChange}
+                  placeholder="Your Name"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleFormChange}
+                  placeholder="Your Email"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleFormChange}
+                  placeholder="Your Phone"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Breed <span className="text-red-500">*</span></label>
+                <select
+                  name="breed"
+                  value={formData.breed}
+                  onChange={handleFormChange}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                >
+                  <option value="">Select a Breed</option>
+                  {breeds.map(breed => (
+                    <option key={breed} value={breed}>{breed}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleFormChange}
+                  placeholder="Your Message"
+                  rows={3}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                />
+              </div>
               <button
                 type="submit"
                 className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-semibold transition-colors"

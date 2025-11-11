@@ -3,7 +3,18 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Shield, Heart, Award, Users, ArrowDown, Menu, X, ChevronDown } from 'lucide-react';
 import InstagramGrid from '../components/InstagramGrid';
 
-const breeds = [
+// ==================== TYPE DEFINITIONS ====================
+interface Breed {
+  name: string;
+  slug: string;
+  image: string;
+  temperament: string[];
+  traits: string[];
+}
+
+// ==================== CONSTANTS ====================
+
+const breeds: Breed[] = [
   {
     name: 'French Mastiff',
     slug: 'french-mastiff',
@@ -66,20 +77,20 @@ const marqueeImages = [
 ];
 
 // Navigation Bar Component
-const NavigationBar = () => {
+const NavigationBar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isBreedsDropdownOpen, setIsBreedsDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
-  const toggleMobileMenu = () => {
+  const toggleMobileMenu = (): void => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const toggleBreedsDropdown = () => {
+  const toggleBreedsDropdown = (): void => {
     setIsBreedsDropdownOpen(!isBreedsDropdownOpen);
   };
 
-  const handleBreedClick = (slug) => {
+  const handleBreedClick = (slug: string): void => {
     navigate(`/breed/${slug}`);
     setIsBreedsDropdownOpen(false);
     setIsMobileMenuOpen(false);
@@ -196,14 +207,42 @@ const NavigationBar = () => {
   );
 };
 
+// ==================== REUSABLE COMPONENTS ====================
+
+interface MarqueeImageProps {
+  src: string;
+  alt: string;
+  index: number;
+}
+
+const MarqueeImage: React.FC<MarqueeImageProps> = ({ src, alt }) => (
+  <div className="inline-block mx-3 relative group">
+    <div className="relative overflow-hidden rounded-lg h-32 w-24 md:h-40 md:w-28 shadow-lg transform transition-all duration-300 group-hover:scale-105">
+      <div className="absolute inset-0 bg-gradient-to-br from-orange-400/10 via-pink-400/10 to-purple-400/10 z-10"></div>
+      <div className="absolute inset-0 border-2 border-gradient-to-r from-orange-300/30 to-pink-300/30 rounded-lg z-20 pointer-events-none"></div>
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        className="h-full w-full object-cover object-center"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-orange-300/20 to-pink-300/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
+    </div>
+  </div>
+);
+
 // Image Marquee Component with Mobile Speed Adjustment
-const ImageMarquee = () => {
-  const marqueeRef = useRef(null);
+interface ImageMarqueeProps {
+  images: string[];
+}
+
+const ImageMarquee: React.FC<ImageMarqueeProps> = ({ images }) => {
+  const marqueeRef = useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => {
+    const checkMobile = (): void => {
       setIsMobile(window.innerWidth < 768);
     };
     
@@ -217,8 +256,8 @@ const ImageMarquee = () => {
     const marqueeElement = marqueeRef.current;
     if (!marqueeElement) return;
 
-    const handleMouseEnter = () => setIsPaused(true);
-    const handleMouseLeave = () => setIsPaused(false);
+    const handleMouseEnter = (): void => setIsPaused(true);
+    const handleMouseLeave = (): void => setIsPaused(false);
 
     marqueeElement.addEventListener('mouseenter', handleMouseEnter);
     marqueeElement.addEventListener('mouseleave', handleMouseLeave);
@@ -235,36 +274,24 @@ const ImageMarquee = () => {
         ref={marqueeRef}
         className={`flex ${isPaused ? '' : isMobile ? 'animate-marquee-mobile' : 'animate-marquee'} whitespace-nowrap`}
       >
-        {marqueeImages.map((img, index) => (
-          <div key={`first-${index}`} className="inline-block mx-3 relative group">
-            <div className="relative overflow-hidden rounded-lg h-32 w-24 md:h-40 md:w-28 shadow-lg transform transition-all duration-300 group-hover:scale-105">
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-400/10 via-pink-400/10 to-purple-400/10 z-10"></div>
-              <div className="absolute inset-0 border-2 border-gradient-to-r from-orange-300/30 to-pink-300/30 rounded-lg z-20 pointer-events-none"></div>
-              <img
-                src={img}
-                alt={`Pet portrait ${index + 1}`}
-                loading="lazy"
-                className="h-full w-full object-cover object-center"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-orange-300/20 to-pink-300/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
-            </div>
-          </div>
+        {/* First set */}
+        {images.map((img, index) => (
+          <MarqueeImage
+            key={`first-${index}`}
+            src={img}
+            alt={`Pet portrait ${index + 1}`}
+            index={index}
+          />
         ))}
         
-        {marqueeImages.map((img, index) => (
-          <div key={`second-${index}`} className="inline-block mx-3 relative group">
-            <div className="relative overflow-hidden rounded-lg h-32 w-24 md:h-40 md:w-28 shadow-lg transform transition-all duration-300 group-hover:scale-105">
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-400/10 via-pink-400/10 to-purple-400/10 z-10"></div>
-              <div className="absolute inset-0 border-2 border-gradient-to-r from-orange-300/30 to-pink-300/30 rounded-lg z-20 pointer-events-none"></div>
-              <img
-                src={img}
-                alt={`Pet portrait ${index + 1}`}
-                loading="lazy"
-                className="h-full w-full object-cover object-center"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-orange-300/20 to-pink-300/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
-            </div>
-          </div>
+        {/* Second set for seamless loop */}
+        {images.map((img, index) => (
+          <MarqueeImage
+            key={`second-${index}`}
+            src={img}
+            alt={`Pet portrait ${index + 1}`}
+            index={index}
+          />
         ))}
       </div>
       
@@ -274,7 +301,20 @@ const ImageMarquee = () => {
   );
 };
 
-export const Home = () => {
+export const Home: React.FC = () => {
+  const [showHeading, setShowHeading] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0 && !showHeading) {
+        setShowHeading(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { once: false });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [showHeading]);
+
   return (
     <div className="min-h-screen">
       <style>{`
@@ -288,11 +328,24 @@ export const Home = () => {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
         }
+        @keyframes fadeInScale {
+          0% {
+            opacity: 0;
+            transform: scale(0.95);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
         .animate-marquee {
           animation: marquee 30s linear infinite;
         }
         .animate-marquee-mobile {
           animation: marquee-mobile 15s linear infinite;
+        }
+        .fade-in-scale {
+          animation: fadeInScale 0.8s ease-out forwards;
         }
         .text-hero {
           text-shadow: 0px 4px 8px rgba(0, 0, 0, 0.8), 0px 2px 4px rgba(0, 0, 0, 0.6);
@@ -314,44 +367,82 @@ export const Home = () => {
         .font-brand {
           font-family: 'Pacifico', cursive;
         }
+        .hero-overlay {
+          transition: all 0.8s ease-out;
+        }
+        .hero-overlay.active {
+          background-color: rgba(0, 0, 0, 0.4);
+          backdrop-filter: blur(4px);
+        }
       `}</style>
 
       {/* Navigation Bar */}
       <NavigationBar />
 
       {/* Hero Section - Modified height and content */}
-      <section className="relative h-[115vh] md:h-screen overflow-hidden">
+      <section className="relative h-[85vh] md:h-screen overflow-hidden">
         <div className="absolute inset-0">
           <img
             src="/HeroMob.png"
             alt="FurryFriend - Find your perfect companion"
-            className="md:hidden w-full h-full object-cover object-center"
+            className="md:hidden w-full h-full object-cover object-center brightness-110"
           />
           <img
             src="/Hero.png"
             alt="FurryFriend - Find your perfect companion"
-            className="hidden md:block w-full h-full object-cover object-center"
+            className="hidden md:block w-full h-full object-cover object-center brightness-110"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/40 to-transparent" />
+          <div className={`absolute inset-0 hero-overlay ${showHeading ? 'active' : ''}`}></div>
         </div>
 
-        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center text-white max-w-4xl mx-auto px-4">
-          <h1 className="font-brand text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight tracking-wide text-hero bg-gradient-to-r from-orange-300 via-pink-300 to-purple-300 bg-clip-text text-transparent">
-            FIND YOUR FURRY FRIEND
-          </h1>
-          <p className="font-display text-xl md:text-2xl mb-8 max-w-2xl text-white/90">
-            Discover the perfect companion who will fill your life with joy, love, and endless tail wags
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <div className="relative z-10 h-full flex flex-col items-center justify-between text-center text-white max-w-4xl mx-auto px-4 pb-8">
+          <div className="flex-1 flex flex-col items-center justify-center">
+            {showHeading && (
+              <h1 className="font-sans text-5xl md:text-7xl lg:text-8xl font-black mb-6 leading-tight tracking-wide fade-in-scale" style={{
+                color: 'white',
+                textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)'
+              }}>
+                Find your
+                <span style={{ color: 'white', display: 'block' }}>
+                  Forever Furry Friend
+                </span>
+              </h1>
+            )}
+          </div>
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
             <button 
               onClick={() => document.getElementById('breeds')?.scrollIntoView({ behavior: 'smooth' })}
-              className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-8 py-4 rounded-full text-lg font-semibold transform hover:scale-105 transition-all duration-300 shadow-xl backdrop-blur-sm"
+              className="hidden sm:block bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-12 py-4 rounded-full text-lg font-bold transform hover:scale-110 transition-all duration-300 shadow-2xl hover:shadow-3xl backdrop-blur-sm border border-white/20"
+            >
+              Meet Our Friends
+            </button>
+            <button 
+              onClick={() => document.getElementById('breeds')?.scrollIntoView({ behavior: 'smooth' })}
+              className="sm:hidden bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-8 py-4 rounded-full text-lg font-semibold transform hover:scale-105 transition-all duration-300 shadow-xl backdrop-blur-sm"
             >
               Meet Our Friends
             </button>
             <Link
               to="/contact"
-              className="border-2 border-white/80 text-white hover:bg-white/80 hover:text-gray-900 px-8 py-4 rounded-full text-lg font-semibold transform hover:scale-105 transition-all duration-300 backdrop-blur-sm"
+              className="hidden sm:block px-10 py-4 rounded-full text-lg font-bold transform hover:scale-110 transition-all duration-300 border-2 backdrop-blur-sm shadow-lg hover:shadow-xl"
+              style={{
+                backgroundColor: '#FFB6D9',
+                color: '#1F2937',
+                borderColor: 'white'
+              }}
+            >
+              Get in Touch
+            </Link>
+            <Link
+              to="/contact"
+              className="sm:hidden px-5 py-2 rounded-3xl text-sm font-semibold transform hover:scale-105 transition-all duration-300 backdrop-blur-sm"
+              style={{
+                backgroundColor: '#FFB6D9',
+                color: '#1F2937',
+                border: '2px solid white'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#FFA0CC'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#FFB6D9'}
             >
               Get in Touch
             </Link>
@@ -382,12 +473,12 @@ export const Home = () => {
               Meet Our Adorable Friends
             </h2>
           </div>
-          <ImageMarquee />
+          <ImageMarquee images={marqueeImages} />
         </div>
       </section>
 
       {/* Why Choose Section - Removed Unknown Breeders */}
-      <section className="py-20 bg-gradient-to-br from-[#FFB5A7]/50 via-[#FFC0CB]/50 to-[#F4C2C2]/50 relative overflow-hidden backdrop-blur-sm">
+      <section className="py-8 bg-gradient-to-br from-[#FFB5A7]/50 via-[#FFC0CB]/50 to-[#F4C2C2]/50 relative overflow-hidden backdrop-blur-sm">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-10 left-10 text-6xl animate-bounce" style={{ animationDelay: '0s', animationDuration: '3s' }}>🐕</div>
           <div className="absolute top-40 right-20 text-4xl animate-bounce" style={{ animationDelay: '0.5s', animationDuration: '2.5s' }}>🐾</div>
@@ -451,7 +542,7 @@ export const Home = () => {
       </section>
 
       {/* Breeds Section - Original Colors with Low Opacity */}
-      <section id="breeds" className="py-20 bg-gradient-to-br from-[#FFC0CB]/50 via-[#F4C2C2]/50 to-[#E6B8D4]/50 relative overflow-hidden backdrop-blur-sm">
+      <section id="breeds" className="py-8 bg-gradient-to-br from-[#FFC0CB]/50 via-[#F4C2C2]/50 to-[#E6B8D4]/50 relative overflow-hidden backdrop-blur-sm">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-20 left-16 text-5xl animate-bounce" style={{ animationDelay: '0.3s', animationDuration: '3.5s' }}>🐕‍🦺</div>
           <div className="absolute top-32 right-24 text-4xl animate-bounce" style={{ animationDelay: '0.7s', animationDuration: '2.8s' }}>🐾</div>
@@ -468,7 +559,7 @@ export const Home = () => {
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {breeds.map((breed, index) => (
+            {breeds.map((breed) => (
               <div
                 key={breed.name}
                 className="group perspective-1000"
@@ -518,7 +609,7 @@ export const Home = () => {
       </section>
 
       {/* Instagram Feed Section */}
-      <section className="py-20 bg-gradient-to-br from-[#F4C2C2]/50 via-[#E6B8D4]/50 to-[#F5F5F5]/50 relative overflow-hidden backdrop-blur-sm">
+      <section className="py-0 bg-gradient-to-br from-[#F4C2C2]/50 via-[#E6B8D4]/50 to-[#F5F5F5]/50 relative overflow-hidden backdrop-blur-sm">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-16 left-20 text-4xl animate-bounce" style={{ animationDelay: '0.4s', animationDuration: '3.4s' }}>📸</div>
           <div className="absolute top-40 right-28 text-3xl animate-bounce" style={{ animationDelay: '0.8s', animationDuration: '2.9s' }}>🐾</div>
@@ -527,7 +618,7 @@ export const Home = () => {
           <div className="absolute top-1/2 left-1/2 text-3xl animate-bounce" style={{ animationDelay: '1.5s', animationDuration: '3s' }}>🐶</div>
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 text-section mb-16 tracking-wide drop-shadow-lg">
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 text-section mb-8 tracking-wide drop-shadow-lg">
             Follow Our <span className="text-orange-600">Journey</span>
           </h2>
           <InstagramGrid />

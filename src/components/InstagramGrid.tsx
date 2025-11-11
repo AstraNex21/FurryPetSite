@@ -63,7 +63,7 @@ const InstagramProfile = () => {
   return (
     <div className="w-full max-w-5xl mx-auto bg-white border border-gray-200 md:border-none md:shadow-sm">
       {/* Profile Header */}
-      <div className="p-4 md:p-8 md:px-16">
+      <div className="p-2 md:p-4 md:px-8">
         <div className="flex flex-col md:flex-row items-start md:items-start gap-4 md:gap-8">
           {/* Profile Picture */}
           <div className="flex-shrink-0">
