@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Shield, Heart, Award, Users, AlertTriangle, HelpCircle, ArrowDown, Menu, X, ChevronDown } from 'lucide-react';
+import { Shield, Heart, Award, Users, ArrowDown, Menu, X, ChevronDown } from 'lucide-react';
 import InstagramGrid from '../components/InstagramGrid';
 
 const breeds = [
@@ -311,8 +311,8 @@ export const Home = () => {
       {/* Navigation Bar */}
       <NavigationBar />
 
-      {/* Hero Section - Fixed spacing issue */}
-      <section className="relative h-screen overflow-hidden">
+      {/* Hero Section - Modified height and content */}
+      <section className="relative md:h-screen overflow-hidden">
         <div className="absolute inset-0">
           <img
             src="/HeroMob.png"
@@ -329,12 +329,8 @@ export const Home = () => {
 
         <div className="relative z-10 h-full flex flex-col items-center justify-center text-center text-white max-w-4xl mx-auto px-4">
           <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight tracking-wide text-hero">
-            Find Your
-            <span className="text-orange-300 block drop-shadow-lg">Furry Forever Friend</span>
+            FIND YOUR FURRY FRIEND
           </h1>
-          <p className="font-sans text-lg md:text-xl lg:text-2xl mb-8 font-medium tracking-wide max-w-2xl text-hero">
-            Discover love, loyalty, and endless joy with our carefully selected companions
-          </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button 
               onClick={() => document.getElementById('breeds')?.scrollIntoView({ behavior: 'smooth' })}
@@ -350,7 +346,7 @@ export const Home = () => {
             </Link>
           </div>
           
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+          <div className="hidden md:block absolute bottom-8 left-1/2 transform -translate-x-1/2">
             <button 
               onClick={() => document.getElementById('marquee-section')?.scrollIntoView({ behavior: 'smooth' })}
               className="text-white/80 hover:text-white transition-colors"
@@ -379,7 +375,7 @@ export const Home = () => {
         </div>
       </section>
 
-      {/* Why Choose Section - Original Colors with Low Opacity */}
+      {/* Why Choose Section - Removed Unknown Breeders */}
       <section className="py-20 bg-gradient-to-br from-[#FFB5A7]/50 via-[#FFC0CB]/50 to-[#F4C2C2]/50 relative overflow-hidden backdrop-blur-sm">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-10 left-10 text-6xl animate-bounce" style={{ animationDelay: '0s', animationDuration: '3s' }}>🐕</div>
@@ -396,8 +392,8 @@ export const Home = () => {
             Why Choose <span className="text-orange-600">FurryFriend</span>?
           </h2>
           
-          <div className="grid md:grid-cols-2 gap-12">
-            <div className="card-overlay p-8 rounded-3xl shadow-xl">
+          <div className="flex justify-center">
+            <div className="card-overlay p-8 rounded-3xl shadow-xl max-w-2xl">
               <div className="text-center mb-8">
                 <div className="bg-gradient-to-br from-orange-500 to-pink-500 p-4 rounded-full w-16 h-16 mx-auto mb-4 shadow-lg">
                   <Heart className="h-8 w-8 text-white fill-current" />
@@ -435,49 +431,6 @@ export const Home = () => {
                   <div>
                     <h4 className="font-semibold text-gray-900">Care Packages</h4>
                     <p className="text-gray-800">Breed-specific starter kits and resources</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-gradient-to-br from-gray-100/80 to-gray-200/80 p-8 rounded-3xl shadow-xl border-2 border-gray-300/50 backdrop-blur-sm">
-              <div className="text-center mb-8">
-                <div className="bg-gray-400 p-4 rounded-full w-16 h-16 mx-auto mb-4 shadow-lg">
-                  <AlertTriangle className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900">Unknown Breeders</h3>
-              </div>
-              
-              <div className="space-y-6">
-                <div className="flex items-center space-x-4 bg-white/60 p-4 rounded-xl">
-                  <HelpCircle className="h-6 w-6 text-gray-600 flex-shrink-0" />
-                  <div>
-                    <h4 className="font-semibold text-gray-900">Unverified Health</h4>
-                    <p className="text-gray-800">No guarantee of medical history or health status</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center space-x-4 bg-white/60 p-4 rounded-xl">
-                  <HelpCircle className="h-6 w-6 text-gray-600 flex-shrink-0" />
-                  <div>
-                    <h4 className="font-semibold text-gray-900">Questionable Lineage</h4>
-                    <p className="text-gray-800">Unclear breeding practices and genetics</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center space-x-4 bg-white/60 p-4 rounded-xl">
-                  <HelpCircle className="h-6 w-6 text-gray-600 flex-shrink-0" />
-                  <div>
-                    <h4 className="font-semibold text-gray-900">Limited Support</h4>
-                    <p className="text-gray-800">Little to no ongoing guidance or assistance</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center space-x-4 bg-white/60 p-4 rounded-xl">
-                  <HelpCircle className="h-6 w-6 text-gray-600 flex-shrink-0" />
-                  <div>
-                    <h4 className="font-semibold text-gray-900">No Resources</h4>
-                    <p className="text-gray-800">You're on your own for care and training</p>
                   </div>
                 </div>
               </div>
@@ -567,61 +520,6 @@ export const Home = () => {
             Follow Our <span className="text-orange-600">Journey</span>
           </h2>
           <InstagramGrid />
-        </div>
-      </section>
-
-      {/* Testimonials Section - Original Colors with Low Opacity */}
-      <section className="py-20 bg-gradient-to-br from-[#E6B8D4]/50 via-[#F5F5F5]/50 to-white/70 relative overflow-hidden backdrop-blur-sm">
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-16 left-20 text-4xl animate-bounce" style={{ animationDelay: '0.4s', animationDuration: '3.4s' }}>🐕</div>
-          <div className="absolute top-40 right-28 text-3xl animate-bounce" style={{ animationDelay: '0.8s', animationDuration: '2.9s' }}>🐾</div>
-          <div className="absolute bottom-40 left-1/4 text-5xl animate-bounce" style={{ animationDelay: '1.2s', animationDuration: '3.6s' }}>🐶</div>
-          <div className="absolute bottom-24 right-20 text-4xl animate-pulse" style={{ animationDuration: '2.3s' }}>❤️</div>
-          <div className="absolute top-1/2 left-1/2 text-3xl animate-bounce" style={{ animationDelay: '1.5s', animationDuration: '3s' }}>🏠</div>
-        </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 text-section mb-16 tracking-wide drop-shadow-lg">
-            Happy <span className="text-orange-600">Families</span>
-          </h2>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                name: "Priya & Bruno",
-                text: "FurryFriend helped us find perfect addition to our family. Bruno has brought so much joy to our home!",
-                image: "/marquee/maltfam.JPEG"
-              },
-              {
-                name: "Rahul & Luna",
-                text: "The support we received was incredible. Luna settled in beautifully and our kids absolutely adore her!",
-                image: "/marquee/Petfam.JPEG"
-              },
-              {
-                name: "Anjali & Buddy",
-                text: "Professional, caring, and so knowledgeable. Buddy has become an inseparable part of our family!",
-                image: "/marquee/Frenchmastfamily1.JPEG"
-              }
-            ].map((testimonial, index) => (
-              <div key={index} className="card-overlay p-6 rounded-2xl shadow-xl hover:scale-105 transition-transform duration-300">
-                <div className="flex items-center space-x-4 mb-4">
-                  <img
-                    src={testimonial.image}
-                    alt={testimonial.name}
-                    className="w-16 h-16 rounded-full object-cover border-2 border-orange-400 shadow-md"
-                  />
-                  <div>
-                    <h4 className="font-semibold text-gray-900">{testimonial.name}</h4>
-                    <div className="flex space-x-1 text-yellow-400">
-                      {[...Array(5)].map((_, i) => (
-                        <span key={i}>⭐</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <p className="text-gray-800 italic">"{testimonial.text}"</p>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
     </div>
