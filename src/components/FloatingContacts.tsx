@@ -33,3 +33,5 @@ return (
       >
         <span className="font-medium tracking-wider text-sm">GET IN TOUCH</span>
       </button>
+    </>
+  );
