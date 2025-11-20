@@ -8,6 +8,7 @@ interface Breed {
   name: string;
   slug: string;
   image: string;
+  image2?: string;
   temperament: string[];
   traits: string[];
 }
@@ -18,28 +19,28 @@ const breeds: Breed[] = [
   {
     name: 'French Mastiff',
     slug: 'french-mastiff',
-    image: '/FM/FMX.jpg',
+    image: '/FM/BreedCardFM.png',
     temperament: ['Loyal', 'Gentle', 'Protective'],
     traits: ['family-friendly', 'protective', 'calm']
   },
   {
     name: 'Maltese',
     slug: 'maltese',
-    image: '/Malt/maltcute.jpg',
+    image: '/Malt/BreedCardMalt.png',
     temperament: ['Playful', 'Gentle', 'Affectionate'],
     traits: ['hypoallergenic', 'small', 'playful']
   },
   {
     name: 'Toy Poodle',
     slug: 'toy-poodle',
-    image: '/TP/pexels-valeriya-14095707 (1).jpg',
+    image: '/TP/BreedCardTP.png',
     temperament: ['Intelligent', 'Active', 'Trainable'],
     traits: ['hypoallergenic', 'smart', 'active']
   },
   {
     name: 'Yorkshire Terrier',
     slug: 'yorkshire-terrier',
-    image: '/YT/YTAesthetic.jpg',
+    image: '/YT/BreedCardYT.png',
     temperament: ['Bold', 'Confident', 'Courageous'],
     traits: ['small', 'brave', 'energetic']
   }
@@ -303,6 +304,8 @@ const ImageMarquee: React.FC<ImageMarqueeProps> = ({ images }) => {
 
 export const Home: React.FC = () => {
   const [showHeading, setShowHeading] = useState(false);
+  const [showQuoteForm, setShowQuoteForm] = useState(false); // Added this state for the new CTA section
+  const ctaVideoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -314,6 +317,38 @@ export const Home: React.FC = () => {
     window.addEventListener('scroll', handleScroll, { once: false });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [showHeading]);
+
+  // Play/pause CTA video when it scrolls into/out of view
+  useEffect(() => {
+    const videoEl = ctaVideoRef.current;
+    if (!videoEl) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // Attempt to play; catch any promise rejection
+          const playPromise = videoEl.play();
+          if (playPromise && typeof playPromise.then === 'function') {
+            playPromise.catch(() => {
+              // Autoplay may be blocked; leaving muted ensures higher success rates
+            });
+          }
+        } else {
+          try {
+            videoEl.pause();
+          } catch (e) {
+            // ignore
+          }
+        }
+      });
+    }, { threshold: 0.5 });
+
+    observer.observe(videoEl);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   return (
     <div className="min-h-screen">
@@ -567,51 +602,137 @@ export const Home: React.FC = () => {
                 className="group perspective-1000"
               >
                 <Link to={`/breed/${breed.slug}`} className="block">
-                <div className="card-overlay rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transform hover:scale-105 hover:-translate-y-2 hover:rotate-1 transition-all duration-500 perspective-1000">
+                  {/* Outer frame - orange pastel gradient frame */}
+                  <div className="p-1 rounded-2xl md:rounded-3xl bg-gradient-to-br from-orange-200 to-orange-100 shadow-lg">
+                    <div className="card-overlay rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl border-2 border-orange-300/40 hover:border-orange-400/60 transform hover:scale-105 hover:-translate-y-2 transition-all duration-500 perspective-1000 bg-gradient-to-br from-orange-50/30 to-orange-100/20 backdrop-blur-sm">
                   <div className="relative overflow-hidden">
-                    <div className="aspect-[7/9] w-full">
-                      <img
-                        src={breed.image}
-                        alt={`${breed.name} - Premium dog breed for adoption with health guarantee`}
-                        className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
-                      />
+                    {/* Image layout: if two images provided show left-right split, otherwise show single centered image */}
+                    <div className="w-full aspect-[3/4] md:aspect-[4/5]">
+                      {breed.image2 ? (
+                        <div className="flex flex-row gap-1 h-full">
+                          {/* Left Image with Frame */}
+                          <div className="w-1/2 h-full p-0.5 bg-gradient-to-br from-orange-200 to-orange-100 rounded-lg">
+                            <div className="w-full h-full overflow-hidden relative bg-gradient-to-b from-gray-100 to-gray-50 rounded-lg">
+                              {/* blurred fill background to cover any empty space */}
+                              <div
+                                className="absolute inset-0 bg-center bg-cover filter blur-lg opacity-50"
+                                style={{ backgroundImage: `url(${breed.image})` }}
+                              />
+                              <img
+                                src={breed.image}
+                                alt={`${breed.name} photo 1`}
+                                className="relative w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500 z-10"
+                              />
+                            </div>
+                          </div>
+
+                          {/* Right Image with Frame */}
+                          <div className="w-1/2 h-full p-0.5 bg-gradient-to-br from-orange-200 to-orange-100 rounded-lg">
+                            <div className="w-full h-full overflow-hidden relative bg-gradient-to-b from-gray-100 to-gray-50 rounded-lg">
+                              <div
+                                className="absolute inset-0 bg-center bg-cover filter blur-lg opacity-50"
+                                style={{ backgroundImage: `url(${breed.image2 ?? breed.image})` }}
+                              />
+                              <img
+                                src={breed.image2 ?? breed.image}
+                                alt={`${breed.name} photo 2`}
+                                className="relative w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500 z-10"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="w-full h-full p-0.5 bg-gradient-to-br from-orange-200 to-orange-100 rounded-lg">
+                          <div className="w-full h-full overflow-hidden relative bg-gradient-to-b from-gray-100 to-gray-50 rounded-lg flex items-center justify-center">
+                            <div
+                              className="absolute inset-0 bg-center bg-cover filter blur-lg opacity-50"
+                              style={{ backgroundImage: `url(${breed.image})` }}
+                            />
+                            <img
+                              src={breed.image}
+                              alt={`${breed.name}`}
+                              className="relative max-w-full max-h-full object-contain object-center transition-transform duration-500 z-10"
+                            />
+                          </div>
+                        </div>
+                      )}
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
                   
-                  <div className="p-6">
-                    <h3 className="font-display text-xl font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-all tracking-wide">
+                  <div className="p-3 md:p-4 md:p-6">
+                    <h3 className="font-display text-base md:text-lg md:text-xl font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-all tracking-wide">
                       {breed.name}
                     </h3>
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {breed.temperament.slice(0, 2).map((trait) => (
-                        <span
-                          key={trait}
-                          className="px-3 py-1 bg-gradient-to-r from-orange-100 to-pink-100 text-gray-800 text-sm rounded-full font-medium"
-                        >
-                          {trait}
-                        </span>
-                      ))}
-                    </div>
-                    <div className="flex items-center space-x-2 text-sm text-gray-700">
-                      {breed.traits.includes('family-friendly') && <span>👨‍👩‍👧‍👦</span>}
-                      {breed.traits.includes('hypoallergenic') && <span>🌿</span>}
-                      {breed.traits.includes('small') && <span>🐕</span>}
-                      {breed.traits.includes('playful') && <span>⚽</span>}
-                      {breed.traits.includes('protective') && <span>🛡️</span>}
-                      {breed.traits.includes('smart') && <span>🧠</span>}
+                    <button
+                      onClick={() => document.getElementById(`breed-${breed.slug}`)?.scrollIntoView({ behavior: 'smooth' })}
+                      className="mt-3 md:mt-4 w-full bg-gradient-to-r from-orange-400 to-orange-300 hover:from-orange-500 hover:to-orange-400 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 text-sm"
+                    >
+                      Learn More
+                    </button>
+                  </div>
                     </div>
                   </div>
-                </div>
                 </Link>
               </div>
             ))}
           </div>
         </div>
       </section>
+      
+      {/* Why Choose Us Title Section */}
+<section className="py-4 bg-gradient-to-br from-[#FF66AA]/50 via-[#FF77BB]/50 to-[#FF88CC]/50 relative overflow-hidden">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 text-section mb-4 tracking-wide drop-shadow-lg">
+      Why Choose <span className="text-orange-600">Us</span>?
+    </h2>
+  </div>
+</section>
+      {/* CTA Video Section - Full width video with no text */}
+      <section id="cta-video" className="py-0 bg-gradient-to-br from-[#FFF5F5]/30 via-[#FFF0F2]/30 to-[#FFF8F6]/30 relative overflow-hidden">
+        <video
+          ref={ctaVideoRef}
+          src="/CTAvid.mp4"
+          muted
+          loop
+          playsInline
+          autoPlay
+          className="w-full h-auto"
+        />
+      </section>
+
+      {/* Find Friend CTA Section */}
+      <section className="py-0 bg-gradient-to-br from-[#FFB5A7]/30 via-[#FFC0CB]/30 to-[#F5F5F5]/30 relative overflow-hidden">
+        <div className="w-full">
+          {/* Title above image */}
+          <div className="text-center py-6 sm:py-8 md:py-12">
+            <h2 className="font-display text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 drop-shadow-lg">
+              Get in Touch
+            </h2>
+          </div>
+          
+          {/* Image with button overlay */}
+          <div className="relative w-full">
+            <img 
+              src="/FindFriendCTA.png" 
+              alt="Find your perfect friend" 
+              className="w-full h-auto object-cover"
+              style={{ width: '100%', height: 'auto', display: 'block' }}
+            />
+            <div className="absolute inset-0 flex items-start justify-center pt-4 sm:pt-6 md:pt-8">
+              <button 
+                onClick={() => setShowQuoteForm(true)}
+                className="font-display bg-gradient-to-r from-pink-400 to-pink-500 hover:from-pink-500 hover:to-pink-600 text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full text-base sm:text-lg md:text-xl font-semibold transform hover:scale-105 transition-all shadow-xl border-2 border-white/30"
+              >
+                Contact us to get your best friend
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Instagram Feed Section */}
-      <section className="py-0 bg-gradient-to-br from-[#F4C2C2]/50 via-[#E6B8D4]/50 to-[#F5F5F5]/50 relative overflow-hidden backdrop-blur-sm">
+      <section className="py-4 bg-gradient-to-br from-[#F4C2C2]/50 via-[#E6B8D4]/50 to-[#F5F5F5]/50 relative overflow-hidden backdrop-blur-sm">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-16 left-20 text-4xl animate-bounce" style={{ animationDelay: '0.4s', animationDuration: '3.4s' }}>📸</div>
           <div className="absolute top-40 right-28 text-3xl animate-bounce" style={{ animationDelay: '0.8s', animationDuration: '2.9s' }}>🐾</div>

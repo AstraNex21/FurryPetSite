@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { Heart, Shield, Award, Users, Calendar, Weight, Activity, CheckCircle, Star, MapPin, Phone, Mail, Menu, X, ChevronDown } from 'lucide-react';
+import { Heart, Shield, Award, Users, Calendar, Weight, Star, MapPin, Phone, Mail, Menu, X, ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface BreedDetails {
@@ -210,7 +210,7 @@ const NavigationBar = () => {
     setIsBreedsDropdownOpen(!isBreedsDropdownOpen);
   };
 
-  const handleBreedClick = (slug) => {
+  const handleBreedClick = (slug: string) => {
     navigate(`/breed/${slug}`);
     setIsBreedsDropdownOpen(false);
     setIsMobileMenuOpen(false);
@@ -331,7 +331,14 @@ export const BreedDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const [breed, setBreed] = useState<BreedDetails | null>(null);
   const [selectedImage, setSelectedImage] = useState(0);
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [showQuoteForm, setShowQuoteForm] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: ''
+  });
+  const ctaVideoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
     if (slug && breedDatabase[slug]) {
@@ -339,6 +346,57 @@ export const BreedDetail: React.FC = () => {
     }
     window.scrollTo(0, 0);
   }, [slug]);
+
+  // Play/pause CTA video when it scrolls into/out of view
+  useEffect(() => {
+    const videoEl = ctaVideoRef.current;
+    if (!videoEl) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // Attempt to play; catch any promise rejection
+          const playPromise = videoEl.play();
+          if (playPromise && typeof playPromise.then === 'function') {
+            playPromise.catch(() => {
+              // Autoplay may be blocked; leaving muted ensures higher success rates
+            });
+          }
+        } else {
+          try {
+            videoEl.pause();
+          } catch (e) {
+            // ignore
+          }
+        }
+      });
+    }, { threshold: 0.5 });
+
+    observer.observe(videoEl);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle form submission - you can send this to your backend
+    console.log('Quote request submitted:', { breed: breed?.name, ...formData });
+    // Reset form and close modal
+    setFormData({ name: '', email: '', phone: '', message: '' });
+    setShowQuoteForm(false);
+    // Optionally show a success message
+    alert('Thank you for your inquiry! We will contact you soon.');
+  };
 
   if (!breed) {
     return (
@@ -373,6 +431,59 @@ export const BreedDetail: React.FC = () => {
                 <h1 className="font-display text-3xl sm:text-4xl font-bold text-gray-800 mb-2">
                   {breed.name}
                 </h1>
+                
+                {/* Key Traits Icons and Emojis */}
+                <div className="flex items-center justify-center flex-wrap gap-3 mb-4 px-2">
+                  {breed.traits.includes('family-friendly') && (
+                    <div className="flex flex-col items-center gap-1">
+                      <span className="text-2xl">👨‍👩‍👧‍👦</span>
+                      <span className="text-xs text-gray-600">Family</span>
+                    </div>
+                  )}
+                  {breed.traits.includes('protective') && (
+                    <div className="flex flex-col items-center gap-1">
+                      <span className="text-2xl">🛡️</span>
+                      <span className="text-xs text-gray-600">Protective</span>
+                    </div>
+                  )}
+                  {breed.traits.includes('playful') && (
+                    <div className="flex flex-col items-center gap-1">
+                      <span className="text-2xl">⚽</span>
+                      <span className="text-xs text-gray-600">Playful</span>
+                    </div>
+                  )}
+                  {breed.traits.includes('hypoallergenic') && (
+                    <div className="flex flex-col items-center gap-1">
+                      <span className="text-2xl">🌿</span>
+                      <span className="text-xs text-gray-600">Hypoallergenic</span>
+                    </div>
+                  )}
+                  {breed.traits.includes('small') && (
+                    <div className="flex flex-col items-center gap-1">
+                      <span className="text-2xl">🐕</span>
+                      <span className="text-xs text-gray-600">Small</span>
+                    </div>
+                  )}
+                  {breed.traits.includes('smart') && (
+                    <div className="flex flex-col items-center gap-1">
+                      <span className="text-2xl">🧠</span>
+                      <span className="text-xs text-gray-600">Smart</span>
+                    </div>
+                  )}
+                  {breed.traits.includes('calm') && (
+                    <div className="flex flex-col items-center gap-1">
+                      <span className="text-2xl">😌</span>
+                      <span className="text-xs text-gray-600">Calm</span>
+                    </div>
+                  )}
+                  {breed.traits.includes('energetic') && (
+                    <div className="flex flex-col items-center gap-1">
+                      <span className="text-2xl">⚡</span>
+                      <span className="text-xs text-gray-600">Energetic</span>
+                    </div>
+                  )}
+                </div>
+                
                 <div className="flex items-center justify-center space-x-4 text-gray-600 text-sm">
                   <span className="flex items-center">
                     <Star className="h-4 w-4 text-[#E97451] fill-current" />
@@ -448,9 +559,62 @@ export const BreedDetail: React.FC = () => {
               {/* Breed Information - Desktop Only */}
               <div className="hidden lg:block space-y-6">
                 <div>
-                  <h1 className="font-display text-4xl md:text-5xl font-bold text-gray-800 mb-2">
+                  <h1 className="font-display text-4xl md:text-5xl font-bold text-gray-800 mb-3">
                     {breed.name}
                   </h1>
+                  
+                  {/* Key Traits Icons and Emojis - Desktop */}
+                  <div className="flex items-center flex-wrap gap-4 mb-4">
+                    {breed.traits.includes('family-friendly') && (
+                      <div className="flex flex-col items-center gap-1">
+                        <span className="text-3xl">👨‍👩‍👧‍👦</span>
+                        <span className="text-sm text-gray-600">Family</span>
+                      </div>
+                    )}
+                    {breed.traits.includes('protective') && (
+                      <div className="flex flex-col items-center gap-1">
+                        <span className="text-3xl">🛡️</span>
+                        <span className="text-sm text-gray-600">Protective</span>
+                      </div>
+                    )}
+                    {breed.traits.includes('playful') && (
+                      <div className="flex flex-col items-center gap-1">
+                        <span className="text-3xl">⚽</span>
+                        <span className="text-sm text-gray-600">Playful</span>
+                      </div>
+                    )}
+                    {breed.traits.includes('hypoallergenic') && (
+                      <div className="flex flex-col items-center gap-1">
+                        <span className="text-3xl">🌿</span>
+                        <span className="text-sm text-gray-600">Hypoallergenic</span>
+                      </div>
+                    )}
+                    {breed.traits.includes('small') && (
+                      <div className="flex flex-col items-center gap-1">
+                        <span className="text-3xl">🐕</span>
+                        <span className="text-sm text-gray-600">Small</span>
+                      </div>
+                    )}
+                    {breed.traits.includes('smart') && (
+                      <div className="flex flex-col items-center gap-1">
+                        <span className="text-3xl">🧠</span>
+                        <span className="text-sm text-gray-600">Smart</span>
+                      </div>
+                    )}
+                    {breed.traits.includes('calm') && (
+                      <div className="flex flex-col items-center gap-1">
+                        <span className="text-3xl">😌</span>
+                        <span className="text-sm text-gray-600">Calm</span>
+                      </div>
+                    )}
+                    {breed.traits.includes('energetic') && (
+                      <div className="flex flex-col items-center gap-1">
+                        <span className="text-3xl">⚡</span>
+                        <span className="text-sm text-gray-600">Energetic</span>
+                      </div>
+                    )}
+                  </div>
+                  
                   <div className="flex items-center space-x-4 text-gray-600">
                     <span className="flex items-center">
                       <Star className="h-4 w-4 text-[#E97451] fill-current" />
@@ -488,25 +652,12 @@ export const BreedDetail: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Traits */}
-                <div>
-                  <h3 className="font-semibold text-gray-800 mb-3">Key Traits</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {breed.traits.map((trait) => (
-                      <span
-                        key={trait}
-                        className="px-3 py-1 bg-[#FFB5A7]/30 text-gray-800 rounded-full text-sm"
-                      >
-                        {trait}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
                 {/* CTA */}
                 <div className="space-y-3 pt-4">
-                  <button className="bg-[#E97451] hover:bg-[#E97451]/90 text-white px-6 py-3 rounded-full font-semibold transform hover:scale-105 transition-all w-full">
-                    Learn More About Adoption
+                  <button 
+                    onClick={() => setShowQuoteForm(true)}
+                    className="bg-[#E97451] hover:bg-[#E97451]/90 text-white px-6 py-3 rounded-full font-semibold transform hover:scale-105 transition-all w-full">
+                    Request Quote
                   </button>
                   <p className="text-sm text-gray-600 text-center">Health guarantee & lifetime support included</p>
                 </div>
@@ -515,25 +666,12 @@ export const BreedDetail: React.FC = () => {
 
             {/* Mobile Traits and CTA */}
             <div className="lg:hidden space-y-4 px-2">
-              {/* Traits */}
-              <div>
-                <h3 className="font-semibold text-gray-800 mb-3 text-center">Key Traits</h3>
-                <div className="flex flex-wrap gap-2 justify-center">
-                  {breed.traits.map((trait) => (
-                    <span
-                      key={trait}
-                      className="px-3 py-1 bg-[#FFB5A7]/30 text-gray-800 rounded-full text-sm"
-                    >
-                      {trait}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
               {/* CTA */}
               <div className="space-y-3 pt-2">
-                <button className="bg-[#E97451] hover:bg-[#E97451]/90 text-white px-6 py-3 rounded-full font-semibold transform hover:scale-105 transition-all w-full">
-                  Learn More About Adoption
+                <button 
+                  onClick={() => setShowQuoteForm(true)}
+                  className="bg-[#E97451] hover:bg-[#E97451]/90 text-white px-6 py-3 rounded-full font-semibold transform hover:scale-105 transition-all w-full">
+                  Request Quote
                 </button>
                 <p className="text-sm text-gray-600 text-center">Health guarantee & lifetime support included</p>
               </div>
@@ -639,171 +777,158 @@ export const BreedDetail: React.FC = () => {
         </div>
       </section>
 
-      {/* Detailed Information Tabs - Mobile Optimized */}
-      <section className="py-8 sm:py-12 bg-white">
+      {/* CTA Video Section - Replacing Why Choose Us */}
+      <section id="cta-video" className="py-4 bg-gradient-to-br from-[#FF66AA]/50 via-[#FF77BB]/50 to-[#FF88CC]/50 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-            {/* Temperament */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="bg-gradient-to-br from-[#FFB5A7]/20 to-white p-4 sm:p-6 rounded-2xl"
-            >
-              <div className="flex items-center space-x-2 sm:space-x-3 mb-3 sm:mb-4">
-                <Heart className="h-5 w-5 sm:h-6 sm:w-6 text-[#E97451]" />
-                <h3 className="font-display text-lg sm:text-xl font-bold text-gray-800">Temperament</h3>
-              </div>
-              <div className="space-y-2">
-                {breed.temperament.map((temp) => (
-                  <div key={temp} className="flex items-center space-x-2">
-                    <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-[#E97451] flex-shrink-0" />
-                    <span className="text-gray-700 text-sm sm:text-base">{temp}</span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Health Information */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="bg-gradient-to-br from-[#F4C2C2]/20 to-white p-4 sm:p-6 rounded-2xl"
-            >
-              <div className="flex items-center space-x-2 sm:space-x-3 mb-3 sm:mb-4">
-                <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-[#E97451]" />
-                <h3 className="font-display text-lg sm:text-xl font-bold text-gray-800">Health Care</h3>
-              </div>
-              <div className="space-y-3">
-                <div>
-                  <p className="text-xs sm:text-sm text-gray-600 mb-1">Vet Checkups</p>
-                  <p className="font-medium text-gray-800 text-sm sm:text-base">{breed.health.vetCheckups}</p>
-                </div>
-                <div>
-                  <p className="text-xs sm:text-sm text-gray-600 mb-1">Vaccinations</p>
-                  <div className="flex flex-wrap gap-1">
-                    {breed.health.vaccinations.map((vac) => (
-                      <span key={vac} className="text-xs bg-white px-2 py-1 rounded">
-                        {vac}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Care Requirements */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="bg-gradient-to-br from-[#E6B8D4]/20 to-white p-4 sm:p-6 rounded-2xl"
-            >
-              <div className="flex items-center space-x-2 sm:space-x-3 mb-3 sm:mb-4">
-                <Activity className="h-5 w-5 sm:h-6 sm:w-6 text-[#E97451]" />
-                <h3 className="font-display text-lg sm:text-xl font-bold text-gray-800">Care Needs</h3>
-              </div>
-              <div className="space-y-2 text-xs sm:text-sm">
-                <div>
-                  <span className="text-gray-600">Grooming:</span>
-                  <p className="text-gray-800">{breed.care.grooming}</p>
-                </div>
-                <div>
-                  <span className="text-gray-600">Exercise:</span>
-                  <p className="text-gray-800">{breed.care.exercise}</p>
-                </div>
-                <div>
-                  <span className="text-gray-600">Training:</span>
-                  <p className="text-gray-800">{breed.care.training}</p>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Why Choose Us - Mobile Optimized */}
-      <section className="py-8 sm:py-16 bg-gradient-to-br from-[#FFB5A7] to-[#F4C2C2] relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 text-4xl sm:text-6xl animate-bounce" style={{ animationDelay: '0s', animationDuration: '3s' }}>🐕</div>
-          <div className="absolute top-40 right-20 text-3xl sm:text-4xl animate-bounce" style={{ animationDelay: '0.5s', animationDuration: '2.5s' }}>🐾</div>
-          <div className="absolute bottom-20 left-1/3 text-4xl sm:text-5xl animate-bounce" style={{ animationDelay: '1.5s', animationDuration: '2.8s' }}>🐶</div>
-          <div className="absolute bottom-40 right-10 text-2xl sm:text-3xl animate-pulse" style={{ animationDuration: '2s' }}>❤️</div>
-        </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-8 sm:mb-12">
-            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3 sm:mb-4">
-              Why Choose <span className="text-[#E97451]">FurryFriend</span>?
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto text-sm sm:text-base px-4">
-              We're committed to connecting you with healthy, happy puppies from trusted breeders
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {[
-              { icon: Shield, title: 'Health Guaranteed', desc: 'Comprehensive health checks' },
-              { icon: Award, title: 'Certified Breeders', desc: 'Licensed, reputable partners' },
-              { icon: Users, title: 'Lifetime Support', desc: 'Ongoing guidance' },
-              { icon: Heart, title: 'Happy Puppies', desc: 'Raised with love' }
-            ].map((feature, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="text-center"
-              >
-                <div className="bg-[#E97451] p-3 sm:p-4 rounded-full w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4">
-                  <feature.icon className="h-5 w-5 sm:h-8 sm:w-8 text-white mx-auto" />
-                </div>
-                <h3 className="font-semibold text-gray-800 mb-1 sm:mb-2 text-sm sm:text-base">{feature.title}</h3>
-                <p className="text-xs sm:text-sm text-gray-600 px-2">{feature.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Contact CTA - Mobile Optimized */}
-      <section className="py-8 sm:py-16 bg-gradient-to-r from-[#E97451] to-[#FFA07A]">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4">
-            Ready to Meet Your New Best Friend?
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 text-section mb-4 tracking-wide drop-shadow-lg">
+            Why Choose <span className="text-orange-600">Us</span>?
           </h2>
-          <p className="text-white/90 mb-6 sm:mb-8 text-sm sm:text-base sm:text-lg px-4">
-            Contact us today to schedule a visit or learn more about {breed.name}
-          </p>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
-            <div className="bg-white/20 backdrop-blur-sm p-3 sm:p-4 rounded-xl">
-              <Phone className="h-5 w-5 sm:h-6 sm:w-6 text-white mx-auto mb-2" />
-              <p className="text-white font-semibold text-sm sm:text-base">Call Us</p>
-              <p className="text-white/90 text-xs sm:text-sm">(555) 123-4567</p>
-            </div>
-            <div className="bg-white/20 backdrop-blur-sm p-3 sm:p-4 rounded-xl">
-              <Mail className="h-5 w-5 sm:h-6 sm:w-6 text-white mx-auto mb-2" />
-              <p className="text-white font-semibold text-sm sm:text-base">Email</p>
-              <p className="text-white/90 text-xs sm:text-sm">hello@furryfriend.com</p>
-            </div>
-            <div className="bg-white/20 backdrop-blur-sm p-3 sm:p-4 rounded-xl">
-              <MapPin className="h-5 w-5 sm:h-6 sm:w-6 text-white mx-auto mb-2" />
-              <p className="text-white font-semibold text-sm sm:text-base">Visit</p>
-              <p className="text-white/90 text-xs sm:text-sm">123 Pet Street, City</p>
-            </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-            <button className="bg-white text-[#E97451] px-6 sm:px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors text-sm sm:text-base">
-              Schedule Visit
-            </button>
-            <button className="border-2 border-white text-white px-6 sm:px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-[#E97451] transition-all text-sm sm:text-base">
-              Ask Questions
-            </button>
-          </div>
         </div>
+        <video
+          ref={ctaVideoRef}
+          src="/CTAvid.mp4"
+          muted
+          loop
+          playsInline
+          autoPlay
+          className="w-full h-auto"
+        />
       </section>
+
+{/* Find Friend CTA Section */}
+<section className="py-0 bg-gradient-to-br from-[#FFB5A7]/30 via-[#FFC0CB]/30 to-[#F5F5F5]/30 relative overflow-hidden">
+  <div className="w-full">
+    {/* Title above image */}
+    <div className="text-center py-6 sm:py-8 md:py-12">
+      <h2 className="font-display text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 drop-shadow-lg">
+        Get in Touch
+      </h2>
+    </div>
+    
+    {/* Image with button overlay */}
+    <div className="relative w-full">
+      <img 
+        src="/FindFriendCTA.png" 
+        alt="Find your perfect friend" 
+        className="w-full h-auto object-cover"
+        style={{ width: '100%', height: 'auto', display: 'block' }}
+      />
+      <div className="absolute inset-0 flex items-start justify-center pt-4 sm:pt-6 md:pt-8">
+        <button 
+          onClick={() => setShowQuoteForm(true)}
+          className="font-display bg-gradient-to-r from-pink-400 to-pink-500 hover:from-pink-500 hover:to-pink-600 text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full text-base sm:text-lg md:text-xl font-semibold transform hover:scale-105 transition-all shadow-xl border-2 border-white/30"
+        >
+          Contact us to get your best friend
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+      {/* Quote Request Modal */}
+      {showQuoteForm && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 sm:p-8"
+          >
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="font-display text-2xl font-bold text-gray-800">
+                Request Quote
+              </h2>
+              <button
+                onClick={() => setShowQuoteForm(false)}
+                className="text-gray-500 hover:text-gray-700 transition-colors"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+
+            <p className="text-gray-600 mb-6">
+              Interested in {breed?.name}? Fill out form below and we'll get back to you with a quote.
+            </p>
+
+            <form onSubmit={handleFormSubmit} className="space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Your Name
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleFormChange}
+                  required
+                  className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-[#E97451] transition-colors"
+                  placeholder="John Doe"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleFormChange}
+                  required
+                  className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-[#E97451] transition-colors"
+                  placeholder="john@example.com"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Phone Number
+                </label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleFormChange}
+                  required
+                  className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-[#E97451] transition-colors"
+                  placeholder="(555) 123-4567"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Message (Optional)
+                </label>
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleFormChange}
+                  rows={4}
+                  className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-[#E97451] transition-colors resize-none"
+                  placeholder="Tell us more about what you're looking for..."
+                />
+              </div>
+
+              <div className="flex gap-3 pt-4">
+                <button
+                  type="submit"
+                  className="flex-1 bg-[#E97451] hover:bg-[#E97451]/90 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
+                >
+                  Submit Request
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowQuoteForm(false)}
+                  className="flex-1 border-2 border-gray-200 text-gray-700 hover:bg-gray-50 font-semibold py-2 px-4 rounded-lg transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 };
