@@ -70,14 +70,14 @@ const breedDatabase: Record<string, BreedDetails> = {
     goodWith: ['Families', 'Children', 'Other Pets'],
     health: {
       commonIssues: ['Hip Dysplasia', 'Heart Conditions', 'Bloat'],
-      vetCheckups: 'Twice yearly recommended',
+      vetCheckups: 'Twice yearly, heart disease & joint screening',
       vaccinations: ['DHPP', 'Rabies', 'Bordetella']
     },
     care: {
-      grooming: 'Weekly brushing, occasional bathing',
-      exercise: 'Moderate daily walks',
+      grooming: 'Weekly brushing, clean face wrinkles, nail trimming every 3-4 weeks',
+      exercise: 'Moderate daily walks, avoid heat exposure',
       training: 'Early socialization and obedience training',
-      nutrition: 'High-quality large breed formula'
+      nutrition: 'High-quality large breed formula, weight control'
     }
   },
   'maltese': {
@@ -118,14 +118,14 @@ const breedDatabase: Record<string, BreedDetails> = {
     goodWith: ['Families', 'Seniors', 'Apartments'],
     health: {
       commonIssues: ['Dental Issues', 'Eye Problems', 'Patellar Luxation'],
-      vetCheckups: 'Yearly recommended',
+      vetCheckups: 'Yearly, monitor respiratory & digestive health',
       vaccinations: ['DHPP', 'Rabies', 'Influenza']
     },
     care: {
-      grooming: 'Daily brushing, professional grooming monthly',
-      exercise: 'Indoor play, short walks',
+      grooming: 'Daily brushing, tear-stain cleaning, bath every 2-3 weeks, professional grooming',
+      exercise: 'Gentle exercise suitable for small size',
       training: 'Positive reinforcement, house training',
-      nutrition: 'Small breed kibble, portion control'
+      nutrition: 'High-quality small breed formula, stable diet'
     }
   },
   'toy-poodle': {
@@ -161,14 +161,14 @@ const breedDatabase: Record<string, BreedDetails> = {
     goodWith: ['Families', 'Allergy Sufferers', 'Apartments'],
     health: {
       commonIssues: ['Progressive Retinal Atrophy', 'Legg-Calve-Perthes', 'Epilepsy'],
-      vetCheckups: 'Yearly recommended',
+      vetCheckups: 'Yearly check for eye disorders & patellar luxation',
       vaccinations: ['DHPP', 'Rabies', 'Influenza']
     },
     care: {
-      grooming: 'Professional grooming every 4-6 weeks',
-      exercise: 'Daily walks, mental stimulation',
+      grooming: 'Professional grooming every 4-6 weeks, regular brushing, ear cleaning',
+      exercise: 'Daily walks, mental stimulation, healthy weight management',
       training: 'Advanced obedience, agility training',
-      nutrition: 'Small breed formula, regular meals'
+      nutrition: 'High-quality small breed formula, regular meals, monitor blood sugar'
     }
   },
   'yorkshire-terrier': {
@@ -207,14 +207,14 @@ const breedDatabase: Record<string, BreedDetails> = {
     goodWith: ['Families', 'Seniors', 'Apartments'],
     health: {
       commonIssues: ['Tracheal Collapse', 'Portosystemic Shunt', 'Dental Issues'],
-      vetCheckups: 'Yearly recommended',
+      vetCheckups: 'Regular small-breed check-ups, monitor tracheal collapse',
       vaccinations: ['DHPP', 'Rabies', 'Influenza']
     },
     care: {
-      grooming: 'Daily brushing, regular trims',
-      exercise: 'Short walks, indoor play',
-      training: 'Consistent boundaries, socialization',
-      nutrition: 'Small breed kibble, dental care'
+      grooming: 'Daily brushing or regular puppy cuts, bath every 2-3 weeks, eye & ear cleaning',
+      exercise: 'Short walks, indoor play, safe handling due to fragile size',
+      training: 'Consistent boundaries, early socialization',
+      nutrition: 'Small breed kibble, dental care, keep warm in winter'
     }
   }
 };
