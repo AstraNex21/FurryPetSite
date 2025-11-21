@@ -738,21 +738,16 @@ export const Home: React.FC = () => {
     </CloudWrap>
   </div>
 </section>
-      {/* CTA Image Section - Reduced size on desktop with white background and decorative pink balloons (desktop only) */}
-      <section id="cta-video" className="py-4 md:py-12 relative overflow-hidden bg-white">
-        {/* Decorative balloons visible on md+ only */}
-        <div className="hidden md:block absolute inset-0 pointer-events-none">
-          <div className="absolute -left-8 top-6 text-4xl text-pink-400 opacity-80">🎈</div>
-          <div className="absolute right-6 top-10 text-5xl text-pink-300 opacity-70">🎈</div>
-          <div className="absolute left-1/3 bottom-6 text-4xl text-pink-200 opacity-60">🎈</div>
-        </div>
-
-        <div className="max-w-4xl mx-auto px-4">
-          <img
-            src="/CTAimg.jpeg"
-            alt="Why Choose Us"
-            className="w-full h-54 md:h-64 lg:h-72 object-cover rounded-xl mx-auto shadow-xl"
-          />
+      {/* CTA Image Section - Full width and height on desktop with luxury white frame */}
+      <section className="py-8 md:py-12 relative overflow-hidden bg-white">
+        <div className="px-4 md:px-12 lg:px-20">
+          <div className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 lg:p-8 shadow-2xl border-8 border-white" style={{ boxShadow: '0 20px 60px rgba(0, 0, 0, 0.15), inset 0 0 0 1px rgba(0, 0, 0, 0.05)' }}>
+            <img
+              src="/CTAimg.jpeg"
+              alt="Why Choose Us"
+              className="w-full h-auto object-cover rounded-lg md:rounded-xl"
+            />
+          </div>
         </div>
       </section>
 

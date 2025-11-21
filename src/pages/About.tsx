@@ -1,42 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import { Heart, Shield, Award, Users, Star, Check } from 'lucide-react';
 import InstagramGrid from '../components/InstagramGrid';
 
 export const About: React.FC = () => {
-  const ctaVideoRef = useRef<HTMLVideoElement | null>(null);
-
-  // Play/pause CTA video when it scrolls into/out of view
-  useEffect(() => {
-    const videoEl = ctaVideoRef.current;
-    if (!videoEl) return;
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          // Attempt to play; catch any promise rejection
-          const playPromise = videoEl.play();
-          if (playPromise && typeof playPromise.then === 'function') {
-            playPromise.catch(() => {
-              // Autoplay may be blocked; leaving muted ensures higher success rates
-            });
-          }
-        } else {
-          try {
-            videoEl.pause();
-          } catch (e) {
-            // ignore
-          }
-        }
-      });
-    }, { threshold: 0.5 });
-
-    observer.observe(videoEl);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section removed per request - kept page flow intact */}
@@ -235,7 +201,7 @@ export const About: React.FC = () => {
       </section>
 
       {/* CTA Image Section */}
-      <section id="cta-video" className="py-8 bg-white relative overflow-hidden">
+      <section className="py-8 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 text-section mb-2 tracking-wide drop-shadow-lg">
             Why Choose <span className="text-orange-600">Us</span>?

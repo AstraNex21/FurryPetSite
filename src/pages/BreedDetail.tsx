@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Heart, Shield, Award, Users, Calendar, Weight, Star, MapPin, Phone, Mail, Menu, X, ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -361,7 +361,6 @@ export const BreedDetail: React.FC = () => {
     phone: '',
     message: ''
   });
-  const ctaVideoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
     if (slug && breedDatabase[slug]) {
@@ -369,38 +368,6 @@ export const BreedDetail: React.FC = () => {
     }
     window.scrollTo(0, 0);
   }, [slug]);
-
-  // Play/pause CTA video when it scrolls into/out of view
-  useEffect(() => {
-    const videoEl = ctaVideoRef.current;
-    if (!videoEl) return;
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          // Attempt to play; catch any promise rejection
-          const playPromise = videoEl.play();
-          if (playPromise && typeof playPromise.then === 'function') {
-            playPromise.catch(() => {
-              // Autoplay may be blocked; leaving muted ensures higher success rates
-            });
-          }
-        } else {
-          try {
-            videoEl.pause();
-          } catch (e) {
-            // ignore
-          }
-        }
-      });
-    }, { threshold: 0.5 });
-
-    observer.observe(videoEl);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
