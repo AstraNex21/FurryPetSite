@@ -542,6 +542,20 @@ export const BreedDetail: React.FC = () => {
                   </div>
                   <p className="font-semibold text-gray-800 text-sm">{breed.lifespan}</p>
                 </div>
+                <div className="bg-white p-3 rounded-xl shadow-md">
+                  <div className="flex items-center space-x-2 mb-1">
+                    <Heart className="h-4 w-4 text-[#E97451]" />
+                    <span className="text-xs text-gray-600">Healthcare</span>
+                  </div>
+                  <p className="font-semibold text-gray-800 text-xs">{breed.health.vetCheckups}</p>
+                </div>
+                <div className="bg-white p-3 rounded-xl shadow-md col-span-2">
+                  <div className="flex items-center space-x-2 mb-1">
+                    <Award className="h-4 w-4 text-[#E97451]" />
+                    <span className="text-xs text-gray-600">Care Needs</span>
+                  </div>
+                  <p className="font-semibold text-gray-800 text-xs">{breed.care.grooming.split(',')[0]}</p>
+                </div>
               </div>
             </div>
 
@@ -672,6 +686,20 @@ export const BreedDetail: React.FC = () => {
                       <span className="text-sm text-gray-600">Lifespan</span>
                     </div>
                     <p className="font-semibold text-gray-800">{breed.lifespan}</p>
+                  </div>
+                  <div className="bg-white p-4 rounded-xl shadow-md">
+                    <div className="flex items-center space-x-2 mb-1">
+                      <Heart className="h-4 w-4 text-[#E97451]" />
+                      <span className="text-sm text-gray-600">Healthcare</span>
+                    </div>
+                    <p className="font-semibold text-gray-800 text-xs">{breed.health.vetCheckups}</p>
+                  </div>
+                  <div className="bg-white p-4 rounded-xl shadow-md">
+                    <div className="flex items-center space-x-2 mb-1">
+                      <Award className="h-4 w-4 text-[#E97451]" />
+                      <span className="text-sm text-gray-600">Care Needs</span>
+                    </div>
+                    <p className="font-semibold text-gray-800 text-xs">{breed.care.grooming.split(',')[0]}</p>
                   </div>
                 </div>
 
