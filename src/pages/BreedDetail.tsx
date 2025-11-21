@@ -43,10 +43,16 @@ const breedDatabase: Record<string, BreedDetails> = {
     image: '/dog1.jpg',
     gallery: [
       '/FM/13870.JPEG',
+      '/FM/26505.JPEG',
       '/FM/26525.JPEG',
+      '/FM/26527.JPEG',
+      '/FM/8673.jpeg',
       '/FM/FMtall.JPEG',
+      '/FM/FMX.jpg',
       '/FM/Frenchmastfamily1.JPEG',
-      '/FM/8673.JPEG'
+      '/FM/Gemini_Generated_Image_2iunct2iunct2iun.png',
+      '/FM/Gemini_Generated_Image_ujxibujxibujxibu.png',
+      '/FM/_.jpeg'
     ],
     puppyToAdult: {
       puppy: '/FM/26525.JPEG',
@@ -79,22 +85,26 @@ const breedDatabase: Record<string, BreedDetails> = {
     slug: 'maltese',
     image: '/dog4.jpg',
     gallery: [
+      '/Malt/25795.JPEG',
       '/Malt/25807.JPEG',
+      '/Malt/5335.JPEG',
+      '/Malt/76272.JPEG',
+      '/Malt/7791.JPEG',
+      '/Malt/79128.JPEG',
+      '/Malt/79148.JPEG',
+      '/Malt/7932.JPEG',
+      '/Malt/8012.JPEG',
       '/Malt/maltcoloured.JPEG',
       '/Malt/maltcute.jpg',
       '/Malt/maltcute2.jpg',
       '/Malt/maltcute3.jpg',
       '/Malt/maltcute4.JPEG',
-      '/Malt/Maltpic.jpg',
       '/Malt/matlhappy.jpg',
-      '/Malt/5335.JPEG',
-      '/Malt/7791.JPEG',
-      '/Malt/8012.JPEG',
-      '/Malt/25795.JPEG'
+      '/Malt/PHOTO-2022-02-01-22-12-24.jpg'
     ],
     puppyToAdult: {
       puppy: '/Malt/maltcute.jpg',
-      adult: '/Malt/Maltpic.jpg'
+      adult: '/Malt/matlhappy.jpg'
     },
     description: 'The Maltese is a charming and elegant toy breed known for their silky white coat and playful personality. These affectionate companions are perfect for families and individuals seeking a loving, hypoallergenic pet.',
     temperament: ['Playful', 'Gentle', 'Affectionate', 'Intelligent', 'Social'],
@@ -123,10 +133,17 @@ const breedDatabase: Record<string, BreedDetails> = {
     slug: 'toy-poodle',
     image: '/dog7.jpg',
     gallery: [
+      '/TP/Toy Poodle Puppy for sale in Dallas, Texas _ $200.jpeg',
       '/TP/TPpup.JPEG',
+      '/TP/28411.JPEG',
+      '/TP/28463.JPEG',
+      '/TP/69023.JPEG',
+      '/TP/Gemini_Generated_Image_4kzl0g4kzl0g4kzl.png',
+      '/TP/Gemini_Generated_Image_cu6yytcu6yytcu6y.png',
       '/TP/pexels-jacob-sierra-419902407-16603124 (1).jpg',
       '/TP/pexels-katia-oleksa-661981532-29595140 (1).jpg',
       '/TP/pexels-valeriya-14095698 (1).jpg',
+      '/TP/pexels-valeriya-14095707 (1).jpg'
     ],
     puppyToAdult: {
       puppy: '/TP/TPpup.JPEG',
@@ -159,14 +176,20 @@ const breedDatabase: Record<string, BreedDetails> = {
     slug: 'yorkshire-terrier',
     image: '/dog10.jpg',
     gallery: [
+      '/YT/31342.JPEG',
+      '/YT/37860.JPEG',
+      '/YT/37869.JPEG',
+      '/YT/4907.JPEG',
+      '/YT/8086.JPEG',
       '/YT/YT1.jpg',
       '/YT/YT2.jpg',
-      '/YT/YTfriend.jpg',
-      '/YT/YTCute.jpg',
-      '/YT/YTpupcar.jpg',
-      '/YT/YTPupface.jpg',
       '/YT/YTAesthetic.jpg',
-      '/YT/YTaesthetic2.jpg'
+      '/YT/YTaesthetic2.jpg',
+      '/YT/YTBed.jpg',
+      '/YT/YTCute.jpg',
+      '/YT/YTfriend.jpg',
+      '/YT/YTpupcar.jpg',
+      '/YT/YTPupface.jpg'
     ],
     puppyToAdult: {
       puppy: '/YT/YTpupcar.jpg',
@@ -412,13 +435,13 @@ export const BreedDetail: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FFB5A7] to-[#F4C2C2]">
+    <div className="min-h-screen bg-white">
       {/* Navigation Bar matching Home page */}
       <NavigationBar />
 
       {/* Hero Section with Image Gallery - Mobile Optimized */}
-      <section className="relative pt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+      <section className="relative pt-4 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-4">
           <motion.div 
             className="space-y-6 lg:space-y-8"
             initial={{ opacity: 0, y: 20 }}
@@ -742,7 +765,7 @@ export const BreedDetail: React.FC = () => {
       </section>
 
       {/* Breed Gallery Section - Mobile Optimized */}
-      <section className="py-8 sm:py-12 bg-gradient-to-br from-[#F4C2C2] to-[#E6B8D4] relative overflow-hidden">
+      <section className="py-8 sm:py-12 bg-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-10 left-10 text-4xl sm:text-6xl animate-bounce" style={{ animationDelay: '0s', animationDuration: '3s' }}>🐕</div>
           <div className="absolute top-40 right-20 text-3xl sm:text-4xl animate-bounce" style={{ animationDelay: '0.5s', animationDuration: '2.5s' }}>🐾</div>
@@ -777,26 +800,22 @@ export const BreedDetail: React.FC = () => {
         </div>
       </section>
 
-      {/* CTA Video Section - Replacing Why Choose Us */}
-      <section id="cta-video" className="py-4 bg-gradient-to-br from-[#FF66AA]/50 via-[#FF77BB]/50 to-[#FF88CC]/50 relative overflow-hidden">
+      {/* CTA Image Section - Replacing Why Choose Us */}
+      <section id="cta-video" className="py-4 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 text-section mb-4 tracking-wide drop-shadow-lg">
             Why Choose <span className="text-orange-600">Us</span>?
           </h2>
         </div>
-        <video
-          ref={ctaVideoRef}
-          src="/CTAvid.mp4"
-          muted
-          loop
-          playsInline
-          autoPlay
+        <img
+          src="/CTAimg.jpeg"
+          alt="Why Choose Us"
           className="w-full h-auto"
         />
       </section>
 
 {/* Find Friend CTA Section */}
-<section className="py-0 bg-gradient-to-br from-[#FFB5A7]/30 via-[#FFC0CB]/30 to-[#F5F5F5]/30 relative overflow-hidden">
+<section className="py-0 bg-white relative overflow-hidden">
   <div className="w-full">
     {/* Title above image */}
     <div className="text-center py-6 sm:py-8 md:py-12">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Shield, Heart, Award, Users, ArrowDown, Menu, X, ChevronDown } from 'lucide-react';
 import InstagramGrid from '../components/InstagramGrid';
@@ -302,9 +302,51 @@ const ImageMarquee: React.FC<ImageMarqueeProps> = ({ images }) => {
   );
 };
 
+// Cloud wrapper: sizes SVG cloud to match heading width so text sits inside the cloud.
+const CloudWrap: React.FC<{ children: React.ReactNode; padX?: number; padY?: number }> = ({ children, padX = 28, padY = 12 }) => {
+  const contentRef = useRef<HTMLDivElement | null>(null);
+  const [width, setWidth] = useState<number | null>(null);
+
+  useLayoutEffect(() => {
+    const el = contentRef.current;
+    if (!el) return;
+
+    // initial measurement
+    setWidth(el.offsetWidth);
+
+    // update on resize using ResizeObserver so SVG always matches heading width
+    const ro = new (window as any).ResizeObserver(() => {
+      if (el) setWidth(el.offsetWidth);
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  const svgStyle: React.CSSProperties = width
+    ? { width: `${width + padX * 2}px`, height: 'auto' }
+    : { width: 'min(90%,720px)', height: 'auto' };
+
+  return (
+    <div className="relative w-full flex justify-center">
+      <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0" style={svgStyle}>
+        <svg viewBox="0 0 220 80" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto opacity-95 filter drop-shadow-lg">
+          <g fill="#ffffff">
+            <ellipse cx="36" cy="42" rx="36" ry="18" />
+            <ellipse cx="110" cy="30" rx="70" ry="28" />
+            <ellipse cx="184" cy="42" rx="36" ry="18" />
+          </g>
+        </svg>
+      </div>
+      <div ref={contentRef} className="relative z-10 inline-block" style={{ padding: `${padY}px ${padX}px` }}>
+        {children}
+      </div>
+    </div>
+  );
+};
+
 export const Home: React.FC = () => {
   const [showHeading, setShowHeading] = useState(false);
-  const [showQuoteForm, setShowQuoteForm] = useState(false); // Added this state for the new CTA section
+  const [, setShowQuoteForm] = useState(false); // setter kept for CTA button; value not read
   const ctaVideoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
@@ -415,7 +457,7 @@ export const Home: React.FC = () => {
       <NavigationBar />
 
       {/* Hero Section - Modified height and content */}
-      <section className="relative h-[85vh] md:h-screen overflow-hidden">
+      <section className="relative h-[85vh] md:h-screen overflow-hidden bg-white">
         <div className="absolute inset-0">
           <img
             src="/HeroMob.png"
@@ -433,7 +475,7 @@ export const Home: React.FC = () => {
         <div className="relative z-10 h-full flex flex-col items-center justify-between text-center text-white max-w-4xl mx-auto px-4 pb-8">
           <div className="flex-1 flex flex-col items-center justify-center">
             {showHeading && (
-              <h1 className="font-sans text-5xl md:text-7xl lg:text-8xl font-black mb-6 leading-tight tracking-wide fade-in-scale" style={{
+              <h1 className="font-sans text-5xl md:text-7xl lg:text-8xl font-black mb-6 leading-tight tracking-wide fade-in-scale text-center" style={{
                 color: 'white',
                 textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)'
               }}>
@@ -496,8 +538,8 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Marquee Section - Original Colors with Low Opacity */}
-      <section id="marquee-section" className="py-8 bg-gradient-to-br from-[#E97451]/50 via-[#FFB5A7]/50 to-[#FFC0CB]/50 relative overflow-hidden backdrop-blur-sm">
+      {/* Marquee Section */}
+      <section id="marquee-section" className="py-8 bg-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-10 left-10 text-6xl animate-bounce" style={{ animationDelay: '0s', animationDuration: '3s' }}>🐕</div>
           <div className="absolute top-40 right-20 text-4xl animate-bounce" style={{ animationDelay: '0.5s', animationDuration: '2.5s' }}>🐾</div>
@@ -506,16 +548,18 @@ export const Home: React.FC = () => {
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-6">
-            <h2 className="font-display text-3xl font-bold text-gray-900 text-section drop-shadow-lg">
-              Meet Our Adorable Friends
-            </h2>
+            <CloudWrap>
+              <h2 className="font-display text-3xl font-bold text-gray-900 text-section drop-shadow-lg">
+                Meet Our Adorable Friends
+              </h2>
+            </CloudWrap>
           </div>
           <ImageMarquee images={marqueeImages} />
         </div>
       </section>
 
-      {/* Why Choose Section - Removed Unknown Breeders */}
-      <section className="py-8 bg-gradient-to-br from-[#FFB5A7]/50 via-[#FFC0CB]/50 to-[#F4C2C2]/50 relative overflow-hidden backdrop-blur-sm">
+      {/* Why Choose Section */}
+      <section className="py-8 bg-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-10 left-10 text-6xl animate-bounce" style={{ animationDelay: '0s', animationDuration: '3s' }}>🐕</div>
           <div className="absolute top-40 right-20 text-4xl animate-bounce" style={{ animationDelay: '0.5s', animationDuration: '2.5s' }}>🐾</div>
@@ -527,9 +571,11 @@ export const Home: React.FC = () => {
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 text-section mb-16 tracking-wide drop-shadow-lg">
-            Why Choose <span className="text-orange-600">FurryFriend</span>?
-          </h2>
+          <CloudWrap>
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 text-section mb-16 tracking-wide drop-shadow-lg">
+              Why Choose <span className="text-orange-600">FurryFriend</span>?
+            </h2>
+          </CloudWrap>
           
           <div className="flex justify-center">
             <div className="card-overlay p-8 rounded-3xl shadow-xl max-w-2xl">
@@ -578,8 +624,8 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Breeds Section - Original Colors with Low Opacity */}
-      <section id="breeds" className="py-8 bg-gradient-to-br from-[#FFC0CB]/50 via-[#F4C2C2]/50 to-[#E6B8D4]/50 relative overflow-hidden backdrop-blur-sm">
+      {/* Breeds Section */}
+      <section id="breeds" className="py-8 bg-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-20 left-16 text-5xl animate-bounce" style={{ animationDelay: '0.3s', animationDuration: '3.5s' }}>🐕‍🦺</div>
           <div className="absolute top-32 right-24 text-4xl animate-bounce" style={{ animationDelay: '0.7s', animationDuration: '2.8s' }}>🐾</div>
@@ -591,9 +637,11 @@ export const Home: React.FC = () => {
           <div className="absolute top-60 left-1/2 text-3xl animate-bounce" style={{ animationDelay: '1.6s', animationDuration: '3.1s' }}>🐕</div>
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 text-section mb-16 tracking-wide drop-shadow-lg">
-            Meet Our <span className="text-orange-600">Adorable Friends</span>
-          </h2>
+          <CloudWrap>
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 text-section mb-16 tracking-wide drop-shadow-lg">
+              Meet Our <span className="text-orange-600">Adorable Friends</span>
+            </h2>
+          </CloudWrap>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {breeds.map((breed) => (
@@ -681,48 +729,60 @@ export const Home: React.FC = () => {
       </section>
       
       {/* Why Choose Us Title Section */}
-<section className="py-4 bg-gradient-to-br from-[#FF66AA]/50 via-[#FF77BB]/50 to-[#FF88CC]/50 relative overflow-hidden">
+<section className="py-4 bg-white relative overflow-hidden">
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 text-section mb-4 tracking-wide drop-shadow-lg">
-      Why Choose <span className="text-orange-600">Us</span>?
-    </h2>
+    <CloudWrap>
+      <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 text-section mb-4 tracking-wide drop-shadow-lg">
+        Why Choose <span className="text-orange-600">Us</span>?
+      </h2>
+    </CloudWrap>
   </div>
 </section>
-      {/* CTA Video Section - Full width video with no text */}
-      <section id="cta-video" className="py-0 bg-gradient-to-br from-[#FFF5F5]/30 via-[#FFF0F2]/30 to-[#FFF8F6]/30 relative overflow-hidden">
-        <video
-          ref={ctaVideoRef}
-          src="/CTAvid.mp4"
-          muted
-          loop
-          playsInline
-          autoPlay
-          className="w-full h-auto"
-        />
+      {/* CTA Image Section - Reduced size on desktop with white background and decorative pink balloons (desktop only) */}
+      <section id="cta-video" className="py-4 md:py-12 relative overflow-hidden bg-white">
+        {/* Decorative balloons visible on md+ only */}
+        <div className="hidden md:block absolute inset-0 pointer-events-none">
+          <div className="absolute -left-8 top-6 text-4xl text-pink-400 opacity-80">🎈</div>
+          <div className="absolute right-6 top-10 text-5xl text-pink-300 opacity-70">🎈</div>
+          <div className="absolute left-1/3 bottom-6 text-4xl text-pink-200 opacity-60">🎈</div>
+        </div>
+
+        <div className="max-w-4xl mx-auto px-4">
+          <img
+            src="/CTAimg.jpeg"
+            alt="Why Choose Us"
+            className="w-full h-54 md:h-64 lg:h-72 object-cover rounded-xl mx-auto shadow-xl"
+          />
+        </div>
       </section>
 
-      {/* Find Friend CTA Section */}
-      <section className="py-0 bg-gradient-to-br from-[#FFB5A7]/30 via-[#FFC0CB]/30 to-[#F5F5F5]/30 relative overflow-hidden">
-        <div className="w-full">
+      {/* Find Friend CTA Section - Reduced and framed in a luxury white frame on desktop */}
+      <section className="py-8 md:py-12 bg-white relative overflow-hidden">
+        <div className="max-w-4xl mx-auto px-4">
           {/* Title above image */}
-          <div className="text-center py-6 sm:py-8 md:py-12">
-            <h2 className="font-display text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 drop-shadow-lg">
-              Get in Touch
-            </h2>
+          <div className="text-center py-6 sm:py-8 md:py-10">
+            <CloudWrap>
+              <h2 className="font-display text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 drop-shadow-lg">
+                Get in Touch
+              </h2>
+            </CloudWrap>
           </div>
-          
-          {/* Image with button overlay */}
-          <div className="relative w-full">
-            <img 
-              src="/FindFriendCTA.png" 
-              alt="Find your perfect friend" 
-              className="w-full h-auto object-cover"
-              style={{ width: '100%', height: 'auto', display: 'block' }}
-            />
-            <div className="absolute inset-0 flex items-start justify-center pt-4 sm:pt-6 md:pt-8">
+
+          {/* Framed image with reduced height on desktop */}
+          <div className="relative">
+            <div className="mx-auto bg-white rounded-3xl p-4 md:p-6 shadow-2xl border border-white/90" style={{ maxWidth: '900px' }}>
+              <img 
+                src="/FindFriendCTA.png" 
+                alt="Find your perfect friend" 
+                className="w-full h-48 md:h-64 lg:h-72 object-cover rounded-2xl"
+              />
+            </div>
+
+            {/* Button overlay: keep pointer-events on button only so underlying container is not blocked */}
+            <div className="absolute inset-0 flex items-start justify-center pt-6 md:pt-10 pointer-events-none">
               <button 
                 onClick={() => setShowQuoteForm(true)}
-                className="font-display bg-gradient-to-r from-pink-400 to-pink-500 hover:from-pink-500 hover:to-pink-600 text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full text-base sm:text-lg md:text-xl font-semibold transform hover:scale-105 transition-all shadow-xl border-2 border-white/30"
+                className="pointer-events-auto font-display bg-gradient-to-r from-pink-400 to-pink-500 hover:from-pink-500 hover:to-pink-600 text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full text-base sm:text-lg md:text-xl font-semibold transform hover:scale-105 transition-all shadow-xl border-2 border-white/30"
               >
                 Contact us to get your best friend
               </button>
@@ -732,7 +792,7 @@ export const Home: React.FC = () => {
       </section>
 
       {/* Instagram Feed Section */}
-      <section className="py-4 bg-gradient-to-br from-[#F4C2C2]/50 via-[#E6B8D4]/50 to-[#F5F5F5]/50 relative overflow-hidden backdrop-blur-sm">
+      <section className="py-4 bg-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-16 left-20 text-4xl animate-bounce" style={{ animationDelay: '0.4s', animationDuration: '3.4s' }}>📸</div>
           <div className="absolute top-40 right-28 text-3xl animate-bounce" style={{ animationDelay: '0.8s', animationDuration: '2.9s' }}>🐾</div>
@@ -741,9 +801,11 @@ export const Home: React.FC = () => {
           <div className="absolute top-1/2 left-1/2 text-3xl animate-bounce" style={{ animationDelay: '1.5s', animationDuration: '3s' }}>🐶</div>
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 text-section mb-8 tracking-wide drop-shadow-lg">
-            Follow Our <span className="text-orange-600">Journey</span>
-          </h2>
+          <CloudWrap>
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 text-section mb-8 tracking-wide drop-shadow-lg">
+              Follow Our <span className="text-orange-600">Journey</span>
+            </h2>
+          </CloudWrap>
           <InstagramGrid />
         </div>
       </section>

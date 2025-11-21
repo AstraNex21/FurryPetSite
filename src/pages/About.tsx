@@ -38,11 +38,11 @@ export const About: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-cream">
+    <div className="min-h-screen bg-white">
       {/* Hero Section removed per request - kept page flow intact */}
 
       {/* Mission Section */}
-      <section className="py-8 bg-gradient-to-br from-white via-cream to-white relative overflow-hidden">
+      <section className="py-8 bg-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-20 left-16 text-5xl">🐕‍🦺</div>
           <div className="absolute top-60 right-24 text-4xl">🐾</div>
@@ -101,7 +101,7 @@ export const About: React.FC = () => {
       </section>
 
       {/* Values Section */}
-      <section className="py-8 bg-gradient-to-br from-cream via-orange-50 to-cream relative overflow-hidden">
+      <section className="py-8 bg-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-16 left-20 text-4xl">🐕</div>
           <div className="absolute top-40 right-28 text-3xl">🐾</div>
@@ -160,7 +160,7 @@ export const About: React.FC = () => {
       </section>
 
       {/* Process Section */}
-      <section className="py-8 bg-gradient-to-br from-white via-cream to-white relative overflow-hidden">
+      <section className="py-8 bg-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-20 left-16 text-4xl">🐕</div>
           <div className="absolute top-60 right-24 text-3xl">🐾</div>
@@ -234,26 +234,22 @@ export const About: React.FC = () => {
         </div>
       </section>
 
-      {/* CTA Video Section */}
+      {/* CTA Image Section */}
       <section id="cta-video" className="py-8 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 text-section mb-2 tracking-wide drop-shadow-lg">
             Why Choose <span className="text-orange-600">Us</span>?
           </h2>
         </div>
-        <video
-          ref={ctaVideoRef}
-          src="/CTAvid.mp4"
-          muted
-          loop
-          playsInline
-          autoPlay
+        <img
+          src="/CTAimg.jpeg"
+          alt="Why Choose Us"
           className="w-full h-auto"
         />
       </section>
 
       {/* Instagram Feed Section */}
-      <section className="py-8 bg-gradient-to-br from-[#FFD1DC]/30 via-cream to-white relative overflow-hidden backdrop-blur-sm">
+      <section className="py-8 bg-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-16 left-20 text-4xl animate-bounce" style={{ animationDelay: '0.4s', animationDuration: '3.4s' }}>📸</div>
           <div className="absolute top-40 right-28 text-3xl animate-bounce" style={{ animationDelay: '0.8s', animationDuration: '2.9s' }}>🐾</div>
