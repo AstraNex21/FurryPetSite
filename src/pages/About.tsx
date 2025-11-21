@@ -253,7 +253,7 @@ export const About: React.FC = () => {
                   alt="Find your perfect friend"
                   className="w-full h-48 md:h-64 lg:h-72 object-cover rounded-2xl"
                 />
-                <span className="absolute inset-0 flex items-center justify-start pointer-events-none pt-4">
+                <span className="absolute inset-0 flex items-start justify-center pointer-events-none pt-4">
                   <span className="font-display text-white text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight drop-shadow-lg">
                     Contact Us to Get your Best Friend
                   </span>
