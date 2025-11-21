@@ -707,7 +707,7 @@ export const Home: React.FC = () => {
   </div>
 </section>
       {/* CTA Image Section - Full width and height on desktop with luxury white frame */}
-      <section className="py-4 md:py-12 relative overflow-hidden bg-white">
+      <section className="py- md:py-12 relative overflow-hidden bg-white">
         <div className="px-4 md:px-12 lg:px-20">
           <div className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 lg:p-8 shadow-2xl border-8 border-white" style={{ boxShadow: '0 20px 60px rgba(0, 0, 0, 0.15), inset 0 0 0 1px rgba(0, 0, 0, 0.05)' }}>
             <img
@@ -719,7 +719,7 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      // Find Friend CTA Section - Reduced and framed in a luxury white frame on desktop
+     {/* Find Friend CTA Section - Reduced and framed in a luxury white frame on desktop*/}
 <section className="py-8 md:py-12 bg-white relative overflow-hidden">
   <div className="max-w-4xl mx-auto px-4">
     {/* Title above image */}
@@ -743,7 +743,7 @@ export const Home: React.FC = () => {
           {/* Semi-transparent overlay for better text visibility */}
           <div className="absolute inset-0 bg-black/30 z-10"></div>
           {/* Text positioned on top of the image */}
-          <div className="absolute inset-0 flex items-center justify-center z-20 p-4">
+          <div className="absolute inset-0 flex items-start justify-center z-20 p-4 pt-4">
             <span className="font-display text-white text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight drop-shadow-lg text-center">
               Contact Us to Get your Best Friend
             </span>
