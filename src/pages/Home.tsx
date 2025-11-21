@@ -707,7 +707,7 @@ export const Home: React.FC = () => {
   </div>
 </section>
       {/* CTA Image Section - Full width and height on desktop with luxury white frame */}
-      <section className="py-8 md:py-12 relative overflow-hidden bg-white">
+      <section className="py-4 md:py-12 relative overflow-hidden bg-white">
         <div className="px-4 md:px-12 lg:px-20">
           <div className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 lg:p-8 shadow-2xl border-8 border-white" style={{ boxShadow: '0 20px 60px rgba(0, 0, 0, 0.15), inset 0 0 0 1px rgba(0, 0, 0, 0.05)' }}>
             <img
