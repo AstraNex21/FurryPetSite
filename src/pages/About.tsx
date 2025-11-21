@@ -1,5 +1,6 @@
 import React from 'react';
 import { Heart, Shield, Award, Users, Star, Check } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import InstagramGrid from '../components/InstagramGrid';
 
 export const About: React.FC = () => {
@@ -244,19 +245,21 @@ export const About: React.FC = () => {
             <p className="font-sans text-xl mb-8 opacity-90 font-medium tracking-wide">
             Let us help you discover the joy of unconditional love and companionship.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button 
-              onClick={() => window.location.href = '/'}
-                className="bg-white text-warm-peach px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
-            >
-              Browse Our Friends
-            </button>
-            <button 
-              onClick={() => window.location.href = '/contact'}
-                className="border-2 border-white text-white hover:bg-white hover:text-warm-peach px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105"
-            >
-              Contact Us Today
-            </button>
+          <div className="flex justify-center">
+            <Link to="/contact" className="mx-auto block bg-white rounded-3xl p-4 shadow-2xl border border-white/90" style={{ maxWidth: '900px' }}>
+              <div className="relative">
+                <img
+                  src="/FindFriendCTA.png"
+                  alt="Find your perfect friend"
+                  className="w-full h-48 md:h-64 lg:h-72 object-cover rounded-2xl"
+                />
+                <span className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <span className="font-display text-warm-peach text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight drop-shadow-lg">
+                    Contact Us to Get your Best Friend
+                  </span>
+                </span>
+              </div>
+            </Link>
           </div>
         </div>
         </div>
