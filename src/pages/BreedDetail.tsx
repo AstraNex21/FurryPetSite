@@ -819,22 +819,23 @@ export const BreedDetail: React.FC = () => {
       </h2>
     </div>
     
-    {/* Image with button overlay */}
+    {/* Image as a clickable CTA linking to contact page */}
     <div className="relative w-full">
-      <img 
-        src="/FindFriendCTA.png" 
-        alt="Find your perfect friend" 
-        className="w-full h-auto object-cover"
-        style={{ width: '100%', height: 'auto', display: 'block' }}
-      />
-      <div className="absolute inset-0 flex items-start justify-center pt-4 sm:pt-6 md:pt-8">
-        <button 
-          onClick={() => setShowQuoteForm(true)}
-          className="font-display bg-gradient-to-r from-pink-400 to-pink-500 hover:from-pink-500 hover:to-pink-600 text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full text-base sm:text-lg md:text-xl font-semibold transform hover:scale-105 transition-all shadow-xl border-2 border-white/30"
-        >
-          Contact us to get your best friend
-        </button>
-      </div>
+      <Link to="/contact" className="block w-full">
+        <div style={{ width: '100%', display: 'block' }} className="relative">
+          <img
+            src="/FindFriendCTA.png"
+            alt="Find your perfect friend"
+            className="w-full h-auto object-cover"
+            style={{ width: '100%', height: 'auto', display: 'block' }}
+          />
+          <span className="absolute inset-0 flex items-start justify-center pt-4 sm:pt-6 md:pt-8 pointer-events-none">
+            <span className="font-display text-white text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight drop-shadow-lg">
+              Contact Us to Get your Best Friend
+            </span>
+          </span>
+        </div>
+      </Link>
     </div>
   </div>
 </section>

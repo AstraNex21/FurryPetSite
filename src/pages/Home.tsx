@@ -346,8 +346,6 @@ const CloudWrap: React.FC<{ children: React.ReactNode; padX?: number; padY?: num
 
 export const Home: React.FC = () => {
   const [showHeading, setShowHeading] = useState(false);
-  const [, setShowQuoteForm] = useState(false); // setter kept for CTA button; value not read
-  const ctaVideoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -360,37 +358,7 @@ export const Home: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [showHeading]);
 
-  // Play/pause CTA video when it scrolls into/out of view
-  useEffect(() => {
-    const videoEl = ctaVideoRef.current;
-    if (!videoEl) return;
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          // Attempt to play; catch any promise rejection
-          const playPromise = videoEl.play();
-          if (playPromise && typeof playPromise.then === 'function') {
-            playPromise.catch(() => {
-              // Autoplay may be blocked; leaving muted ensures higher success rates
-            });
-          }
-        } else {
-          try {
-            videoEl.pause();
-          } catch (e) {
-            // ignore
-          }
-        }
-      });
-    }, { threshold: 0.5 });
-
-    observer.observe(videoEl);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
+  
 
   return (
     <div className="min-h-screen">
@@ -763,25 +731,22 @@ export const Home: React.FC = () => {
             </CloudWrap>
           </div>
 
-          {/* Framed image with reduced height on desktop */}
+          {/* Framed image with reduced height on desktop (clickable) */}
           <div className="relative">
-            <div className="mx-auto bg-white rounded-3xl p-4 md:p-6 shadow-2xl border border-white/90" style={{ maxWidth: '900px' }}>
-              <img 
-                src="/FindFriendCTA.png" 
-                alt="Find your perfect friend" 
-                className="w-full h-48 md:h-64 lg:h-72 object-cover rounded-2xl"
-              />
-            </div>
-
-            {/* Button overlay: keep pointer-events on button only so underlying container is not blocked */}
-            <div className="absolute inset-0 flex items-start justify-center pt-6 md:pt-10 pointer-events-none">
-              <button 
-                onClick={() => setShowQuoteForm(true)}
-                className="pointer-events-auto font-display bg-gradient-to-r from-pink-400 to-pink-500 hover:from-pink-500 hover:to-pink-600 text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full text-base sm:text-lg md:text-xl font-semibold transform hover:scale-105 transition-all shadow-xl border-2 border-white/30"
-              >
-                Contact us to get your best friend
-              </button>
-            </div>
+            <Link to="/contact" className="mx-auto block bg-white rounded-3xl p-4 md:p-6 shadow-2xl border border-white/90" style={{ maxWidth: '900px' }}>
+              <div className="relative">
+                <img
+                  src="/FindFriendCTA.png"
+                  alt="Find your perfect friend"
+                  className="w-full h-48 md:h-64 lg:h-72 object-cover rounded-2xl"
+                />
+                <span className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <span className="font-display text-white text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight drop-shadow-lg">
+                    Contact Us to Get your Best Friend
+                  </span>
+                </span>
+              </div>
+            </Link>
           </div>
         </div>
       </section>
