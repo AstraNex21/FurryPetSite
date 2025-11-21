@@ -42,11 +42,11 @@ const breedDatabase: Record<string, BreedDetails> = {
     slug: 'french-mastiff',
     image: '/dog1.jpg',
     gallery: [
+      '/FM/8673.jpeg',
       '/FM/13870.JPEG',
       '/FM/26505.JPEG',
       '/FM/26525.JPEG',
       '/FM/26527.JPEG',
-      '/FM/8673.jpeg',
       '/FM/FMtall.JPEG',
       '/FM/FMX.jpg',
       '/FM/Frenchmastfamily1.JPEG',
