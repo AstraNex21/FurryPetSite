@@ -719,37 +719,40 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Find Friend CTA Section - Reduced and framed in a luxury white frame on desktop */}
-      <section className="py-8 md:py-12 bg-white relative overflow-hidden">
-        <div className="max-w-4xl mx-auto px-4">
-          {/* Title above image */}
-          <div className="text-center py-6 sm:py-8 md:py-10">
-            <CloudWrap>
-              <h2 className="font-display text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 drop-shadow-lg">
-                Get in Touch
-              </h2>
-            </CloudWrap>
-          </div>
+      // Find Friend CTA Section - Reduced and framed in a luxury white frame on desktop
+<section className="py-8 md:py-12 bg-white relative overflow-hidden">
+  <div className="max-w-4xl mx-auto px-4">
+    {/* Title above image */}
+    <div className="text-center py-6 sm:py-8 md:py-10">
+      <CloudWrap>
+        <h2 className="font-display text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 drop-shadow-lg">
+          Get in Touch
+        </h2>
+      </CloudWrap>
+    </div>
 
-          {/* Framed image with reduced height on desktop (clickable) */}
-          <div className="relative">
-            <Link to="/contact" className="mx-auto block bg-white rounded-3xl p-4 md:p-6 shadow-2xl border border-white/90" style={{ maxWidth: '900px' }}>
-              <div className="relative">
-                <img
-                  src="/FindFriendCTA.png"
-                  alt="Find your perfect friend"
-                  className="w-full h-48 md:h-64 lg:h-72 object-cover rounded-2xl"
-                />
-                <span className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <span className="font-display text-white text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight drop-shadow-lg">
-                    Contact Us to Get your Best Friend
-                  </span>
-                </span>
-              </div>
-            </Link>
+    {/* Framed image with reduced height on desktop (clickable) */}
+    <div className="relative">
+      <Link to="/contact" className="mx-auto block bg-white rounded-3xl p-4 md:p-6 shadow-2xl border border-white/90" style={{ maxWidth: '900px' }}>
+        <div className="relative overflow-hidden rounded-2xl">
+          <img
+            src="/FindFriendCTA.png"
+            alt="Find your perfect friend"
+            className="w-full h-48 md:h-64 lg:h-72 object-cover"
+          />
+          {/* Semi-transparent overlay for better text visibility */}
+          <div className="absolute inset-0 bg-black/30 z-10"></div>
+          {/* Text positioned on top of the image */}
+          <div className="absolute inset-0 flex items-center justify-center z-20 p-4">
+            <span className="font-display text-white text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight drop-shadow-lg text-center">
+              Contact Us to Get your Best Friend
+            </span>
           </div>
         </div>
-      </section>
+      </Link>
+    </div>
+  </div>
+</section>
 
       {/* Instagram Feed Section */}
       <section className="py-4 bg-white relative overflow-hidden">
