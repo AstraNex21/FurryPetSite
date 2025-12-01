@@ -358,8 +358,6 @@ export const Home: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [showHeading]);
 
-  
-
   return (
     <div className="min-h-screen">
       <style>{`
@@ -424,89 +422,12 @@ export const Home: React.FC = () => {
       {/* Navigation Bar */}
       <NavigationBar />
 
-      {/* Hero Section - Modified height and content */}
+      {/* Hero Section - Now empty as requested */}
       <section className="relative h-[85vh] md:h-screen overflow-hidden bg-white">
-        <div className="absolute inset-0">
-          <img
-            src="/HeroMob.png"
-            alt="FurryFriend - Find your perfect companion"
-            className="md:hidden w-full h-full object-cover object-center brightness-110"
-          />
-          <img
-            src="/Hero.png"
-            alt="FurryFriend - Find your perfect companion"
-            className="hidden md:block w-full h-full object-cover object-center brightness-110"
-          />
-          <div className={`absolute inset-0 hero-overlay ${showHeading ? 'active' : ''}`}></div>
-        </div>
-
-        <div className="relative z-10 h-full flex flex-col items-center justify-between text-center text-white max-w-4xl mx-auto px-4 pb-8">
-          <div className="flex-1 flex flex-col items-center justify-center">
-            {showHeading && (
-              <h1 className="font-sans text-5xl md:text-7xl lg:text-8xl font-black mb-6 leading-tight tracking-wide fade-in-scale text-center" style={{
-                color: 'white',
-                textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)'
-              }}>
-                Find your
-                <span style={{ color: 'white', display: 'block' }}>
-                  Forever Furry Friend
-                </span>
-              </h1>
-            )}
-          </div>
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
-            <button 
-              onClick={() => document.getElementById('breeds')?.scrollIntoView({ behavior: 'smooth' })}
-              className="hidden sm:block bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-12 py-4 rounded-full text-lg font-bold transform hover:scale-110 transition-all duration-300 shadow-2xl hover:shadow-3xl backdrop-blur-sm border border-white/20"
-            >
-              Meet Our Friends
-            </button>
-            <button 
-              onClick={() => document.getElementById('breeds')?.scrollIntoView({ behavior: 'smooth' })}
-              className="sm:hidden bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-8 py-4 rounded-full text-lg font-semibold transform hover:scale-105 transition-all duration-300 shadow-xl backdrop-blur-sm"
-            >
-              Meet Our Friends
-            </button>
-            <Link
-              to="/contact"
-              className="hidden sm:block px-12 py-4 rounded-full text-lg font-bold transform hover:scale-110 transition-all duration-300 border-2 shadow-2xl hover:shadow-3xl backdrop-blur-md"
-              style={{
-                backgroundColor: 'rgba(255, 182, 217, 0.7)',
-                color: '#1F2937',
-                borderColor: 'rgba(255, 255, 255, 0.8)',
-                backdropFilter: 'blur(10px)'
-              }}
-            >
-              Get in Touch
-            </Link>
-            <Link
-              to="/contact"
-              className="sm:hidden px-8 py-4 rounded-full text-lg font-semibold transform hover:scale-105 transition-all duration-300 border-2 shadow-xl"
-              style={{
-                backgroundColor: 'rgba(255, 182, 217, 0.7)',
-                color: '#1F2937',
-                borderColor: 'rgba(255, 255, 255, 0.8)',
-                backdropFilter: 'blur(10px)'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 160, 204, 0.8)'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 182, 217, 0.7)'}
-            >
-              Get in Touch
-            </Link>
-          </div>
-          
-          <div className="hidden md:block absolute bottom-8 left-1/2 transform -translate-x-1/2">
-            <button 
-              onClick={() => document.getElementById('marquee-section')?.scrollIntoView({ behavior: 'smooth' })}
-              className="text-white/80 hover:text-white transition-colors"
-            >
-              <ArrowDown className="h-6 w-6 animate-bounce" />
-            </button>
-          </div>
-        </div>
+        {/* Empty hero section as requested */}
       </section>
 
-      {/* Marquee Section */}
+      {/* Marquee Section - Now the new hero section */}
       <section id="marquee-section" className="py-8 bg-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-10 left-10 text-6xl animate-bounce" style={{ animationDelay: '0s', animationDuration: '3s' }}>🐕</div>
@@ -526,8 +447,8 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Why Choose Section */}
-      <section className="py-8 bg-white relative overflow-hidden">
+      {/* New Why Choose FurryFriend Section */}
+      <section className="py-16 bg-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-10 left-10 text-6xl animate-bounce" style={{ animationDelay: '0s', animationDuration: '3s' }}>🐕</div>
           <div className="absolute top-40 right-20 text-4xl animate-bounce" style={{ animationDelay: '0.5s', animationDuration: '2.5s' }}>🐾</div>
@@ -545,46 +466,55 @@ export const Home: React.FC = () => {
             </h2>
           </CloudWrap>
           
-          <div className="flex justify-center">
-            <div className="card-overlay p-8 rounded-3xl shadow-xl max-w-2xl">
-              <div className="text-center mb-8">
-                <div className="bg-gradient-to-br from-orange-500 to-pink-500 p-4 rounded-full w-16 h-16 mx-auto mb-4 shadow-lg">
-                  <Heart className="h-8 w-8 text-white fill-current" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Feature 1 */}
+            <div className="card-overlay p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+              <div className="flex items-start space-x-4">
+                <div className="bg-gradient-to-br from-orange-500 to-pink-500 p-3 rounded-full flex-shrink-0">
+                  <Shield className="h-6 w-6 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900">FurryFriend Promise</h3>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">1. Lifetime Lineage-Based Health Guarantee</h3>
+                  <p className="text-gray-700">Every puppy comes with a verified ancestry record to ensure genetic soundness. This helps prevent inherited disorders and supports your pet's long-term wellbeing.</p>
+                </div>
               </div>
-              
-              <div className="space-y-6">
-                <div className="flex items-center space-x-4 bg-white/80 p-4 rounded-xl backdrop-blur-sm">
-                  <Shield className="h-6 w-6 text-orange-600 flex-shrink-0" />
-                  <div>
-                    <h4 className="font-semibold text-gray-900">Verified Health Checks</h4>
-                    <p className="text-gray-800">Complete medical history and health guarantees</p>
-                  </div>
+            </div>
+            
+            {/* Feature 2 */}
+            <div className="card-overlay p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+              <div className="flex items-start space-x-4">
+                <div className="bg-gradient-to-br from-orange-500 to-pink-500 p-3 rounded-full flex-shrink-0">
+                  <Heart className="h-6 w-6 text-white" />
                 </div>
-                
-                <div className="flex items-center space-x-4 bg-white/80 p-4 rounded-xl backdrop-blur-sm">
-                  <Award className="h-6 w-6 text-pink-600 flex-shrink-0" />
-                  <div>
-                    <h4 className="font-semibold text-gray-900">Certified Lineage</h4>
-                    <p className="text-gray-800">Documented breeding history and genetics</p>
-                  </div>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">2. Ethical Breeding</h3>
+                  <p className="text-gray-700">A mother gives birth only once a year to produce healthy, stress-free litters. At Furryfriend, responsible breeding practices are strictly followed to protect both mothers and puppies.</p>
                 </div>
-                
-                <div className="flex items-center space-x-4 bg-white/80 p-4 rounded-xl backdrop-blur-sm">
-                  <Users className="h-6 w-6 text-purple-600 flex-shrink-0" />
-                  <div>
-                    <h4 className="font-semibold text-gray-900">Lifetime Support</h4>
-                    <p className="text-gray-800">Ongoing guidance for your furry friend's journey</p>
-                  </div>
+              </div>
+            </div>
+            
+            {/* Feature 3 */}
+            <div className="card-overlay p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+              <div className="flex items-start space-x-4">
+                <div className="bg-gradient-to-br from-orange-500 to-pink-500 p-3 rounded-full flex-shrink-0">
+                  <Award className="h-6 w-6 text-white" />
                 </div>
-                
-                <div className="flex items-center space-x-4 bg-white/80 p-4 rounded-xl backdrop-blur-sm">
-                  <Heart className="h-6 w-6 text-red-500 flex-shrink-0" />
-                  <div>
-                    <h4 className="font-semibold text-gray-900">Care Packages</h4>
-                    <p className="text-gray-800">Breed-specific starter kits and resources</p>
-                  </div>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">3. Import Lineage</h3>
+                  <p className="text-gray-700">All our puppies come from import champion bloodlines, reducing the risk of hereditary health issues and ensuring superior temperament and build quality.</p>
+                </div>
+              </div>
+            </div>
+            
+            {/* Feature 4 */}
+            <div className="card-overlay p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+              <div className="flex items-start space-x-4">
+                <div className="bg-gradient-to-br from-orange-500 to-pink-500 p-3 rounded-full flex-shrink-0">
+                  <Users className="h-6 w-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">4. 24/7 & Lifetime Medical Assistance</h3>
+                  <p className="text-gray-700">Our on-site veterinarian is available anytime for guidance, ensuring your pet receives continuous support throughout its life.</p>
                 </div>
               </div>
             </div>
@@ -697,15 +627,16 @@ export const Home: React.FC = () => {
       </section>
       
       {/* Why Choose Us Title Section */}
-<section className="py-4 bg-white relative overflow-hidden">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <CloudWrap>
-      <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 text-section mb-4 tracking-wide drop-shadow-lg">
-        Why Choose <span className="text-orange-600">Us</span>?
-      </h2>
-    </CloudWrap>
-  </div>
-</section>
+      <section className="py-4 bg-white relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <CloudWrap>
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 text-section mb-4 tracking-wide drop-shadow-lg">
+              Why Choose <span className="text-orange-600">Us</span>?
+            </h2>
+          </CloudWrap>
+        </div>
+      </section>
+      
       {/* CTA Image Section - Full width and height on desktop with luxury white frame */}
       <section className="py- md:py-12 relative overflow-hidden bg-white">
         <div className="px-4 md:px-12 lg:px-20">
@@ -719,40 +650,40 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-     {/* Find Friend CTA Section - Reduced and framed in a luxury white frame on desktop*/}
-<section className="py-8 md:py-12 bg-white relative overflow-hidden">
-  <div className="max-w-4xl mx-auto px-4">
-    {/* Title above image */}
-    <div className="text-center py-6 sm:py-8 md:py-10">
-      <CloudWrap>
-        <h2 className="font-display text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 drop-shadow-lg">
-          Get in Touch
-        </h2>
-      </CloudWrap>
-    </div>
+      {/* Find Friend CTA Section - Reduced and framed in a luxury white frame on desktop */}
+      <section className="py-8 md:py-12 bg-white relative overflow-hidden">
+        <div className="max-w-4xl mx-auto px-4">
+          {/* Title above image */}
+          <div className="text-center py-6 sm:py-8 md:py-10">
+            <CloudWrap>
+              <h2 className="font-display text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 drop-shadow-lg">
+                Get in Touch
+              </h2>
+            </CloudWrap>
+          </div>
 
-    {/* Framed image with reduced height on desktop (clickable) */}
-    <div className="relative">
-      <Link to="/contact" className="mx-auto block bg-white rounded-3xl p-4 md:p-6 shadow-2xl border border-white/90" style={{ maxWidth: '900px' }}>
-        <div className="relative overflow-hidden rounded-2xl">
-          <img
-            src="/FindFriendCTA.png"
-            alt="Find your perfect friend"
-            className="w-full h-48 md:h-64 lg:h-72 object-cover"
-          />
-          {/* Semi-transparent overlay for better text visibility */}
-          <div className="absolute inset-0 bg-black/30 z-10"></div>
-          {/* Text positioned on top of the image */}
-          <div className="absolute inset-0 flex items-start justify-center z-20 p-4 pt-4">
-            <span className="font-display text-white text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight drop-shadow-lg text-center">
-              Contact Us to Get your Best Friend
-            </span>
+          {/* Framed image with reduced height on desktop (clickable) */}
+          <div className="relative">
+            <Link to="/contact" className="mx-auto block bg-white rounded-3xl p-4 md:p-6 shadow-2xl border border-white/90" style={{ maxWidth: '900px' }}>
+              <div className="relative overflow-hidden rounded-2xl">
+                <img
+                  src="/FindFriendCTA.png"
+                  alt="Find your perfect friend"
+                  className="w-full h-48 md:h-64 lg:h-72 object-cover"
+                />
+                {/* Semi-transparent overlay for better text visibility */}
+                <div className="absolute inset-0 bg-black/30 z-10"></div>
+                {/* Text positioned on top of the image */}
+                <div className="absolute inset-0 flex items-start justify-center z-20 p-4 pt-4">
+                  <span className="font-display text-white text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight drop-shadow-lg text-center">
+                    Contact Us to Get your Best Friend
+                  </span>
+                </div>
+              </div>
+            </Link>
           </div>
         </div>
-      </Link>
-    </div>
-  </div>
-</section>
+      </section>
 
       {/* Instagram Feed Section */}
       <section className="py-4 bg-white relative overflow-hidden">

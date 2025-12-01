@@ -12,7 +12,6 @@ export const Contact: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
     alert('Thank you for your message! We\'ll get back to you within 24 hours.');
     setFormData({
       name: '',
@@ -25,35 +24,23 @@ export const Contact: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-cream">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-warm-peach to-warm-peach/80 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="font-display text-5xl md:text-6xl font-bold mb-6 tracking-wide">
-            Get in <span className="text-cream">Touch</span>
-          </h1>
-          <p className="font-sans text-xl md:text-2xl max-w-3xl mx-auto opacity-90 font-medium tracking-wide">
-            Ready to welcome a new furry friend? We're here to help you find your perfect match!
-          </p>
-        </div>
-      </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid lg:grid-cols-2 gap-12">
+
           {/* Contact Form */}
           <div className="bg-white rounded-3xl shadow-lg p-8">
             <h2 className="font-display text-3xl font-bold bg-gradient-to-r from-soft-brown via-warm-peach to-soft-brown bg-clip-text text-transparent mb-6 tracking-wide">
-              Let's Find Your Perfect Friend
+              Let's Find Your Furry Friend
             </h2>
             <p className="text-gray-600 mb-8">
               Fill out the form below and we'll help match you with the perfect companion based on your lifestyle and preferences.
             </p>
-            
+
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Full Name *
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
                   <input
                     type="text"
                     value={formData.name}
@@ -63,11 +50,9 @@ export const Contact: React.FC = () => {
                     required
                   />
                 </div>
-                
+
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Email Address *
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
                   <input
                     type="email"
                     value={formData.email}
@@ -78,12 +63,10 @@ export const Contact: React.FC = () => {
                   />
                 </div>
               </div>
-              
+
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Phone Number *
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
                   <input
                     type="tel"
                     value={formData.phone}
@@ -93,11 +76,9 @@ export const Contact: React.FC = () => {
                     required
                   />
                 </div>
-                
+
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Interested Breed
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Interested Breed</label>
                   <select
                     value={formData.interestedBreed}
                     onChange={(e) => setFormData({ ...formData, interestedBreed: e.target.value })}
@@ -112,21 +93,19 @@ export const Contact: React.FC = () => {
                   </select>
                 </div>
               </div>
-              
+
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Message *
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Message *</label>
                 <textarea
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   rows={6}
                   className="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-warm-peach transition-all resize-none"
-                  placeholder="Tell us about your family, living situation, and what you're looking for in a furry friend..."
+                  placeholder="Tell us about your family, living situation, and what you're looking for..."
                   required
                 />
               </div>
-              
+
               <button
                 type="submit"
                 className="w-full bg-warm-peach hover:bg-warm-peach/90 text-white py-4 rounded-xl font-semibold text-lg flex items-center justify-center space-x-2 transform hover:scale-105 transition-all duration-300"
@@ -136,12 +115,12 @@ export const Contact: React.FC = () => {
               </button>
             </form>
           </div>
-          
+
           {/* Contact Information */}
           <div className="space-y-8">
             <div className="bg-white rounded-3xl shadow-lg p-8">
               <h3 className="text-2xl font-bold text-soft-brown mb-6">Contact Information</h3>
-              
+
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
                   <div className="bg-warm-peach/20 p-3 rounded-full">
@@ -153,7 +132,7 @@ export const Contact: React.FC = () => {
                     <p className="text-sm text-gray-500">Available 9 AM - 7 PM daily</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start space-x-4">
                   <div className="bg-warm-peach/20 p-3 rounded-full">
                     <Mail className="h-6 w-6 text-warm-peach" />
@@ -164,17 +143,19 @@ export const Contact: React.FC = () => {
                     <p className="text-sm text-gray-500">We respond within 24 hours</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start space-x-4">
                   <div className="bg-warm-peach/20 p-3 rounded-full">
                     <MapPin className="h-6 w-6 text-warm-peach" />
                   </div>
                   <div>
                     <h4 className="font-semibold text-soft-brown">Location</h4>
-                    <p className="text-gray-600">123 Pet Paradise Lane<br />Friendlyville, FL 12345</p>
+                    <p className="text-gray-600">
+                      123 Pet Paradise Lane<br />Friendlyville, FL 12345
+                    </p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start space-x-4">
                   <div className="bg-warm-peach/20 p-3 rounded-full">
                     <Clock className="h-6 w-6 text-warm-peach" />
@@ -190,7 +171,7 @@ export const Contact: React.FC = () => {
                 </div>
               </div>
             </div>
-            
+
             {/* Map Placeholder */}
             <div className="bg-white rounded-3xl shadow-lg p-8">
               <h3 className="text-2xl font-bold text-soft-brown mb-6">Visit Our Location</h3>
@@ -202,7 +183,7 @@ export const Contact: React.FC = () => {
                 </div>
               </div>
             </div>
-            
+
             {/* Quick Contact Options */}
             <div className="bg-gradient-to-r from-warm-peach to-warm-peach/80 text-white rounded-3xl shadow-lg p-8">
               <h3 className="text-2xl font-bold mb-4">Need Immediate Help?</h3>
@@ -224,6 +205,7 @@ export const Contact: React.FC = () => {
                 </button>
               </div>
             </div>
+
           </div>
         </div>
       </div>

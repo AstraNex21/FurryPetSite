@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Header } from './components/Header';
-import FloatingContacts from './components/FloatingContacts'; // Changed from named import to default import
-import { Home } from './pages/Home'; // This now includes the marquee
+import FloatingContacts from './components/FloatingContacts';
+import { Home } from './pages/Home';
 import { BreedDetail } from './pages/BreedDetail';
 import { About } from './pages/About';
 import { Contact } from './pages/Contact';
@@ -37,7 +37,7 @@ function App() {
     <Router>
       <div className="min-h-screen bg-cream">
         <ScrollToTop />
-        <Header />
+        <Header />  {/* Only place Header should exist */}
         <main className="relative">
           <Routes>
             <Route path="/" element={<Home />} />

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { Heart, Shield, Award, Users, Calendar, Weight, Star, MapPin, Phone, Mail, Menu, X, ChevronDown } from 'lucide-react';
+import { Heart, Award, Calendar, Weight, Menu, X, ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
+// Remove the Header import since it should be rendered by the layout component
+// import { Header } from '../components/Header'; 
 
 interface BreedDetails {
   name: string;
@@ -58,7 +60,8 @@ const breedDatabase: Record<string, BreedDetails> = {
       puppy: '/FM/26525.JPEG',
       adult: '/FM/FMtall.JPEG'
     },
-    description: 'The French Mastiff, also known as Dogue de Bordeaux, is a majestic and powerful breed known for their loyal and protective nature. These gentle giants form strong bonds with their families and are excellent companions.',
+    description:
+      'The French Mastiff, also known as Dogue de Bordeaux, is a majestic and powerful breed known for their loyal and protective nature. These gentle giants form strong bonds with their families and are excellent companions.',
     temperament: ['Loyal', 'Gentle', 'Protective', 'Calm', 'Affectionate'],
     traits: ['family-friendly', 'protective', 'calm', 'low-energy'],
     size: 'Large',
@@ -80,7 +83,7 @@ const breedDatabase: Record<string, BreedDetails> = {
       nutrition: 'High-quality large breed formula, weight control'
     }
   },
-  'maltese': {
+  maltese: {
     name: 'Maltese',
     slug: 'maltese',
     image: '/dog4.jpg',
@@ -106,7 +109,8 @@ const breedDatabase: Record<string, BreedDetails> = {
       puppy: '/Malt/maltcute.jpg',
       adult: '/Malt/matlhappy.jpg'
     },
-    description: 'The Maltese is a charming and elegant toy breed known for their silky white coat and playful personality. These affectionate companions are perfect for families and individuals seeking a loving, hypoallergenic pet.',
+    description:
+      'The Maltese is a charming and elegant toy breed known for their silky white coat and playful personality. These affectionate companions are perfect for families and individuals seeking a loving, hypoallergenic pet.',
     temperament: ['Playful', 'Gentle', 'Affectionate', 'Intelligent', 'Social'],
     traits: ['hypoallergenic', 'small', 'playful', 'apartment-friendly'],
     size: 'Toy',
@@ -149,7 +153,8 @@ const breedDatabase: Record<string, BreedDetails> = {
       puppy: '/TP/TPpup.JPEG',
       adult: '/TP/pexels-jacob-sierra-419902407-16603124 (1).jpg'
     },
-    description: 'The Toy Poodle is an exceptionally intelligent and elegant breed that combines beauty with brains. These versatile dogs are perfect companions for those who appreciate an active, trainable, and hypoallergenic pet.',
+    description:
+      'The Toy Poodle is an exceptionally intelligent and elegant breed that combines beauty with brains. These versatile dogs are perfect companions for those who appreciate an active, trainable, and hypoallergenic pet.',
     temperament: ['Intelligent', 'Active', 'Trainable', 'Alert', 'Friendly'],
     traits: ['hypoallergenic', 'smart', 'active', 'low-shedding'],
     size: 'Toy',
@@ -195,7 +200,8 @@ const breedDatabase: Record<string, BreedDetails> = {
       puppy: '/YT/YTpupcar.jpg',
       adult: '/YT/YTPupface.jpg'
     },
-    description: 'The Yorkshire Terrier is a feisty and confident toy breed with a big personality in a small package. These brave little dogs are loyal companions with beautiful silky coats and spirited attitudes.',
+    description:
+      'The Yorkshire Terrier is a feisty and confident toy breed with a big personality in a small package. These brave little dogs are loyal companions with beautiful silky coats and spirited attitudes.',
     temperament: ['Bold', 'Confident', 'Courageous', 'Energetic', 'Affectionate'],
     traits: ['small', 'brave', 'energetic', 'low-shedding'],
     size: 'Toy',
@@ -219,137 +225,6 @@ const breedDatabase: Record<string, BreedDetails> = {
   }
 };
 
-// Navigation Bar Component matching Home page
-const NavigationBar = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isBreedsDropdownOpen, setIsBreedsDropdownOpen] = useState(false);
-  const navigate = useNavigate();
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  const toggleBreedsDropdown = () => {
-    setIsBreedsDropdownOpen(!isBreedsDropdownOpen);
-  };
-
-  const handleBreedClick = (slug: string) => {
-    navigate(`/breed/${slug}`);
-    setIsBreedsDropdownOpen(false);
-    setIsMobileMenuOpen(false);
-  };
-
-  return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-[#E97451] via-[#FFB5A7] to-[#E6B8D4] shadow-lg">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex items-center">
-            <Link to="/" className="text-white font-bold text-xl md:text-2xl font-display">
-              FurryFriend
-            </Link>
-          </div>
-          
-          {/* Desktop Navigation */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-6">
-              <Link to="/" className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                Home
-              </Link>
-              <Link to="/about" className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                About Us
-              </Link>
-              
-              {/* Breeds Dropdown */}
-              <div className="relative">
-                <button
-                  onClick={toggleBreedsDropdown}
-                  className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center"
-                >
-                  Our Breeds
-                  <ChevronDown className={`ml-1 h-4 w-4 transform transition-transform ${isBreedsDropdownOpen ? 'rotate-180' : ''}`} />
-                </button>
-                
-                {isBreedsDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                    <div className="py-1">
-                      {Object.values(breedDatabase).map((breed) => (
-                        <button
-                          key={breed.slug}
-                          onClick={() => handleBreedClick(breed.slug)}
-                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
-                        >
-                          {breed.name}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-              
-              <Link to="/contact" className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                Contact
-              </Link>
-            </div>
-          </div>
-          
-          {/* Mobile menu button */}
-          <div className="md:hidden">
-            <button
-              onClick={toggleMobileMenu}
-              className="text-white hover:text-gray-200 p-2 rounded-md"
-            >
-              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </button>
-          </div>
-        </div>
-      </div>
-      
-      {/* Mobile Navigation */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden bg-white/95 backdrop-blur-sm">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <Link to="/" className="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
-              Home
-            </Link>
-            <Link to="/about" className="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
-              About Us
-            </Link>
-            
-            {/* Mobile Breeds Dropdown */}
-            <div>
-              <button
-                onClick={toggleBreedsDropdown}
-                className="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium w-full text-left flex items-center justify-between"
-              >
-                Our Breeds
-                <ChevronDown className={`h-4 w-4 transform transition-transform ${isBreedsDropdownOpen ? 'rotate-180' : ''}`} />
-              </button>
-              
-              {isBreedsDropdownOpen && (
-                <div className="pl-6 pr-3 py-2 space-y-1">
-                  {Object.values(breedDatabase).map((breed) => (
-                    <button
-                      key={breed.slug}
-                      onClick={() => handleBreedClick(breed.slug)}
-                      className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:text-gray-900"
-                    >
-                      {breed.name}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-            
-            <Link to="/contact" className="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
-              Contact
-            </Link>
-          </div>
-        </div>
-      )}
-    </nav>
-  );
-};
-
 export const BreedDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const [breed, setBreed] = useState<BreedDetails | null>(null);
@@ -369,9 +244,11 @@ export const BreedDetail: React.FC = () => {
     window.scrollTo(0, 0);
   }, [slug]);
 
-  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleFormChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: value
     }));
@@ -379,12 +256,9 @@ export const BreedDetail: React.FC = () => {
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission - you can send this to your backend
     console.log('Quote request submitted:', { breed: breed?.name, ...formData });
-    // Reset form and close modal
     setFormData({ name: '', email: '', phone: '', message: '' });
     setShowQuoteForm(false);
-    // Optionally show a success message
     alert('Thank you for your inquiry! We will contact you soon.');
   };
 
@@ -393,7 +267,10 @@ export const BreedDetail: React.FC = () => {
       <div className="min-h-screen bg-gradient-to-br from-[#FFB5A7] to-[#F4C2C2] flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-gray-800 mb-4">Breed Not Found</h1>
-          <Link to="/" className="text-[#E97451] hover:text-[#E97451]/80 underline">
+          <Link
+            to="/"
+            className="text-[#E97451] hover:text-[#E97451]/80 underline"
+          >
             Return to Home
           </Link>
         </div>
@@ -401,15 +278,62 @@ export const BreedDetail: React.FC = () => {
     );
   }
 
+  // Function to get the 5 most important traits for each breed
+  const getTopTraits = () => {
+    if (breed.slug === 'maltese') {
+      return [
+        { icon: '✨', label: 'Charming' },
+        { icon: '🌟', label: 'Adorable' },
+        { icon: '🎭', label: 'Elegant' },
+        { icon: '🎀', label: 'Gentle' },
+        { icon: '🏠', label: 'Indoor' }
+      ];
+    } else if (breed.slug === 'toy-poodle') {
+      return [
+        { icon: '🧠', label: 'Genius' },
+        { icon: '🎓', label: 'Trainable' },
+        { icon: '🎨', label: 'Stylish' },
+        { icon: '🏃', label: 'Active' },
+        { icon: '🤸', label: 'Agile' }
+      ];
+    } else if (breed.slug === 'yorkshire-terrier') {
+      return [
+        { icon: '💫', label: 'Sparkling' },
+        { icon: '🎯', label: 'Bold' },
+        { icon: '🦸', label: 'Brave' },
+        { icon: '👔', label: 'Classy' },
+        { icon: '🌟', label: 'Feisty' }
+      ];
+    } else if (breed.slug === 'french-mastiff') {
+      return [
+        { icon: '🏰', label: 'Guardian' },
+        { icon: '💪', label: 'Mighty' },
+        { icon: '🛡️', label: 'Protector' },
+        { icon: '👑', label: 'Majestic' },
+        { icon: '❤️', label: 'Devoted' }
+      ];
+    }
+    // Default traits for any other breed
+    return [
+      { icon: '❤️', label: 'Loving' },
+      { icon: '🏠', label: 'Family' },
+      { icon: '🎾', label: 'Playful' },
+      { icon: '🍽️', label: 'Foodie' },
+      { icon: '🐾', label: 'Friendly' }
+    ];
+  };
+
+  // Get the top 5 traits for the current breed
+  const topTraits = getTopTraits();
+
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation Bar matching Home page */}
-      <NavigationBar />
+      {/* Removed the Header component since it should be rendered by the layout component */}
 
       {/* Hero Section with Image Gallery - Mobile Optimized */}
       <section className="relative pt-4 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-4">
-          <motion.div 
+          <motion.div
             className="space-y-6 lg:space-y-8"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -421,70 +345,21 @@ export const BreedDetail: React.FC = () => {
                 <h1 className="font-display text-3xl sm:text-4xl font-bold text-gray-800 mb-2">
                   {breed.name}
                 </h1>
-                
-                {/* Key Traits Icons and Emojis */}
+
+                {/* Key Traits Icons and Emojis - Mobile (Limited to 5) */}
                 <div className="flex items-center justify-center flex-wrap gap-3 mb-4 px-2">
-                  {breed.traits.includes('family-friendly') && (
-                    <div className="flex flex-col items-center gap-1">
-                      <span className="text-2xl">👨‍👩‍👧‍👦</span>
-                      <span className="text-xs text-gray-600">Family</span>
+                  {topTraits.map((trait, index) => (
+                    <div key={index} className="flex flex-col items-center gap-1">
+                      <span className="text-2xl">{trait.icon}</span>
+                      <span className="text-xs text-gray-600">{trait.label}</span>
                     </div>
-                  )}
-                  {breed.traits.includes('protective') && (
-                    <div className="flex flex-col items-center gap-1">
-                      <span className="text-2xl">🛡️</span>
-                      <span className="text-xs text-gray-600">Protective</span>
-                    </div>
-                  )}
-                  {breed.traits.includes('playful') && (
-                    <div className="flex flex-col items-center gap-1">
-                      <span className="text-2xl">⚽</span>
-                      <span className="text-xs text-gray-600">Playful</span>
-                    </div>
-                  )}
-                  {breed.traits.includes('hypoallergenic') && (
-                    <div className="flex flex-col items-center gap-1">
-                      <span className="text-2xl">🌿</span>
-                      <span className="text-xs text-gray-600">Hypoallergenic</span>
-                    </div>
-                  )}
-                  {breed.traits.includes('small') && (
-                    <div className="flex flex-col items-center gap-1">
-                      <span className="text-2xl">🐕</span>
-                      <span className="text-xs text-gray-600">Small</span>
-                    </div>
-                  )}
-                  {breed.traits.includes('smart') && (
-                    <div className="flex flex-col items-center gap-1">
-                      <span className="text-2xl">🧠</span>
-                      <span className="text-xs text-gray-600">Smart</span>
-                    </div>
-                  )}
-                  {breed.traits.includes('calm') && (
-                    <div className="flex flex-col items-center gap-1">
-                      <span className="text-2xl">😌</span>
-                      <span className="text-xs text-gray-600">Calm</span>
-                    </div>
-                  )}
-                  {breed.traits.includes('energetic') && (
-                    <div className="flex flex-col items-center gap-1">
-                      <span className="text-2xl">⚡</span>
-                      <span className="text-xs text-gray-600">Energetic</span>
-                    </div>
-                  )}
+                  ))}
                 </div>
-                
-                <div className="flex items-center justify-center space-x-4 text-gray-600 text-sm">
-                  <span className="flex items-center">
-                    <Star className="h-4 w-4 text-[#E97451] fill-current" />
-                    <span className="ml-1">4.9 (127 reviews)</span>
-                  </span>
-                  <span>•</span>
+
+                <div className="flex items-center justify-center text-gray-600 text-sm">
                   <span>{breed.size} Breed</span>
                 </div>
               </div>
-
-              <p className="text-gray-700 leading-relaxed text-center px-2">{breed.description}</p>
 
               {/* Mobile Quick Stats */}
               <div className="grid grid-cols-2 gap-3 px-2">
@@ -493,35 +368,45 @@ export const BreedDetail: React.FC = () => {
                     <Weight className="h-4 w-4 text-[#E97451]" />
                     <span className="text-xs text-gray-600">Adult Weight</span>
                   </div>
-                  <p className="font-semibold text-gray-800 text-sm">{breed.weight}</p>
+                  <p className="font-semibold text-gray-800 text-sm">
+                    {breed.weight}
+                  </p>
                 </div>
                 <div className="bg-white p-3 rounded-xl shadow-md">
                   <div className="flex items-center space-x-2 mb-1">
                     <Weight className="h-4 w-4 text-[#E97451]" />
                     <span className="text-xs text-gray-600">Puppy Weight</span>
                   </div>
-                  <p className="font-semibold text-gray-800 text-sm">{breed.puppyWeight}</p>
+                  <p className="font-semibold text-gray-800 text-sm">
+                    {breed.puppyWeight}
+                  </p>
                 </div>
                 <div className="bg-white p-3 rounded-xl shadow-md">
                   <div className="flex items-center space-x-2 mb-1">
                     <Calendar className="h-4 w-4 text-[#E97451]" />
                     <span className="text-xs text-gray-600">Lifespan</span>
                   </div>
-                  <p className="font-semibold text-gray-800 text-sm">{breed.lifespan}</p>
+                  <p className="font-semibold text-gray-800 text-sm">
+                    {breed.lifespan}
+                  </p>
                 </div>
                 <div className="bg-white p-3 rounded-xl shadow-md">
                   <div className="flex items-center space-x-2 mb-1">
                     <Heart className="h-4 w-4 text-[#E97451]" />
                     <span className="text-xs text-gray-600">Healthcare</span>
                   </div>
-                  <p className="font-semibold text-gray-800 text-xs">{breed.health.vetCheckups}</p>
+                  <p className="font-semibold text-gray-800 text-sm">
+                    {breed.health.vetCheckups}
+                  </p>
                 </div>
                 <div className="bg-white p-3 rounded-xl shadow-md col-span-2">
                   <div className="flex items-center space-x-2 mb-1">
                     <Award className="h-4 w-4 text-[#E97451]" />
                     <span className="text-xs text-gray-600">Care Needs</span>
                   </div>
-                  <p className="font-semibold text-gray-800 text-xs">{breed.care.grooming.split(',')[0]}</p>
+                  <p className="font-semibold text-gray-800 text-sm">
+                    {breed.care.grooming.split(',')[0]}
+                  </p>
                 </div>
               </div>
             </div>
@@ -539,7 +424,7 @@ export const BreedDetail: React.FC = () => {
                     />
                   </div>
                 </div>
-                
+
                 {/* Thumbnail Gallery - Mobile Optimized */}
                 <div className="flex space-x-2 overflow-x-auto pb-2 px-2">
                   {breed.gallery.map((img, index) => (
@@ -547,13 +432,15 @@ export const BreedDetail: React.FC = () => {
                       key={index}
                       onClick={() => setSelectedImage(index)}
                       className={`flex-shrink-0 w-16 h-20 sm:w-20 sm:h-24 rounded-lg overflow-hidden border-2 transition-all ${
-                        selectedImage === index ? 'border-[#E97451] scale-105' : 'border-gray-200'
+                        selectedImage === index
+                          ? 'border-[#E97451] scale-105'
+                          : 'border-gray-200'
                       }`}
                     >
-                      <img 
-                        src={img} 
-                        alt={`${breed.name} ${index + 1}`} 
-                        className="w-full h-full object-cover object-center" 
+                      <img
+                        src={img}
+                        alt={`${breed.name} ${index + 1}`}
+                        className="w-full h-full object-cover object-center"
                       />
                     </button>
                   ))}
@@ -566,70 +453,21 @@ export const BreedDetail: React.FC = () => {
                   <h1 className="font-display text-4xl md:text-5xl font-bold text-gray-800 mb-3">
                     {breed.name}
                   </h1>
-                  
-                  {/* Key Traits Icons and Emojis - Desktop */}
+
+                  {/* Key Traits Icons and Emojis - Desktop (Limited to 5) */}
                   <div className="flex items-center flex-wrap gap-4 mb-4">
-                    {breed.traits.includes('family-friendly') && (
-                      <div className="flex flex-col items-center gap-1">
-                        <span className="text-3xl">👨‍👩‍👧‍👦</span>
-                        <span className="text-sm text-gray-600">Family</span>
+                    {topTraits.map((trait, index) => (
+                      <div key={index} className="flex flex-col items-center gap-1">
+                        <span className="text-3xl">{trait.icon}</span>
+                        <span className="text-sm text-gray-600">{trait.label}</span>
                       </div>
-                    )}
-                    {breed.traits.includes('protective') && (
-                      <div className="flex flex-col items-center gap-1">
-                        <span className="text-3xl">🛡️</span>
-                        <span className="text-sm text-gray-600">Protective</span>
-                      </div>
-                    )}
-                    {breed.traits.includes('playful') && (
-                      <div className="flex flex-col items-center gap-1">
-                        <span className="text-3xl">⚽</span>
-                        <span className="text-sm text-gray-600">Playful</span>
-                      </div>
-                    )}
-                    {breed.traits.includes('hypoallergenic') && (
-                      <div className="flex flex-col items-center gap-1">
-                        <span className="text-3xl">🌿</span>
-                        <span className="text-sm text-gray-600">Hypoallergenic</span>
-                      </div>
-                    )}
-                    {breed.traits.includes('small') && (
-                      <div className="flex flex-col items-center gap-1">
-                        <span className="text-3xl">🐕</span>
-                        <span className="text-sm text-gray-600">Small</span>
-                      </div>
-                    )}
-                    {breed.traits.includes('smart') && (
-                      <div className="flex flex-col items-center gap-1">
-                        <span className="text-3xl">🧠</span>
-                        <span className="text-sm text-gray-600">Smart</span>
-                      </div>
-                    )}
-                    {breed.traits.includes('calm') && (
-                      <div className="flex flex-col items-center gap-1">
-                        <span className="text-3xl">😌</span>
-                        <span className="text-sm text-gray-600">Calm</span>
-                      </div>
-                    )}
-                    {breed.traits.includes('energetic') && (
-                      <div className="flex flex-col items-center gap-1">
-                        <span className="text-3xl">⚡</span>
-                        <span className="text-sm text-gray-600">Energetic</span>
-                      </div>
-                    )}
+                    ))}
                   </div>
-                  
-                  <div className="flex items-center space-x-4 text-gray-600">
-                    <span className="flex items-center">
-                      <Star className="h-4 w-4 text-[#E97451] fill-current" />
-                      <span className="ml-1">4.9 (127 reviews)</span>
-                    </span>
-                    <span>•</span>
+
+                  <div className="flex items-center text-gray-600 text-base">
                     <span>{breed.size} Breed</span>
                   </div>
                 </div>
-
-                <p className="text-gray-700 leading-relaxed">{breed.description}</p>
 
                 {/* Desktop Quick Stats */}
                 <div className="grid grid-cols-2 gap-4">
@@ -645,39 +483,47 @@ export const BreedDetail: React.FC = () => {
                       <Weight className="h-4 w-4 text-[#E97451]" />
                       <span className="text-sm text-gray-600">Puppy Weight</span>
                     </div>
-                    <p className="font-semibold text-gray-800">{breed.puppyWeight}</p>
+                    <p className="font-semibold text-gray-800">
+                      {breed.puppyWeight}
+                    </p>
                   </div>
                   <div className="bg-white p-4 rounded-xl shadow-md">
                     <div className="flex items-center space-x-2 mb-1">
                       <Calendar className="h-4 w-4 text-[#E97451]" />
                       <span className="text-sm text-gray-600">Lifespan</span>
                     </div>
-                    <p className="font-semibold text-gray-800">{breed.lifespan}</p>
+                    <p className="font-semibold text-gray-800">
+                      {breed.lifespan}
+                    </p>
                   </div>
                   <div className="bg-white p-4 rounded-xl shadow-md">
                     <div className="flex items-center space-x-2 mb-1">
                       <Heart className="h-4 w-4 text-[#E97451]" />
                       <span className="text-sm text-gray-600">Healthcare</span>
                     </div>
-                    <p className="font-semibold text-gray-800 text-xs">{breed.health.vetCheckups}</p>
+                    <p className="font-semibold text-gray-800 text-sm">
+                      {breed.health.vetCheckups}
+                    </p>
                   </div>
                   <div className="bg-white p-4 rounded-xl shadow-md">
                     <div className="flex items-center space-x-2 mb-1">
                       <Award className="h-4 w-4 text-[#E97451]" />
                       <span className="text-sm text-gray-600">Care Needs</span>
                     </div>
-                    <p className="font-semibold text-gray-800 text-xs">{breed.care.grooming.split(',')[0]}</p>
+                    <p className="font-semibold text-gray-800 text-sm">
+                      {breed.care.grooming.split(',')[0]}
+                    </p>
                   </div>
                 </div>
 
                 {/* CTA */}
                 <div className="space-y-3 pt-4">
-                  <button 
+                  <button
                     onClick={() => setShowQuoteForm(true)}
-                    className="bg-[#E97451] hover:bg-[#E97451]/90 text-white px-6 py-3 rounded-full font-semibold transform hover:scale-105 transition-all w-full">
+                    className="bg-[#E97451] hover:bg-[#E97451]/90 text-white px-6 py-3 rounded-full font-semibold transform hover:scale-105 transition-all w-full"
+                  >
                     Request Quote
                   </button>
-                  <p className="text-sm text-gray-600 text-center">Health guarantee & lifetime support included</p>
                 </div>
               </div>
             </div>
@@ -686,12 +532,12 @@ export const BreedDetail: React.FC = () => {
             <div className="lg:hidden space-y-4 px-2">
               {/* CTA */}
               <div className="space-y-3 pt-2">
-                <button 
+                <button
                   onClick={() => setShowQuoteForm(true)}
-                  className="bg-[#E97451] hover:bg-[#E97451]/90 text-white px-6 py-3 rounded-full font-semibold transform hover:scale-105 transition-all w-full">
+                  className="bg-[#E97451] hover:bg-[#E97451]/90 text-white px-6 py-3 rounded-full font-semibold transform hover:scale-105 transition-all w-full"
+                >
                   Request Quote
                 </button>
-                <p className="text-sm text-gray-600 text-center">Health guarantee & lifetime support included</p>
               </div>
             </div>
           </motion.div>
@@ -704,7 +550,7 @@ export const BreedDetail: React.FC = () => {
           <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-800 mb-6 sm:mb-10">
             From Puppy to Adult
           </h2>
-          
+
           <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
             {/* Puppy */}
             <motion.div
@@ -714,7 +560,9 @@ export const BreedDetail: React.FC = () => {
               className="relative"
             >
               <div className="bg-gradient-to-br from-[#FFB5A7]/20 to-[#F4C2C2]/20 p-4 sm:p-6 rounded-2xl">
-                <h3 className="font-display text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4 text-center">Puppy Stage</h3>
+                <h3 className="font-display text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4 text-center">
+                  Puppy Stage
+                </h3>
                 <div className="relative overflow-hidden rounded-xl shadow-lg mb-3 sm:mb-4 bg-gray-100">
                   <div className="aspect-[4/5] sm:aspect-[7/9] w-full">
                     <img
@@ -725,12 +573,13 @@ export const BreedDetail: React.FC = () => {
                   </div>
                 </div>
                 <p className="text-gray-700 text-sm sm:text-base">
-                  {breed.name} puppies are adorable, energetic, and require special care during their early months. 
-                  They need proper socialization, training, and nutrition to grow into healthy adult dogs.
+                  {breed.name} puppies are adorable, energetic, and require special care
+                  during their early months. They need proper socialization, training,
+                  and nutrition to grow into healthy adult dogs.
                 </p>
               </div>
             </motion.div>
-            
+
             {/* Adult */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
@@ -739,7 +588,9 @@ export const BreedDetail: React.FC = () => {
               className="relative"
             >
               <div className="bg-gradient-to-br from-[#E6B8D4]/20 to-white p-4 sm:p-6 rounded-2xl">
-                <h3 className="font-display text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4 text-center">Adult Stage</h3>
+                <h3 className="font-display text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4 text-center">
+                  Adult Stage
+                </h3>
                 <div className="relative overflow-hidden rounded-xl shadow-lg mb-3 sm:mb-4 bg-gray-100">
                   <div className="aspect-[4/5] sm:aspect-[7/9] w-full">
                     <img
@@ -750,8 +601,9 @@ export const BreedDetail: React.FC = () => {
                   </div>
                 </div>
                 <p className="text-gray-700 text-sm sm:text-base">
-                  Adult {breed.name.toLowerCase()}s showcase their full beauty and personality. 
-                  They have established their temperament and are well-adjusted to their environment with proper training.
+                  Adult {breed.name.toLowerCase()}s showcase their full beauty and
+                  personality. They have established their temperament and are
+                  well-adjusted to their environment with proper training.
                 </p>
               </div>
             </motion.div>
@@ -762,16 +614,36 @@ export const BreedDetail: React.FC = () => {
       {/* Breed Gallery Section - Mobile Optimized */}
       <section className="py-8 sm:py-12 bg-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 text-4xl sm:text-6xl animate-bounce" style={{ animationDelay: '0s', animationDuration: '3s' }}>🐕</div>
-          <div className="absolute top-40 right-20 text-3xl sm:text-4xl animate-bounce" style={{ animationDelay: '0.5s', animationDuration: '2.5s' }}>🐾</div>
-          <div className="absolute bottom-20 left-1/3 text-4xl sm:text-5xl animate-bounce" style={{ animationDelay: '1.5s', animationDuration: '2.8s' }}>🐶</div>
-          <div className="absolute bottom-40 right-10 text-2xl sm:text-3xl animate-pulse" style={{ animationDuration: '2s' }}>❤️</div>
+          <div
+            className="absolute top-10 left-10 text-4xl sm:text-6xl animate-bounce"
+            style={{ animationDelay: '0s', animationDuration: '3s' }}
+          >
+            🐕
+          </div>
+          <div
+            className="absolute top-40 right-20 text-3xl sm:text-4xl animate-bounce"
+            style={{ animationDelay: '0.5s', animationDuration: '2.5s' }}
+          >
+            🐾
+          </div>
+          <div
+            className="absolute bottom-20 left-1/3 text-4xl sm:text-5xl animate-bounce"
+            style={{ animationDelay: '1.5s', animationDuration: '2.8s' }}
+          >
+            🐶
+          </div>
+          <div
+            className="absolute bottom-40 right-10 text-2xl sm:text-3xl animate-pulse"
+            style={{ animationDuration: '2s' }}
+          >
+            ❤️
+          </div>
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-800 mb-6 sm:mb-10">
             {breed.name} Gallery
           </h2>
-          
+
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
             {breed.gallery.map((img, index) => (
               <motion.div
@@ -802,43 +674,39 @@ export const BreedDetail: React.FC = () => {
             Why Choose <span className="text-orange-600">Us</span>?
           </h2>
         </div>
-        <img
-          src="/CTAimg.jpeg"
-          alt="Why Choose Us"
-          className="w-full h-auto"
-        />
+        <img src="/CTAimg.jpeg" alt="Why Choose Us" className="w-full h-auto" />
       </section>
 
-{/* Find Friend CTA Section */}
-<section className="py-0 bg-white relative overflow-hidden">
-  <div className="w-full">
-    {/* Title above image */}
-    <div className="text-center py-6 sm:py-8 md:py-12">
-      <h2 className="font-display text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 drop-shadow-lg">
-        Get in Touch
-      </h2>
-    </div>
-    
-    {/* Image as a clickable CTA linking to contact page */}
-    <div className="relative w-full">
-      <Link to="/contact" className="block w-full">
-        <div style={{ width: '100%', display: 'block' }} className="relative">
-          <img
-            src="/FindFriendCTA.png"
-            alt="Find your perfect friend"
-            className="w-full h-auto object-cover"
-            style={{ width: '100%', height: 'auto', display: 'block' }}
-          />
-          <span className="absolute inset-0 flex items-start justify-center pt-4 sm:pt-6 md:pt-8 pointer-events-none">
-            <span className="font-display text-white text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight drop-shadow-lg">
-              Contact Us to Get your Best Friend
-            </span>
-          </span>
+      {/* Find Friend CTA Section */}
+      <section className="py-0 bg-white relative overflow-hidden">
+        <div className="w-full">
+          {/* Title above image */}
+          <div className="text-center py-6 sm:py-8 md:py-12">
+            <h2 className="font-display text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 drop-shadow-lg">
+              Get in Touch
+            </h2>
+          </div>
+
+          {/* Image as a clickable CTA linking to contact page */}
+          <div className="relative w-full">
+            <Link to="/contact" className="block w-full">
+              <div style={{ width: '100%', display: 'block' }} className="relative">
+                <img
+                  src="/FindFriendCTA.png"
+                  alt="Find your perfect friend"
+                  className="w-full h-auto object-cover"
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
+                />
+                <span className="absolute inset-0 flex items-start justify-center pt-4 sm:pt-6 md:pt-8 pointer-events-none">
+                  <span className="font-display text-white text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight drop-shadow-lg">
+                    Contact Us to Get your Best Friend
+                  </span>
+                </span>
+              </div>
+            </Link>
+          </div>
         </div>
-      </Link>
-    </div>
-  </div>
-</section>
+      </section>
 
       {/* Quote Request Modal */}
       {showQuoteForm && (
@@ -862,7 +730,8 @@ export const BreedDetail: React.FC = () => {
             </div>
 
             <p className="text-gray-600 mb-6">
-              Interested in {breed?.name}? Fill out form below and we'll get back to you with a quote.
+              Interested in {breed?.name}? Fill out form below and we'll get back to
+              you with a quote.
             </p>
 
             <form onSubmit={handleFormSubmit} className="space-y-4">
