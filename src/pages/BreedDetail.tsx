@@ -670,9 +670,6 @@ export const BreedDetail: React.FC = () => {
       {/* CTA Image Section - Replacing Why Choose Us */}
       <section id="cta-video" className="py-4 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 text-section mb-4 tracking-wide drop-shadow-lg">
-            Why Choose <span className="text-orange-600">Us</span>?
-          </h2>
         </div>
         <img src="/CTAimg.jpeg" alt="Why Choose Us" className="w-full h-auto" />
       </section>

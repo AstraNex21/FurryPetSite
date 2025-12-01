@@ -1,15 +1,24 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { Header } from './components/Header';
-import FloatingContacts from './components/FloatingContacts';
-import { Home } from './pages/Home';
-import { BreedDetail } from './pages/BreedDetail';
-import { About } from './pages/About';
-import { Contact } from './pages/Contact';
-import { AdoptionProcess } from './pages/AdoptionProcess';
-import { LoadingScreen } from './components/LoadingScreen';
-import { Footer } from './components/Footer';
-import './index.css';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
+
+import Header from "./components/Header";
+import FloatingContacts from "./components/FloatingContacts";
+
+import { Home } from "./pages/Home";
+import { BreedDetail } from "./pages/BreedDetail";
+import { About } from "./pages/About";
+import { Contact } from "./pages/Contact";
+import { AdoptionProcess } from "./pages/AdoptionProcess";
+
+import { LoadingScreen } from "./components/LoadingScreen";
+import { Footer } from "./components/Footer";
+
+import "./index.css";
 
 const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
@@ -29,16 +38,15 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  if (loading) {
-    return <LoadingScreen />;
-  }
+  if (loading) return <LoadingScreen />;
 
   return (
     <Router>
-      <div className="min-h-screen bg-cream">
+      <div className="min-h-screen bg-neutral-50">
         <ScrollToTop />
-        <Header />  {/* Only place Header should exist */}
-        <main className="relative">
+        <Header />
+
+        <main className="relative pt-20">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/breed/:slug" element={<BreedDetail />} />
@@ -47,6 +55,7 @@ function App() {
             <Route path="/adoption-process" element={<AdoptionProcess />} />
           </Routes>
         </main>
+
         <Footer />
         <FloatingContacts />
       </div>

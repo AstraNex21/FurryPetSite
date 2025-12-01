@@ -1,196 +1,129 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Heart, Menu, X, ChevronDown } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { Heart, ChevronDown } from "lucide-react";
 
-export const Header: React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isBreedsDropdownOpen, setIsBreedsDropdownOpen] = useState(false);
+export default function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  // Define gradient text style
-  const gradientTextStyle = {
-    background: 'linear-gradient(to right, #E97451, #FF6B9D)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    backgroundClip: 'text',
+  const closeAll = () => {
+    setMenuOpen(false);
+    setDropdownOpen(false);
   };
 
-  // List of breeds for dropdown
   const breeds = [
-    { name: 'French Mastiff', slug: 'french-mastiff' },
-    { name: 'Maltese', slug: 'maltese' },
-    { name: 'Toy Poodle', slug: 'toy-poodle' },
-    { name: 'Yorkshire Terrier', slug: 'yorkshire-terrier' },
+    { name: "French Mastiff", slug: "french-mastiff" },
+    { name: "Maltese", slug: "maltese" },
+    { name: "Toy Poodle", slug: "toy-poodle" },
+    { name: "Yorkshire Terrier", slug: "yorkshire-terrier" },
   ];
 
   return (
-    <motion.header className="bg-white shadow-lg sticky top-0 z-40">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="bg-gradient-to-r from-[#E97451] to-[#FF6B9D] p-2 rounded-full">
-              <Heart className="h-6 w-6 text-white fill-current" />
-            </div>
-            <span className="text-2xl font-bold" style={gradientTextStyle}>FurryFriend</span>
+    <header className="fixed top-0 left-0 w-full z-50 bg-white/70 backdrop-blur-xl border-b border-white/20">
+      <div className="flex items-center justify-between max-w-7xl mx-auto px-6 py-4">
+
+        <Link to="/" onClick={closeAll} className="flex items-center gap-2 select-none">
+          <Heart className="text-pink-500" size={26} />
+          <span className="text-xl tracking-wide font-semibold text-gray-800 uppercase">
+            Furry Friend
+          </span>
+        </Link>
+
+        {/* Desktop Menu */}
+        <nav className="hidden md:flex items-center gap-10 text-gray-800 text-sm font-medium">
+
+          {/* Dropdown */}
+          <div className="relative">
+            <button
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className="flex items-center gap-1 hover:text-pink-500 transition"
+            >
+              Our Breeds <ChevronDown size={16} />
+            </button>
+
+            {dropdownOpen && (
+              <div className="absolute top-8 left-0 bg-white shadow-lg rounded-xl py-3 w-52 border border-gray-100">
+                {breeds.map((b) => (
+                  <Link
+                    key={b.slug}
+                    to={`/breed/${b.slug}`}
+                    className="block px-4 py-2 hover:bg-pink-100/50 text-sm"
+                    onClick={closeAll}
+                  >
+                    {b.name}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <Link to="/adoption-process" className="hover:text-pink-500 transition" onClick={closeAll}>
+            Adoption Process
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8 items-center">
-            <Link to="/" className="hover:opacity-80 transition-opacity duration-300 font-medium" style={gradientTextStyle}>
-              Home
-            </Link>
-            <Link to="/about" className="hover:opacity-80 transition-opacity duration-300 font-medium" style={gradientTextStyle}>
-              About Us
-            </Link>
-            
-            {/* Breeds Dropdown */}
-            <div 
-              className="relative"
-              onMouseEnter={() => setIsBreedsDropdownOpen(true)}
-              onMouseLeave={() => setIsBreedsDropdownOpen(false)}
+          <Link to="/about" className="hover:text-pink-500 transition" onClick={closeAll}>
+            About
+          </Link>
+
+          <Link to="/contact" className="hover:text-pink-500 transition" onClick={closeAll}>
+            Contact
+          </Link>
+        </nav>
+
+        {/* Mobile Menu Icon */}
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="md:hidden text-gray-800"
+        >
+          <div className="space-y-1.5">
+            <span className={`block h-0.5 w-6 bg-gray-800 transition ${menuOpen ? "rotate-45 translate-y-1.5" : ""}`} />
+            <span className={`block h-0.5 w-6 bg-gray-800 transition ${menuOpen ? "opacity-0" : ""}`} />
+            <span className={`block h-0.5 w-6 bg-gray-800 transition ${menuOpen ? "-rotate-45 -translate-y-1.5" : ""}`} />
+          </div>
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      {menuOpen && (
+        <div className="md:hidden bg-white border-t border-gray-200 shadow-lg">
+          <div className="flex flex-col py-4 px-6 space-y-4 text-gray-800 text-base font-medium">
+
+            <button
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className="flex items-center justify-between w-full"
             >
-              <button 
-                className="hover:opacity-80 transition-opacity duration-300 font-medium flex items-center gap-1"
-                style={gradientTextStyle}
-              >
-                Our Breeds
-                <ChevronDown className={`h-4 w-4 transition-transform ${isBreedsDropdownOpen ? 'rotate-180' : ''}`} />
-              </button>
-              
-              <AnimatePresence>
-                {isBreedsDropdownOpen && (
-                  <motion.div 
-                    className="absolute top-full left-0 mt-2 bg-white rounded-lg shadow-xl py-2 min-w-[200px] z-50"
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.2 }}
-                    style={{ zIndex: 1000 }}
+              Our Breeds <ChevronDown size={18} />
+            </button>
+
+            {dropdownOpen && (
+              <div className="ml-3 flex flex-col gap-2 text-sm">
+                {breeds.map((b) => (
+                  <Link
+                    key={b.slug}
+                    to={`/breed/${b.slug}`}
+                    className="hover:text-pink-500"
+                    onClick={closeAll}
                   >
-                    {breeds.map((breed) => (
-                      <Link
-                        key={breed.slug}
-                        to={`/breed/${breed.slug}`}
-                        className="block px-4 py-2 hover:bg-gray-100 transition-colors text-gray-800 hover:text-gray-900"
-                        style={{ ...gradientTextStyle, WebkitTextFillColor: 'inherit' }}
-                      >
-                        {breed.name}
-                      </Link>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-            
-            <Link to="/adoption-process" className="hover:opacity-80 transition-opacity duration-300 font-medium" style={gradientTextStyle}>
+                    {b.name}
+                  </Link>
+                ))}
+              </div>
+            )}
+
+            <Link to="/adoption-process" onClick={closeAll} className="hover:text-pink-500">
               Adoption Process
             </Link>
-            <Link to="/contact" className="hover:opacity-80 transition-opacity duration-300 font-medium" style={gradientTextStyle}>
+
+            <Link to="/about" onClick={closeAll} className="hover:text-pink-500">
+              About
+            </Link>
+
+            <Link to="/contact" onClick={closeAll} className="hover:text-pink-500">
               Contact
             </Link>
-          </nav>
-
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden p-2"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? (
-              <X className="h-6 w-6" style={gradientTextStyle} />
-            ) : (
-              <Menu className="h-6 w-6" style={gradientTextStyle} />
-            )}
-          </button>
+          </div>
         </div>
-
-        {/* Mobile Navigation */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div 
-              className="md:hidden py-4 border-t border-gray-200"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <nav className="flex flex-col space-y-4">
-                <Link 
-                  to="/" 
-                  className="hover:opacity-80 transition-opacity duration-300 font-medium"
-                  style={gradientTextStyle}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Home
-                </Link>
-                <Link 
-                  to="/about" 
-                  className="hover:opacity-80 transition-opacity duration-300 font-medium"
-                  style={gradientTextStyle}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  About Us
-                </Link>
-                
-                {/* Mobile Breeds Dropdown */}
-                <div>
-                  <button 
-                    className="hover:opacity-80 transition-opacity duration-300 font-medium flex items-center justify-between w-full"
-                    style={gradientTextStyle}
-                    onClick={() => setIsBreedsDropdownOpen(!isBreedsDropdownOpen)}
-                  >
-                    Our Breeds
-                    <ChevronDown className={`h-4 w-4 transition-transform ${isBreedsDropdownOpen ? 'rotate-180' : ''}`} />
-                  </button>
-                  
-                  <AnimatePresence>
-                    {isBreedsDropdownOpen && (
-                      <motion.div 
-                        className="pl-4 py-2 bg-gray-50 rounded-lg mt-2"
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        {breeds.map((breed) => (
-                          <Link
-                            key={breed.slug}
-                            to={`/breed/${breed.slug}`}
-                            className="block py-2 hover:opacity-70 transition-opacity text-gray-800"
-                            style={{ ...gradientTextStyle, WebkitTextFillColor: 'inherit' }}
-                            onClick={() => {
-                              setIsMenuOpen(false);
-                              setIsBreedsDropdownOpen(false);
-                            }}
-                          >
-                            {breed.name}
-                          </Link>
-                        ))}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-                
-                <Link 
-                  to="/adoption-process" 
-                  className="hover:opacity-80 transition-opacity duration-300 font-medium"
-                  style={gradientTextStyle}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Adoption Process
-                </Link>
-                <Link 
-                  to="/contact" 
-                  className="hover:opacity-80 transition-opacity duration-300 font-medium"
-                  style={gradientTextStyle}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Contact
-                </Link>
-              </nav>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </motion.header>
+      )}
+    </header>
   );
-};
+}

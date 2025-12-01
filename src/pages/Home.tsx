@@ -1,380 +1,156 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Shield, Heart, Award, Users, Menu, X, ChevronDown } from 'lucide-react';
-import InstagramGrid from '../components/InstagramGrid';
+import React, { useState, useEffect, ReactNode } from "react";
+import { Link } from "react-router-dom";
+import { Shield, Heart, Award, Users } from "lucide-react";
+import InstagramGrid from "../components/InstagramGrid";
 
-// ==================== TYPE DEFINITIONS ====================
 interface Breed {
   name: string;
   slug: string;
   image: string;
-  image2?: string;
-  temperament: string[];
-  traits: string[];
 }
 
-// ==================== CONSTANTS ====================
+interface FramedImageProps {
+  src: string;
+  alt: string;
+}
+
+interface ModernCarouselProps {
+  images: string[];
+}
+
+interface CloudWrapProps {
+  children: ReactNode;
+}
+
+interface FeatureProps {
+  icon: ReactNode;
+  title: string;
+  text: string;
+}
 
 const breeds: Breed[] = [
-  {
-    name: 'French Mastiff',
-    slug: 'french-mastiff',
-    image: '/FM/BreedCardFM.png',
-    temperament: ['Loyal', 'Gentle', 'Protective'],
-    traits: ['family-friendly', 'protective', 'calm']
-  },
-  {
-    name: 'Maltese',
-    slug: 'maltese',
-    image: '/Malt/BreedCardMalt.png',
-    temperament: ['Playful', 'Gentle', 'Affectionate'],
-    traits: ['hypoallergenic', 'small', 'playful']
-  },
-  {
-    name: 'Toy Poodle',
-    slug: 'toy-poodle',
-    image: '/TP/BreedCardTP.png',
-    temperament: ['Intelligent', 'Active', 'Trainable'],
-    traits: ['hypoallergenic', 'smart', 'active']
-  },
-  {
-    name: 'Yorkshire Terrier',
-    slug: 'yorkshire-terrier',
-    image: '/YT/BreedCardYT.png',
-    temperament: ['Bold', 'Confident', 'Courageous'],
-    traits: ['small', 'brave', 'energetic']
-  }
+  { name: "French Mastiff", slug: "french-mastiff", image: "/FM/BreedCardFM.png" },
+  { name: "Maltese", slug: "maltese", image: "/Malt/BreedCardMalt.png" },
+  { name: "Toy Poodle", slug: "toy-poodle", image: "/TP/BreedCardTP.png" },
+  { name: "Yorkshire Terrier", slug: "yorkshire-terrier", image: "/YT/BreedCardYT.png" }
 ];
 
-const carouselImages = [
-  "/marquee/4907.JPEG",
+const carouselImages: string[] = [
+  "/marquee/GSDdad.JPEG",
   "/marquee/7703.JPEG",
   "/marquee/25748.JPEG",
-  "/marquee/26525.JPEG",
-  "/marquee/32460.JPEG",
-  "/marquee/79128.JPEG",
-  "/marquee/FMtall.JPEG",
-  "/marquee/Frenchmastfamily1.JPEG",
-  "/marquee/GSDdad.JPEG",
-  "/marquee/maltaesthetic.jpg",
-  "/marquee/maltdress1.jpg",
-  "/marquee/maltdress2.jpg",
-  "/marquee/maltfam.JPEG",
   "/marquee/maltmom.JPEG",
-  "/marquee/maltmom2.JPEG",
-  "/marquee/maltmom3.JPEG",
-  "/marquee/maltmom4.JPEG",
-  "/marquee/maltmom5.JPEG",
-  "/marquee/maltmom6.JPEG",
-  "/marquee/maltmom7.JPEG",
-  "/marquee/maltstory.jpg",
-  "/marquee/maltytmom.JPEG",
-  "/marquee/Petfam.JPEG",
-  "/marquee/TPmom.JPEG",
-  "/marquee/TPmom2.JPEG",
-  "/marquee/YTCar.JPEG",
-  "/marquee/YTMom.JPEG",
-  "/marquee/YTmom2.JPEG"
+  "/marquee/32460.JPEG",
+  "/marquee/79128.JPEG"
 ];
 
-// Navigation Bar Component
-const NavigationBar: React.FC = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isBreedsDropdownOpen, setIsBreedsDropdownOpen] = useState(false);
-  const navigate = useNavigate();
-
-  const toggleMobileMenu = (): void => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  const toggleBreedsDropdown = (): void => {
-    setIsBreedsDropdownOpen(!isBreedsDropdownOpen);
-  };
-
-  const handleBreedClick = (slug: string): void => {
-    navigate(`/breed/${slug}`);
-    setIsBreedsDropdownOpen(false);
-    setIsMobileMenuOpen(false);
-  };
-
-  return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-[#E97451]/70 via-[#FFB5A7]/70 to-[#E6B8D4]/70 backdrop-blur-md shadow-lg">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex items-center">
-            <Link to="/" className="text-white font-bold text-xl md:text-2xl font-display">
-              FurryFriend
-            </Link>
-          </div>
-          
-          {/* Desktop Navigation */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-6">
-              <Link to="/" className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-base font-bold transition-colors text-shadow">
-                Home
-              </Link>
-              <Link to="/about" className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-base font-bold transition-colors text-shadow">
-                About Us
-              </Link>
-              
-              {/* Breeds Dropdown */}
-              <div className="relative">
-                <button
-                  onClick={toggleBreedsDropdown}
-                  className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-base font-bold transition-colors flex items-center text-shadow"
-                >
-                  Our Breeds
-                  <ChevronDown className={`ml-1 h-4 w-4 transform transition-transform ${isBreedsDropdownOpen ? 'rotate-180' : ''}`} />
-                </button>
-                
-                {isBreedsDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white/95 backdrop-blur-sm ring-1 ring-black ring-opacity-20">
-                    <div className="py-1">
-                      {breeds.map((breed) => (
-                        <button
-                          key={breed.slug}
-                          onClick={() => handleBreedClick(breed.slug)}
-                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
-                        >
-                          {breed.name}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-              
-              <Link to="/contact" className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-base font-bold transition-colors text-shadow">
-                Contact
-              </Link>
-            </div>
-          </div>
-          
-          {/* Mobile menu button */}
-          <div className="md:hidden">
-            <button
-              onClick={toggleMobileMenu}
-              className="text-white hover:text-gray-200 p-2 rounded-md"
-            >
-              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </button>
-          </div>
-        </div>
+const FramedImage: React.FC<FramedImageProps> = ({ src, alt }) => (
+  <div className="w-full h-full flex items-center justify-center">
+    <div className="p-1 bg-white rounded-xl shadow-[0_8px_40px_rgba(0,0,0,0.08)] backdrop-blur-xl">
+      <div className="overflow-hidden rounded-lg border border-orange-200">
+        <img
+          src={src}
+          alt={alt}
+          className="w-full h-full object-cover scale-[1.02] transition-transform duration-700 hover:scale-110"
+        />
       </div>
-      
-      {/* Mobile Navigation */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden bg-white/90 backdrop-blur-md">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <Link to="/" className="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
-              Home
-            </Link>
-            <Link to="/about" className="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
-              About Us
-            </Link>
-            
-            {/* Mobile Breeds Dropdown */}
-            <div>
-              <button
-                onClick={toggleBreedsDropdown}
-                className="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium w-full text-left flex items-center justify-between"
-              >
-                Our Breeds
-                <ChevronDown className={`h-4 w-4 transform transition-transform ${isBreedsDropdownOpen ? 'rotate-180' : ''}`} />
-              </button>
-              
-              {isBreedsDropdownOpen && (
-                <div className="pl-6 pr-3 py-2 space-y-1">
-                  {breeds.map((breed) => (
-                    <button
-                      key={breed.slug}
-                      onClick={() => handleBreedClick(breed.slug)}
-                      className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:text-gray-900"
-                    >
-                      {breed.name}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-            
-            <Link to="/contact" className="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
-              Contact
-            </Link>
-          </div>
-        </div>
-      )}
-    </nav>
-  );
-};
+    </div>
+  </div>
+);
 
-// ==================== REUSABLE COMPONENTS ====================
-
-// Auto Carousel Component for Hero Section
-const AutoCarousel: React.FC<{ images: string[] }> = ({ images }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
+const ModernCarousel: React.FC<ModernCarouselProps> = ({ images }) => {
+  const [index, setIndex] = useState(0);
+  const [fade, setFade] = useState(false);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setIsTransitioning(true);
+    const timer = setInterval(() => {
+      setFade(true);
       setTimeout(() => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-        setIsTransitioning(false);
-      }, 500);
-    }, 3000);
+        setIndex((i) => (i + 1) % images.length);
+        setFade(false);
+      }, 300);
+    }, 3500);
 
-    return () => clearInterval(interval);
+    return () => clearInterval(timer);
   }, [images.length]);
 
   return (
-    <div className="relative w-full h-full overflow-hidden">
-      {images.map((image, index) => (
-        <div
-          key={index}
-          className={`absolute inset-0 transition-opacity duration-1000 ${index === currentIndex ? 'opacity-100' : 'opacity-0'}`}
-        >
-          <img
-            src={image}
-            alt={`Slide ${index + 1}`}
-            className="w-full h-full object-cover object-center"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40"></div>
+    <div className="absolute inset-0 w-full h-full overflow-hidden bg-gradient-to-br from-orange-50 via-pink-50 to-yellow-50 flex items-center justify-center">
+      <div className="md:hidden w-full h-full px-3 flex items-center">
+        <div className={`transition-all duration-500 w-full ${fade ? "opacity-0 scale-95" : "opacity-100 scale-100"}`}>
+          <FramedImage src={images[index]} alt="slide" />
         </div>
-      ))}
-      
-      {/* Carousel indicators */}
-      <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
-        {images.map((_, index) => (
-          <button
-            key={index}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentIndex ? 'bg-white w-8' : 'bg-white/50'}`}
-            onClick={() => setCurrentIndex(index)}
-          />
-        ))}
+      </div>
+
+      <div className="hidden md:flex w-full h-full px-10 gap-6 items-center justify-center">
+        <div className={`w-1/3 opacity-50 blur-[1px] transition ${fade ? "opacity-20 scale-90" : "scale-95"}`}>
+          <FramedImage src={images[(index - 1 + images.length) % images.length]} alt="prev" />
+        </div>
+
+        <div className={`w-1/2 scale-110 transition ${fade ? "opacity-30 scale-95" : "scale-110"}`}>
+          <FramedImage src={images[index]} alt="main" />
+        </div>
+
+        <div className={`w-1/3 opacity-50 blur-[1px] transition ${fade ? "opacity-20 scale-90" : "scale-95"}`}>
+          <FramedImage src={images[(index + 1) % images.length]} alt="next" />
+        </div>
       </div>
     </div>
   );
 };
 
-// Cloud wrapper: sizes SVG cloud to match heading width so text sits inside the cloud.
-const CloudWrap: React.FC<{ children: React.ReactNode; padX?: number; padY?: number }> = ({ children, padX = 28, padY = 12 }) => {
-  const contentRef = useRef<HTMLDivElement | null>(null);
-  const [width, setWidth] = useState<number | null>(null);
+const CloudWrap: React.FC<CloudWrapProps> = ({ children }) => (
+  <div className="relative flex justify-center py-4">
+    <div className="absolute w-[90%] max-w-[650px] opacity-90 -z-10 scale-110">
+      <svg viewBox="0 0 220 80" className="w-full h-auto">
+        <ellipse cx="36" cy="42" rx="36" ry="18" fill="white" />
+        <ellipse cx="110" cy="30" rx="70" ry="28" fill="white" />
+        <ellipse cx="184" cy="42" rx="36" ry="18" fill="white" />
+      </svg>
+    </div>
+    <div className="px-6 py-2 backdrop-blur-sm">{children}</div>
+  </div>
+);
 
-  useLayoutEffect(() => {
-    const el = contentRef.current;
-    if (!el) return;
+const Feature: React.FC<FeatureProps> = ({ icon, title, text }) => (
+  <div className="relative p-5 bg-white/80 backdrop-blur-xl shadow-[0_8px_30px_rgba(0,0,0,0.06)] rounded-2xl border border-white hover:scale-[1.02] transition-transform group overflow-hidden">
+    <span className="absolute left-0 bottom-0 h-[3px] w-0 bg-gradient-to-r from-orange-500 to-pink-500 group-hover:w-full transition-all duration-500"></span>
 
-    // initial measurement
-    setWidth(el.offsetWidth);
-
-    // update on resize using ResizeObserver so SVG always matches heading width
-    const ro = new (window as any).ResizeObserver(() => {
-      if (el) setWidth(el.offsetWidth);
-    });
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
-
-  const svgStyle: React.CSSProperties = width
-    ? { width: `${width + padX * 2}px`, height: 'auto' }
-    : { width: 'min(90%,720px)', height: 'auto' };
-
-  return (
-    <div className="relative w-full flex justify-center">
-      <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0" style={svgStyle}>
-        <svg viewBox="0 0 220 80" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto opacity-95 filter drop-shadow-lg">
-          <g fill="#ffffff">
-            <ellipse cx="36" cy="42" rx="36" ry="18" />
-            <ellipse cx="110" cy="30" rx="70" ry="28" />
-            <ellipse cx="184" cy="42" rx="36" ry="18" />
-          </g>
-        </svg>
+    <div className="flex gap-4 items-start">
+      <div className="p-3 bg-gradient-to-br from-orange-500 to-pink-500 rounded-xl text-white shadow-lg">
+        {icon}
       </div>
-      <div ref={contentRef} className="relative z-10 inline-block" style={{ padding: `${padY}px ${padX}px` }}>
-        {children}
+      <div>
+        <h3 className="font-semibold text-lg">{title}</h3>
+        <p className="text-gray-600 text-sm mt-1">{text}</p>
       </div>
     </div>
-  );
-};
+  </div>
+);
 
 export const Home: React.FC = () => {
   return (
-    <div className="min-h-screen">
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Pacifico&display=swap');
-        
-        @keyframes fadeInScale {
-          0% {
-            opacity: 0;
-            transform: scale(0.95);
-          }
-          100% {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-        .fade-in-scale {
-          animation: fadeInScale 0.8s ease-out forwards;
-        }
-        .text-hero {
-          text-shadow: 0px 4px 8px rgba(0, 0, 0, 0.8), 0px 2px 4px rgba(0, 0, 0, 0.6);
-        }
-        .text-section {
-          text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        .text-shadow {
-          text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5);
-        }
-        .card-overlay {
-          background: rgba(255, 255, 255, 0.85);
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        .font-display {
-          font-family: 'Quicksand', sans-serif;
-        }
-        .font-brand {
-          font-family: 'Pacifico', cursive;
-        }
-      `}</style>
+    <div className="min-h-screen bg-white text-gray-900">
+      <section className="relative min-h-[50vh] md:min-h-screen overflow-hidden flex items-center justify-center">
+        <ModernCarousel images={carouselImages} />
 
-      {/* Navigation Bar */}
-      <NavigationBar />
-
-      {/* Hero Section with Auto Carousel */}
-      <section className="relative h-[85vh] md:h-screen overflow-hidden">
-        <AutoCarousel images={carouselImages} />
-        
-        {/* Hero Content Overlay */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white max-w-4xl mx-auto px-4 z-10">
-          <h1 className="font-sans text-5xl md:text-7xl lg:text-8xl font-black mb-6 leading-tight tracking-wide fade-in-scale text-center" style={{
-            color: 'white',
-            textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)'
-          }}>
-            Find your
-            <span style={{ color: 'white', display: 'block' }}>
-              Forever Furry Friend
-            </span>
+        <div className="absolute inset-0 flex flex-col justify-end items-center text-center text-white px-4 pb-12 md:pb-20 pointer-events-none">
+          <h1 className="text-4xl md:text-7xl font-extrabold drop-shadow-xl tracking-tight leading-tight">
+            Find your <br />
+            <span className="text-white">Forever Furry Friend</span>
           </h1>
-          
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center mt-8">
-            <button 
-              onClick={() => document.getElementById('breeds')?.scrollIntoView({ behavior: 'smooth' })}
-              className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-8 py-3 md:px-12 md:py-4 rounded-full text-base md:text-lg font-bold transform hover:scale-110 transition-all duration-300 shadow-2xl hover:shadow-3xl backdrop-blur-sm border border-white/20"
+
+          <div className="mt-6 flex gap-4 pointer-events-auto">
+            <button
+              onClick={() => document.getElementById("breeds")?.scrollIntoView({ behavior: "smooth" })}
+              className="bg-gradient-to-r from-orange-500 to-pink-500 text-white px-8 py-3 rounded-full font-semibold shadow-xl hover:shadow-2xl hover:scale-105 transition"
             >
               Meet Our Friends
             </button>
+
             <Link
               to="/contact"
-              className="px-8 py-3 md:px-12 md:py-4 rounded-full text-base md:text-lg font-bold transform hover:scale-110 transition-all duration-300 border-2 shadow-2xl hover:shadow-3xl backdrop-blur-md"
-              style={{
-                backgroundColor: 'rgba(255, 182, 217, 0.7)',
-                color: '#1F2937',
-                borderColor: 'rgba(255, 255, 255, 0.8)',
-                backdropFilter: 'blur(10px)'
-              }}
+              className="bg-white/70 backdrop-blur-xl px-8 py-3 rounded-full font-semibold text-gray-900 shadow-xl border border-white/80 hover:scale-105 transition"
             >
               Get in Touch
             </Link>
@@ -382,259 +158,65 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* New Why Choose FurryFriend Section */}
-      <section className="py-16 bg-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-10 left-10 text-6xl animate-bounce" style={{ animationDelay: '0s', animationDuration: '3s' }}>🐕</div>
-          <div className="absolute top-40 right-20 text-4xl animate-bounce" style={{ animationDelay: '0.5s', animationDuration: '2.5s' }}>🐾</div>
-          <div className="absolute top-60 left-1/4 text-3xl animate-bounce" style={{ animationDelay: '1s', animationDuration: '3.5s' }}>🦴</div>
-          <div className="absolute bottom-20 left-1/3 text-5xl animate-bounce" style={{ animationDelay: '1.5s', animationDuration: '2.8s' }}>🐶</div>
-          <div className="absolute bottom-40 right-10 text-3xl animate-pulse" style={{ animationDuration: '2s' }}>❤️</div>
-          <div className="absolute top-1/3 right-1/3 text-4xl animate-bounce" style={{ animationDelay: '0.8s', animationDuration: '3.2s' }}>🏠</div>
-          <div className="absolute bottom-60 right-1/4 text-3xl animate-bounce" style={{ animationDelay: '1.2s', animationDuration: '2.7s' }}>🎾</div>
-        </div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <section className="py-6 md:py-12 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
           <CloudWrap>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 text-section mb-16 tracking-wide drop-shadow-lg">
+            <h2 className="text-3xl md:text-5xl font-bold text-center">
               Why Choose <span className="text-orange-600">FurryFriend</span>?
             </h2>
           </CloudWrap>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Feature 1 */}
-            <div className="card-overlay p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-              <div className="flex items-start space-x-4">
-                <div className="bg-gradient-to-br from-orange-500 to-pink-500 p-3 rounded-full flex-shrink-0">
-                  <Shield className="h-6 w-6 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">1. Lifetime Lineage-Based Health Guarantee</h3>
-                  <p className="text-gray-700">Every puppy comes with a verified ancestry record to ensure genetic soundness. This helps prevent inherited disorders and supports your pet's long-term wellbeing.</p>
-                </div>
-              </div>
-            </div>
-            
-            {/* Feature 2 */}
-            <div className="card-overlay p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-              <div className="flex items-start space-x-4">
-                <div className="bg-gradient-to-br from-orange-500 to-pink-500 p-3 rounded-full flex-shrink-0">
-                  <Heart className="h-6 w-6 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">2. Ethical Breeding</h3>
-                  <p className="text-gray-700">A mother gives birth only once a year to produce healthy, stress-free litters. At Furryfriend, responsible breeding practices are strictly followed to protect both mothers and puppies.</p>
-                </div>
-              </div>
-            </div>
-            
-            {/* Feature 3 */}
-            <div className="card-overlay p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-              <div className="flex items-start space-x-4">
-                <div className="bg-gradient-to-br from-orange-500 to-pink-500 p-3 rounded-full flex-shrink-0">
-                  <Award className="h-6 w-6 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">3. Import Lineage</h3>
-                  <p className="text-gray-700">All our puppies come from import champion bloodlines, reducing the risk of hereditary health issues and ensuring superior temperament and build quality.</p>
-                </div>
-              </div>
-            </div>
-            
-            {/* Feature 4 */}
-            <div className="card-overlay p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-              <div className="flex items-start space-x-4">
-                <div className="bg-gradient-to-br from-orange-500 to-pink-500 p-3 rounded-full flex-shrink-0">
-                  <Users className="h-6 w-6 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">4. 24/7 & Lifetime Medical Assistance</h3>
-                  <p className="text-gray-700">Our on-site veterinarian is available anytime for guidance, ensuring your pet receives continuous support throughout its life.</p>
-                </div>
-              </div>
-            </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+            <Feature icon={<Shield />} title="Lifetime Health Guarantee" text="Every puppy comes with verified lineage." />
+            <Feature icon={<Heart />} title="Ethical Breeding" text="Mothers breed only once a year." />
+            <Feature icon={<Award />} title="Import Lineage" text="Champion bloodlines ensuring healthier pups." />
+            <Feature icon={<Users />} title="24/7 Medical Support" text="Lifetime guidance from expert vets." />
           </div>
         </div>
       </section>
 
-      {/* Breeds Section */}
-      <section id="breeds" className="py-8 bg-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-20 left-16 text-5xl animate-bounce" style={{ animationDelay: '0.3s', animationDuration: '3.5s' }}>🐕‍🦺</div>
-          <div className="absolute top-32 right-24 text-4xl animate-bounce" style={{ animationDelay: '0.7s', animationDuration: '2.8s' }}>🐾</div>
-          <div className="absolute top-80 left-1/4 text-3xl animate-bounce" style={{ animationDelay: '1.1s', animationDuration: '3.2s' }}>🦴</div>
-          <div className="absolute bottom-32 left-1/3 text-6xl animate-bounce" style={{ animationDelay: '0.5s', animationDuration: '3.8s' }}>🐶</div>
-          <div className="absolute bottom-20 right-16 text-4xl animate-pulse" style={{ animationDuration: '2.5s' }}>❤️</div>
-          <div className="absolute top-1/2 right-1/3 text-3xl animate-bounce" style={{ animationDelay: '1.4s', animationDuration: '2.9s' }}>🏠</div>
-          <div className="absolute bottom-80 right-1/4 text-4xl animate-bounce" style={{ animationDelay: '0.9s', animationDuration: '3.3s' }}>🎾</div>
-          <div className="absolute top-60 left-1/2 text-3xl animate-bounce" style={{ animationDelay: '1.6s', animationDuration: '3.1s' }}>🐕</div>
-        </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <section id="breeds" className="py-10 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
           <CloudWrap>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 text-section mb-16 tracking-wide drop-shadow-lg">
+            <h2 className="text-4xl md:text-5xl font-bold text-center">
               Meet Our <span className="text-orange-600">Adorable Friends</span>
             </h2>
           </CloudWrap>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {breeds.map((breed) => (
-              <div
-                key={breed.name}
-                className="group perspective-1000"
-              >
-                <Link to={`/breed/${breed.slug}`} className="block">
-                  {/* Outer frame - orange pastel gradient frame */}
-                  <div className="p-1 rounded-2xl md:rounded-3xl bg-gradient-to-br from-orange-200 to-orange-100 shadow-lg">
-                    <div className="card-overlay rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl border-2 border-orange-300/40 hover:border-orange-400/60 transform hover:scale-105 hover:-translate-y-2 transition-all duration-500 perspective-1000 bg-gradient-to-br from-orange-50/30 to-orange-100/20 backdrop-blur-sm">
-                  <div className="relative overflow-hidden">
-                    {/* Image layout: if two images provided show left-right split, otherwise show single centered image */}
-                    <div className="w-full aspect-[3/4] md:aspect-[4/5]">
-                      {breed.image2 ? (
-                        <div className="flex flex-row gap-1 h-full">
-                          {/* Left Image with Frame */}
-                          <div className="w-1/2 h-full p-0.5 bg-gradient-to-br from-orange-200 to-orange-100 rounded-lg">
-                            <div className="w-full h-full overflow-hidden relative bg-gradient-to-b from-gray-100 to-gray-50 rounded-lg">
-                              {/* blurred fill background to cover any empty space */}
-                              <div
-                                className="absolute inset-0 bg-center bg-cover filter blur-lg opacity-50"
-                                style={{ backgroundImage: `url(${breed.image})` }}
-                              />
-                              <img
-                                src={breed.image}
-                                alt={`${breed.name} photo 1`}
-                                className="relative w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500 z-10"
-                              />
-                            </div>
-                          </div>
 
-                          {/* Right Image with Frame */}
-                          <div className="w-1/2 h-full p-0.5 bg-gradient-to-br from-orange-200 to-orange-100 rounded-lg">
-                            <div className="w-full h-full overflow-hidden relative bg-gradient-to-b from-gray-100 to-gray-50 rounded-lg">
-                              <div
-                                className="absolute inset-0 bg-center bg-cover filter blur-lg opacity-50"
-                                style={{ backgroundImage: `url(${breed.image2 ?? breed.image})` }}
-                              />
-                              <img
-                                src={breed.image2 ?? breed.image}
-                                alt={`${breed.name} photo 2`}
-                                className="relative w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500 z-10"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="w-full h-full p-0.5 bg-gradient-to-br from-orange-200 to-orange-100 rounded-lg">
-                          <div className="w-full h-full overflow-hidden relative bg-gradient-to-b from-gray-100 to-gray-50 rounded-lg flex items-center justify-center">
-                            <div
-                              className="absolute inset-0 bg-center bg-cover filter blur-lg opacity-50"
-                              style={{ backgroundImage: `url(${breed.image})` }}
-                            />
-                            <img
-                              src={breed.image}
-                              alt={`${breed.name}`}
-                              className="relative max-w-full max-h-full object-contain object-center transition-transform duration-500 z-10"
-                            />
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  </div>
-                  
-                  <div className="p-3 md:p-4 md:p-6">
-                    <h3 className="font-display text-base md:text-lg md:text-xl font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-all tracking-wide">
-                      {breed.name}
-                    </h3>
-                    <button
-                      onClick={() => document.getElementById(`breed-${breed.slug}`)?.scrollIntoView({ behavior: 'smooth' })}
-                      className="mt-3 md:mt-4 w-full bg-gradient-to-r from-orange-400 to-orange-300 hover:from-orange-500 hover:to-orange-400 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 text-sm"
-                    >
-                      Learn More
-                    </button>
-                  </div>
-                    </div>
-                  </div>
-                </Link>
-              </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-10">
+            {breeds.map((b) => (
+              <Link
+                key={b.slug}
+                to={`/breed/${b.slug}`}
+                className="block p-2 rounded-xl shadow-md bg-orange-50 hover:scale-105 hover:shadow-xl transition"
+              >
+                <img src={b.image} alt={b.name} className="w-full aspect-[3/4] object-cover rounded-lg" />
+                <p className="text-center mt-3 font-semibold">{b.name}</p>
+              </Link>
             ))}
           </div>
         </div>
       </section>
-      
-      {/* Why Choose Us Title Section */}
-      <section className="py-4 bg-white relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <CloudWrap>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 text-section mb-4 tracking-wide drop-shadow-lg">
-              Why Choose <span className="text-orange-600">Us</span>?
-            </h2>
-          </CloudWrap>
-        </div>
-      </section>
-      
-      {/* CTA Image Section - Full width and height on desktop with luxury white frame */}
-      <section className="py- md:py-12 relative overflow-hidden bg-white">
-        <div className="px-4 md:px-12 lg:px-20">
-          <div className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 lg:p-8 shadow-2xl border-8 border-white" style={{ boxShadow: '0 20px 60px rgba(0, 0, 0, 0.15), inset 0 0 0 1px rgba(0, 0, 0, 0.05)' }}>
-            <img
-              src="/CTAimg.jpeg"
-              alt="Why Choose Us"
-              className="w-full h-auto object-cover rounded-lg md:rounded-xl"
-            />
-          </div>
-        </div>
-      </section>
 
-      {/* Find Friend CTA Section - Reduced and framed in a luxury white frame on desktop */}
-      <section className="py-8 md:py-12 bg-white relative overflow-hidden">
+      <section className="py-8 md:py-12">
         <div className="max-w-4xl mx-auto px-4">
-          {/* Title above image */}
-          <div className="text-center py-6 sm:py-8 md:py-10">
-            <CloudWrap>
-              <h2 className="font-display text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 drop-shadow-lg">
-                Get in Touch
-              </h2>
-            </CloudWrap>
-          </div>
-
-          {/* Framed image with reduced height on desktop (clickable) */}
-          <div className="relative">
-            <Link to="/contact" className="mx-auto block bg-white rounded-3xl p-4 md:p-6 shadow-2xl border border-white/90" style={{ maxWidth: '900px' }}>
-              <div className="relative overflow-hidden rounded-2xl">
-                <img
-                  src="/FindFriendCTA.png"
-                  alt="Find your perfect friend"
-                  className="w-full h-48 md:h-64 lg:h-72 object-cover"
-                />
-                {/* Semi-transparent overlay for better text visibility */}
-                <div className="absolute inset-0 bg-black/30 z-10"></div>
-                {/* Text positioned on top of the image */}
-                <div className="absolute inset-0 flex items-start justify-center z-20 p-4 pt-4">
-                  <span className="font-display text-white text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight drop-shadow-lg text-center">
-                    Contact Us to Get your Best Friend
-                  </span>
-                </div>
-              </div>
-            </Link>
-          </div>
+          <Link
+            to="/contact"
+            className="block shadow-xl rounded-3xl overflow-hidden border border-white hover:scale-[1.02] transition-transform"
+          >
+            <img src="/FindFriendCTA.png" className="w-full h-56 md:h-72 object-cover" />
+          </Link>
         </div>
       </section>
 
-      {/* Instagram Feed Section */}
-      <section className="py-4 bg-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-16 left-20 text-4xl animate-bounce" style={{ animationDelay: '0.4s', animationDuration: '3.4s' }}>📸</div>
-          <div className="absolute top-40 right-28 text-3xl animate-bounce" style={{ animationDelay: '0.8s', animationDuration: '2.9s' }}>🐾</div>
-          <div className="absolute bottom-40 left-1/4 text-5xl animate-bounce" style={{ animationDelay: '1.2s', animationDuration: '3.6s' }}>📱</div>
-          <div className="absolute bottom-24 right-20 text-4xl animate-pulse" style={{ animationDuration: '2.3s' }}>❤️</div>
-          <div className="absolute top-1/2 left-1/2 text-3xl animate-bounce" style={{ animationDelay: '1.5s', animationDuration: '3s' }}>🐶</div>
-        </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <section className="py-10 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
           <CloudWrap>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-center text-gray-900 text-section mb-8 tracking-wide drop-shadow-lg">
+            <h2 className="text-4xl md:text-5xl font-bold text-center">
               Follow Our <span className="text-orange-600">Journey</span>
             </h2>
           </CloudWrap>
+
           <InstagramGrid />
         </div>
       </section>
