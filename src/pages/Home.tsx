@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Shield, Heart, Award, Users, ArrowDown, Menu, X, ChevronDown } from 'lucide-react';
+import { Shield, Heart, Award, Users, Menu, X, ChevronDown } from 'lucide-react';
 import InstagramGrid from '../components/InstagramGrid';
 
 // ==================== TYPE DEFINITIONS ====================
@@ -46,7 +46,7 @@ const breeds: Breed[] = [
   }
 ];
 
-const marqueeImages = [
+const carouselImages = [
   "/marquee/4907.JPEG",
   "/marquee/7703.JPEG",
   "/marquee/25748.JPEG",
@@ -210,94 +210,49 @@ const NavigationBar: React.FC = () => {
 
 // ==================== REUSABLE COMPONENTS ====================
 
-interface MarqueeImageProps {
-  src: string;
-  alt: string;
-  index: number;
-}
-
-const MarqueeImage: React.FC<MarqueeImageProps> = ({ src, alt }) => (
-  <div className="inline-block mx-3 relative group">
-    <div className="relative overflow-hidden rounded-lg h-32 w-24 md:h-40 md:w-28 shadow-lg transform transition-all duration-300 group-hover:scale-105">
-      <div className="absolute inset-0 bg-gradient-to-br from-orange-400/10 via-pink-400/10 to-purple-400/10 z-10"></div>
-      <div className="absolute inset-0 border-2 border-gradient-to-r from-orange-300/30 to-pink-300/30 rounded-lg z-20 pointer-events-none"></div>
-      <img
-        src={src}
-        alt={alt}
-        loading="lazy"
-        className="h-full w-full object-cover object-center"
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-orange-300/20 to-pink-300/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
-    </div>
-  </div>
-);
-
-// Image Marquee Component with Mobile Speed Adjustment
-interface ImageMarqueeProps {
-  images: string[];
-}
-
-const ImageMarquee: React.FC<ImageMarqueeProps> = ({ images }) => {
-  const marqueeRef = useRef<HTMLDivElement>(null);
-  const [isPaused, setIsPaused] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+// Auto Carousel Component for Hero Section
+const AutoCarousel: React.FC<{ images: string[] }> = ({ images }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
-    const checkMobile = (): void => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+    const interval = setInterval(() => {
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+        setIsTransitioning(false);
+      }, 500);
+    }, 3000);
 
-  useEffect(() => {
-    const marqueeElement = marqueeRef.current;
-    if (!marqueeElement) return;
-
-    const handleMouseEnter = (): void => setIsPaused(true);
-    const handleMouseLeave = (): void => setIsPaused(false);
-
-    marqueeElement.addEventListener('mouseenter', handleMouseEnter);
-    marqueeElement.addEventListener('mouseleave', handleMouseLeave);
-
-    return () => {
-      marqueeElement.removeEventListener('mouseenter', handleMouseEnter);
-      marqueeElement.removeEventListener('mouseleave', handleMouseLeave);
-    };
-  }, []);
+    return () => clearInterval(interval);
+  }, [images.length]);
 
   return (
-    <div className="relative overflow-hidden h-32 md:h-40">
-      <div 
-        ref={marqueeRef}
-        className={`flex ${isPaused ? '' : isMobile ? 'animate-marquee-mobile' : 'animate-marquee'} whitespace-nowrap`}
-      >
-        {/* First set */}
-        {images.map((img, index) => (
-          <MarqueeImage
-            key={`first-${index}`}
-            src={img}
-            alt={`Pet portrait ${index + 1}`}
-            index={index}
+    <div className="relative w-full h-full overflow-hidden">
+      {images.map((image, index) => (
+        <div
+          key={index}
+          className={`absolute inset-0 transition-opacity duration-1000 ${index === currentIndex ? 'opacity-100' : 'opacity-0'}`}
+        >
+          <img
+            src={image}
+            alt={`Slide ${index + 1}`}
+            className="w-full h-full object-cover object-center"
           />
-        ))}
-        
-        {/* Second set for seamless loop */}
-        {images.map((img, index) => (
-          <MarqueeImage
-            key={`second-${index}`}
-            src={img}
-            alt={`Pet portrait ${index + 1}`}
-            index={index}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40"></div>
+        </div>
+      ))}
+      
+      {/* Carousel indicators */}
+      <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
+        {images.map((_, index) => (
+          <button
+            key={index}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentIndex ? 'bg-white w-8' : 'bg-white/50'}`}
+            onClick={() => setCurrentIndex(index)}
           />
         ))}
       </div>
-      
-      <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-[#FFB5A7]/40 to-transparent z-30"></div>
-      <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#E6B8D4]/40 to-transparent z-30"></div>
     </div>
   );
 };
@@ -345,32 +300,11 @@ const CloudWrap: React.FC<{ children: React.ReactNode; padX?: number; padY?: num
 };
 
 export const Home: React.FC = () => {
-  const [showHeading, setShowHeading] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 0 && !showHeading) {
-        setShowHeading(true);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { once: false });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [showHeading]);
-
   return (
     <div className="min-h-screen">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Pacifico&display=swap');
         
-        @keyframes marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        @keyframes marquee-mobile {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
         @keyframes fadeInScale {
           0% {
             opacity: 0;
@@ -380,12 +314,6 @@ export const Home: React.FC = () => {
             opacity: 1;
             transform: scale(1);
           }
-        }
-        .animate-marquee {
-          animation: marquee 30s linear infinite;
-        }
-        .animate-marquee-mobile {
-          animation: marquee-mobile 15s linear infinite;
         }
         .fade-in-scale {
           animation: fadeInScale 0.8s ease-out forwards;
@@ -410,40 +338,47 @@ export const Home: React.FC = () => {
         .font-brand {
           font-family: 'Pacifico', cursive;
         }
-        .hero-overlay {
-          transition: all 0.8s ease-out;
-        }
-        .hero-overlay.active {
-          background-color: rgba(0, 0, 0, 0.4);
-          backdrop-filter: blur(4px);
-        }
       `}</style>
 
       {/* Navigation Bar */}
       <NavigationBar />
 
-      {/* Hero Section - Now empty as requested */}
-      <section className="relative h-[85vh] md:h-screen overflow-hidden bg-white">
-        {/* Empty hero section as requested */}
-      </section>
-
-      {/* Marquee Section - Now the new hero section */}
-      <section id="marquee-section" className="py-8 bg-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-10 left-10 text-6xl animate-bounce" style={{ animationDelay: '0s', animationDuration: '3s' }}>🐕</div>
-          <div className="absolute top-40 right-20 text-4xl animate-bounce" style={{ animationDelay: '0.5s', animationDuration: '2.5s' }}>🐾</div>
-          <div className="absolute bottom-20 left-1/3 text-5xl animate-bounce" style={{ animationDelay: '1.5s', animationDuration: '2.8s' }}>🐶</div>
-          <div className="absolute bottom-40 right-10 text-3xl animate-pulse" style={{ animationDuration: '2s' }}>❤️</div>
-        </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-6">
-            <CloudWrap>
-              <h2 className="font-display text-3xl font-bold text-gray-900 text-section drop-shadow-lg">
-                Meet Our Adorable Friends
-              </h2>
-            </CloudWrap>
+      {/* Hero Section with Auto Carousel */}
+      <section className="relative h-[85vh] md:h-screen overflow-hidden">
+        <AutoCarousel images={carouselImages} />
+        
+        {/* Hero Content Overlay */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white max-w-4xl mx-auto px-4 z-10">
+          <h1 className="font-sans text-5xl md:text-7xl lg:text-8xl font-black mb-6 leading-tight tracking-wide fade-in-scale text-center" style={{
+            color: 'white',
+            textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)'
+          }}>
+            Find your
+            <span style={{ color: 'white', display: 'block' }}>
+              Forever Furry Friend
+            </span>
+          </h1>
+          
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center mt-8">
+            <button 
+              onClick={() => document.getElementById('breeds')?.scrollIntoView({ behavior: 'smooth' })}
+              className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-8 py-3 md:px-12 md:py-4 rounded-full text-base md:text-lg font-bold transform hover:scale-110 transition-all duration-300 shadow-2xl hover:shadow-3xl backdrop-blur-sm border border-white/20"
+            >
+              Meet Our Friends
+            </button>
+            <Link
+              to="/contact"
+              className="px-8 py-3 md:px-12 md:py-4 rounded-full text-base md:text-lg font-bold transform hover:scale-110 transition-all duration-300 border-2 shadow-2xl hover:shadow-3xl backdrop-blur-md"
+              style={{
+                backgroundColor: 'rgba(255, 182, 217, 0.7)',
+                color: '#1F2937',
+                borderColor: 'rgba(255, 255, 255, 0.8)',
+                backdropFilter: 'blur(10px)'
+              }}
+            >
+              Get in Touch
+            </Link>
           </div>
-          <ImageMarquee images={marqueeImages} />
         </div>
       </section>
 
