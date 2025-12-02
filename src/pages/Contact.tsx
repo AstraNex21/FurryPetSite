@@ -1,149 +1,130 @@
 import React, { useState } from "react";
 import { Phone, Mail, MapPin, Clock, Send } from "lucide-react";
 import { motion } from "framer-motion";
+import InstagramGrid from "../components/InstagramGrid";
+
+// Import Playpen Sans font
+import './PlaypenSans.css';
 
 export const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
+    breed: "",
     message: "",
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   return (
-    <main className="relative overflow-hidden">
-
-      <div
-        className="
-          absolute inset-0 bg-cover bg-center 
-          blur-md scale-110
-        "
-        style={{ backgroundImage: "url('/Hero.png')" }}
-      ></div>
-
-      <div className="absolute inset-0 bg-black/30"></div>
-
-      <div className="relative pt-28 pb-12 px-4 max-w-7xl mx-auto">
-
-        <motion.div
+    <main className="relative overflow-hidden bg-white min-h-screen" style={{ fontFamily: 'Playpen Sans, cursive' }}>
+      <div className="relative pt-8 sm:pt-16 pb-6 sm:pb-12 px-4 max-w-7xl mx-auto">
+        {/* Contact Form Section */}
+        <motion.section
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
-          className="flex flex-col gap-4 mb-12"
+          className="flex justify-center mb-6 sm:mb-12"
         >
-          <h1 className="text-5xl md:text-6xl font-semibold tracking-tight text-white">
-            Let’s Connect
-          </h1>
-          <p className="text-gray-200 text-lg max-w-xl leading-relaxed">
-            Reach out to us for adoption support, inquiries, or collaborations.
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-
-          <motion.section
-            initial={{ opacity: 0, x: -40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, ease: "easeOut", delay: 0.15 }}
-            className="flex flex-col gap-8"
-          >
-            <div className="flex items-start gap-4">
-              <MapPin className="w-7 h-7 text-orange-400" />
-              <p className="text-gray-100 text-lg leading-relaxed">
-                221B, Baker Street, New Delhi
-              </p>
-            </div>
-
-            <div className="flex items-start gap-4">
-              <Phone className="w-7 h-7 text-orange-400" />
-              <p className="text-gray-100 text-lg">+91 98765 43210</p>
-            </div>
-
-            <div className="flex items-start gap-4">
-              <Mail className="w-7 h-7 text-orange-400" />
-              <p className="text-gray-100 text-lg">support@furrypets.com</p>
-            </div>
-
-            <div className="flex items-start gap-4">
-              <Clock className="w-7 h-7 text-orange-400" />
-              <p className="text-gray-100 text-lg">Mon – Sat : 9 AM – 7 PM</p>
-            </div>
-          </motion.section>
-
-          <motion.section
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
+          <div
             className="
               bg-white/20 backdrop-blur-2xl rounded-3xl shadow-2xl
-              border border-white/30 p-8 md:p-10
+              border border-gray-200 p-4 sm:p-8 md:p-10 w-full max-w-2xl
             "
           >
-            <form className="flex flex-col gap-6">
-
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-800 mb-4 sm:mb-8" style={{ fontFamily: 'Playpen Sans, cursive' }}>
+              Get in Touch
+            </h2>
+            <form className="flex flex-col gap-4 sm:gap-6">
               <div className="flex flex-col">
-                <label className="text-sm font-medium text-white">Name</label>
+                <label className="text-sm font-medium text-gray-700" style={{ fontFamily: 'Playpen Sans, cursive' }}>Name</label>
                 <input
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
                   className="
-                    w-full px-4 py-3 rounded-xl bg-white/70
+                    w-full px-4 py-3 rounded-xl bg-white
                     border border-gray-300 focus:ring-2 focus:ring-orange-400
                     outline-none transition-all
                   "
                   placeholder="Your Full Name"
+                  style={{ fontFamily: 'Playpen Sans, cursive' }}
                 />
               </div>
 
               <div className="flex flex-col">
-                <label className="text-sm font-medium text-white">Email</label>
+                <label className="text-sm font-medium text-gray-700" style={{ fontFamily: 'Playpen Sans, cursive' }}>Email</label>
                 <input
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
                   className="
-                    w-full px-4 py-3 rounded-xl bg-white/70
+                    w-full px-4 py-3 rounded-xl bg-white
                     border border-gray-300 focus:ring-2 focus:ring-orange-400
                     outline-none transition-all
                   "
                   placeholder="example@gmail.com"
+                  style={{ fontFamily: 'Playpen Sans, cursive' }}
                 />
               </div>
 
               <div className="flex flex-col">
-                <label className="text-sm font-medium text-white">Phone</label>
+                <label className="text-sm font-medium text-gray-700" style={{ fontFamily: 'Playpen Sans, cursive' }}>Phone</label>
                 <input
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
                   className="
-                    w-full px-4 py-3 rounded-xl bg-white/70
+                    w-full px-4 py-3 rounded-xl bg-white
                     border border-gray-300 focus:ring-2 focus:ring-orange-400
                     outline-none transition-all
                   "
                   placeholder="+91 XXXXX XXXXX"
+                  style={{ fontFamily: 'Playpen Sans, cursive' }}
                 />
               </div>
 
               <div className="flex flex-col">
-                <label className="text-sm font-medium text-white">Message</label>
+                <label className="text-sm font-medium text-gray-700" style={{ fontFamily: 'Playpen Sans, cursive' }}>Breed *</label>
+                <select
+                  name="breed"
+                  value={formData.breed}
+                  onChange={handleChange}
+                  required
+                  className="
+                    w-full px-4 py-3 rounded-xl bg-white
+                    border border-gray-300 focus:ring-2 focus:ring-orange-400
+                    outline-none transition-all
+                  "
+                  style={{ fontFamily: 'Playpen Sans, cursive' }}
+                >
+                  <option value="" disabled>Select a breed</option>
+                  <option value="french-mastiff">French Mastiff</option>
+                  <option value="maltese">Maltese</option>
+                  <option value="toy-poodle">Toy Poodle</option>
+                  <option value="yorkshire-terrier">Yorkshire Terrier</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <div className="flex flex-col">
+                <label className="text-sm font-medium text-gray-700" style={{ fontFamily: 'Playpen Sans, cursive' }}>Message</label>
                 <textarea
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
                   className="
-                    w-full px-4 py-3 min-h-[130px] rounded-xl bg-white/70
+                    w-full px-4 py-3 min-h-[130px] rounded-xl bg-white
                     border border-gray-300 focus:ring-2 focus:ring-orange-400 
                     outline-none transition-all resize-none
                   "
                   placeholder="Your message..."
+                  style={{ fontFamily: 'Playpen Sans, cursive' }}
                 />
               </div>
 
@@ -153,17 +134,35 @@ export const Contact: React.FC = () => {
                 type="submit"
                 className="
                   mt-2 w-full flex items-center justify-center gap-2 
-                  bg-black/80 text-white text-lg tracking-wide
+                  bg-orange-500 text-white text-lg tracking-wide
                   py-3 rounded-xl transition-all duration-200
                 "
+                style={{ fontFamily: 'Playpen Sans, cursive' }}
               >
                 <Send className="w-5 h-5" />
                 Send Message
               </motion.button>
             </form>
-          </motion.section>
+          </div>
+        </motion.section>
 
-        </div>
+        {/* Why Choose FurryFriend Section */}
+        <section className="py-4 sm:py-8 md:py-12">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-center text-gray-800 mb-4 sm:mb-6 md:mb-10" style={{ fontFamily: 'Playpen Sans, cursive' }}>
+            Why Choose <span className="text-orange-600">FurryFriend</span>?
+          </h2>
+          <div className="flex justify-center">
+            <img src="/afe.png" alt="Why Choose FurryFriend" className="max-w-full h-auto rounded-lg shadow-lg" />
+          </div>
+        </section>
+
+        {/* Instagram Grid Section */}
+        <section className="py-4 sm:py-8 md:py-12">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-center text-gray-800 mb-4 sm:mb-6 md:mb-10" style={{ fontFamily: 'Playpen Sans, cursive' }}>
+            Follow Our <span className="text-orange-600">Journey</span>
+          </h2>
+          <InstagramGrid />
+        </section>
       </div>
     </main>
   );

@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Heart, Award, Calendar, Weight, Menu, X, ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
+import InstagramGrid from '../components/InstagramGrid';
 // Remove the Header import since it should be rendered by the layout component
 // import { Header } from '../components/Header'; 
+
+// Import Playpen Sans font
+import './PlaypenSans.css';
 
 interface BreedDetails {
   name: string;
@@ -57,7 +61,7 @@ const breedDatabase: Record<string, BreedDetails> = {
       '/FM/_.jpeg'
     ],
     puppyToAdult: {
-      puppy: '/FM/26525.JPEG',
+      puppy: '/FM/26505.JPEG',
       adult: '/FM/FMtall.JPEG'
     },
     description:
@@ -327,7 +331,7 @@ export const BreedDetail: React.FC = () => {
   const topTraits = getTopTraits();
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white" style={{ fontFamily: 'Playpen Sans, cursive' }}>
       {/* Removed the Header component since it should be rendered by the layout component */}
 
       {/* Hero Section with Image Gallery - Mobile Optimized */}
@@ -342,7 +346,7 @@ export const BreedDetail: React.FC = () => {
             {/* Mobile First: Breed Info on Top */}
             <div className="lg:hidden space-y-4">
               <div className="text-center">
-                <h1 className="font-display text-3xl sm:text-4xl font-bold text-gray-800 mb-2">
+                <h1 className="font-display text-3xl sm:text-4xl font-bold text-gray-800 mb-2" style={{ fontFamily: 'Playpen Sans, cursive' }}>
                   {breed.name}
                 </h1>
 
@@ -450,7 +454,7 @@ export const BreedDetail: React.FC = () => {
               {/* Breed Information - Desktop Only */}
               <div className="hidden lg:block space-y-6">
                 <div>
-                  <h1 className="font-display text-4xl md:text-5xl font-bold text-gray-800 mb-3">
+                  <h1 className="font-display text-4xl md:text-5xl font-bold text-gray-800 mb-3" style={{ fontFamily: 'Playpen Sans, cursive' }}>
                     {breed.name}
                   </h1>
 
@@ -521,6 +525,7 @@ export const BreedDetail: React.FC = () => {
                   <button
                     onClick={() => setShowQuoteForm(true)}
                     className="bg-[#E97451] hover:bg-[#E97451]/90 text-white px-6 py-3 rounded-full font-semibold transform hover:scale-105 transition-all w-full"
+                    style={{ fontFamily: 'Playpen Sans, cursive' }}
                   >
                     Request Quote
                   </button>
@@ -535,6 +540,7 @@ export const BreedDetail: React.FC = () => {
                 <button
                   onClick={() => setShowQuoteForm(true)}
                   className="bg-[#E97451] hover:bg-[#E97451]/90 text-white px-6 py-3 rounded-full font-semibold transform hover:scale-105 transition-all w-full"
+                  style={{ fontFamily: 'Playpen Sans, cursive' }}
                 >
                   Request Quote
                 </button>
@@ -547,10 +553,6 @@ export const BreedDetail: React.FC = () => {
       {/* Puppy to Adult Comparison Section - Mobile Optimized */}
       <section className="py-8 sm:py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-800 mb-6 sm:mb-10">
-            From Puppy to Adult
-          </h2>
-
           <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
             {/* Puppy */}
             <motion.div
@@ -560,7 +562,7 @@ export const BreedDetail: React.FC = () => {
               className="relative"
             >
               <div className="bg-gradient-to-br from-[#FFB5A7]/20 to-[#F4C2C2]/20 p-4 sm:p-6 rounded-2xl">
-                <h3 className="font-display text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4 text-center">
+                <h3 className="font-display text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4 text-center" style={{ fontFamily: 'Playpen Sans, cursive' }}>
                   Puppy Stage
                 </h3>
                 <div className="relative overflow-hidden rounded-xl shadow-lg mb-3 sm:mb-4 bg-gray-100">
@@ -588,7 +590,7 @@ export const BreedDetail: React.FC = () => {
               className="relative"
             >
               <div className="bg-gradient-to-br from-[#E6B8D4]/20 to-white p-4 sm:p-6 rounded-2xl">
-                <h3 className="font-display text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4 text-center">
+                <h3 className="font-display text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4 text-center" style={{ fontFamily: 'Playpen Sans, cursive' }}>
                   Adult Stage
                 </h3>
                 <div className="relative overflow-hidden rounded-xl shadow-lg mb-3 sm:mb-4 bg-gray-100">
@@ -640,7 +642,7 @@ export const BreedDetail: React.FC = () => {
           </div>
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-800 mb-6 sm:mb-10">
+          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-800 mb-6 sm:mb-10" style={{ fontFamily: 'Playpen Sans, cursive' }}>
             {breed.name} Gallery
           </h2>
 
@@ -667,41 +669,25 @@ export const BreedDetail: React.FC = () => {
         </div>
       </section>
 
-      {/* CTA Image Section - Replacing Why Choose Us */}
-      <section id="cta-video" className="py-4 bg-white relative overflow-hidden">
+      {/* Why Choose Furry Friend Section */}
+      <section className="py-8 sm:py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-800 mb-6 sm:mb-10" style={{ fontFamily: 'Playpen Sans, cursive' }}>
+            Why Choose <span className="text-orange-600">FurryFriend</span>?
+          </h2>
+          <div className="flex justify-center">
+            <img src="/afe.png" alt="Why Choose FurryFriend" className="max-w-full h-auto rounded-lg shadow-lg" />
+          </div>
         </div>
-        <img src="/CTAimg.jpeg" alt="Why Choose Us" className="w-full h-auto" />
       </section>
 
-      {/* Find Friend CTA Section */}
-      <section className="py-0 bg-white relative overflow-hidden">
-        <div className="w-full">
-          {/* Title above image */}
-          <div className="text-center py-6 sm:py-8 md:py-12">
-            <h2 className="font-display text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 drop-shadow-lg">
-              Get in Touch
-            </h2>
-          </div>
-
-          {/* Image as a clickable CTA linking to contact page */}
-          <div className="relative w-full">
-            <Link to="/contact" className="block w-full">
-              <div style={{ width: '100%', display: 'block' }} className="relative">
-                <img
-                  src="/FindFriendCTA.png"
-                  alt="Find your perfect friend"
-                  className="w-full h-auto object-cover"
-                  style={{ width: '100%', height: 'auto', display: 'block' }}
-                />
-                <span className="absolute inset-0 flex items-start justify-center pt-4 sm:pt-6 md:pt-8 pointer-events-none">
-                  <span className="font-display text-white text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight drop-shadow-lg">
-                    Contact Us to Get your Best Friend
-                  </span>
-                </span>
-              </div>
-            </Link>
-          </div>
+      {/* Instagram Grid Section */}
+      <section className="py-8 sm:py-12 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-800 mb-6 sm:mb-10" style={{ fontFamily: 'Playpen Sans, cursive' }}>
+            Follow Our <span className="text-orange-600">Journey</span>
+          </h2>
+          <InstagramGrid />
         </div>
       </section>
 
@@ -715,7 +701,7 @@ export const BreedDetail: React.FC = () => {
             className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 sm:p-8"
           >
             <div className="flex justify-between items-center mb-6">
-              <h2 className="font-display text-2xl font-bold text-gray-800">
+              <h2 className="font-display text-2xl font-bold text-gray-800" style={{ fontFamily: 'Playpen Sans, cursive' }}>
                 Request Quote
               </h2>
               <button
@@ -733,7 +719,7 @@ export const BreedDetail: React.FC = () => {
 
             <form onSubmit={handleFormSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 mb-2" style={{ fontFamily: 'Playpen Sans, cursive' }}>
                   Your Name
                 </label>
                 <input
@@ -744,11 +730,12 @@ export const BreedDetail: React.FC = () => {
                   required
                   className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-[#E97451] transition-colors"
                   placeholder="John Doe"
+                  style={{ fontFamily: 'Playpen Sans, cursive' }}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 mb-2" style={{ fontFamily: 'Playpen Sans, cursive' }}>
                   Email Address
                 </label>
                 <input
@@ -759,11 +746,12 @@ export const BreedDetail: React.FC = () => {
                   required
                   className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-[#E97451] transition-colors"
                   placeholder="john@example.com"
+                  style={{ fontFamily: 'Playpen Sans, cursive' }}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 mb-2" style={{ fontFamily: 'Playpen Sans, cursive' }}>
                   Phone Number
                 </label>
                 <input
@@ -774,11 +762,12 @@ export const BreedDetail: React.FC = () => {
                   required
                   className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-[#E97451] transition-colors"
                   placeholder="(555) 123-4567"
+                  style={{ fontFamily: 'Playpen Sans, cursive' }}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 mb-2" style={{ fontFamily: 'Playpen Sans, cursive' }}>
                   Message (Optional)
                 </label>
                 <textarea
@@ -788,6 +777,7 @@ export const BreedDetail: React.FC = () => {
                   rows={4}
                   className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-[#E97451] transition-colors resize-none"
                   placeholder="Tell us more about what you're looking for..."
+                  style={{ fontFamily: 'Playpen Sans, cursive' }}
                 />
               </div>
 
@@ -795,6 +785,7 @@ export const BreedDetail: React.FC = () => {
                 <button
                   type="submit"
                   className="flex-1 bg-[#E97451] hover:bg-[#E97451]/90 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
+                  style={{ fontFamily: 'Playpen Sans, cursive' }}
                 >
                   Submit Request
                 </button>
@@ -802,6 +793,7 @@ export const BreedDetail: React.FC = () => {
                   type="button"
                   onClick={() => setShowQuoteForm(false)}
                   className="flex-1 border-2 border-gray-200 text-gray-700 hover:bg-gray-50 font-semibold py-2 px-4 rounded-lg transition-colors"
+                  style={{ fontFamily: 'Playpen Sans, cursive' }}
                 >
                   Cancel
                 </button>
