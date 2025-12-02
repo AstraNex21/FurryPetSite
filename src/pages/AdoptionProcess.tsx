@@ -1,6 +1,10 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { PawPrint } from "lucide-react";
+import InstagramGrid from "../components/InstagramGrid";
+
+// Import Playpen Sans font
+import './PlaypenSans.css';
 
 export const AdoptionProcess: React.FC = () => {
   const steps = [
@@ -27,7 +31,7 @@ export const AdoptionProcess: React.FC = () => {
   ];
 
   return (
-    <main className="pt-10 pb-20 px-4 max-w-6xl mx-auto relative overflow-hidden">
+    <main className="pt-6 sm:pt-10 pb-12 sm:pb-20 px-4 max-w-6xl mx-auto relative overflow-hidden bg-white" style={{ fontFamily: 'Playpen Sans, cursive' }}>
 
       {/* Soft Ambient Glows */}
       <div className="absolute top-0 left-0 w-72 h-72 bg-gradient-to-br from-orange-300/40 to-pink-300/40 blur-3xl rounded-full -z-10"></div>
@@ -59,19 +63,19 @@ export const AdoptionProcess: React.FC = () => {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
-        className="text-center mb-10"
+        className="text-center mb-6 sm:mb-10"
       >
-        <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight" style={{ fontFamily: 'Playpen Sans, cursive' }}>
           Adoption Process
         </h1>
 
-        <p className="text-gray-600 text-lg max-w-xl mx-auto mt-2 leading-relaxed">
+        <p className="text-gray-600 text-base sm:text-lg max-w-xl mx-auto mt-1 sm:mt-2 leading-relaxed" style={{ fontFamily: 'Playpen Sans, cursive' }}>
           At FurryFriend, we ensure that every adoption is smooth, transparent, and responsible.
         </p>
       </motion.div>
 
       {/* Steps Grid */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
         {steps.map((step, index) => (
           <motion.div
             key={index}
@@ -79,7 +83,7 @@ export const AdoptionProcess: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: index * 0.1 }}
             viewport={{ once: true }}
-            className="relative p-6 rounded-3xl backdrop-blur-lg shadow-xl 
+            className="relative p-4 sm:p-6 rounded-3xl backdrop-blur-lg shadow-xl 
                        border border-white/30 bg-white/50 
                        hover:scale-[1.02] hover:shadow-2xl 
                        transition-all duration-300 group"
@@ -92,15 +96,15 @@ export const AdoptionProcess: React.FC = () => {
             </div>
 
             {/* Icon */}
-            <div className="flex justify-center mb-4 mt-4">
+            <div className="flex justify-center mb-3 sm:mb-4 mt-4">
               <PawPrint className="text-orange-500 opacity-70" size={30} />
             </div>
 
-            <h2 className="text-lg font-semibold text-gray-800 text-center mb-2">
+            <h2 className="text-base sm:text-lg font-semibold text-gray-800 text-center mb-2" style={{ fontFamily: 'Playpen Sans, cursive' }}>
               {step.title}
             </h2>
 
-            <p className="text-gray-600 text-sm text-center leading-relaxed">
+            <p className="text-gray-600 text-sm text-center leading-relaxed" style={{ fontFamily: 'Playpen Sans, cursive' }}>
               {step.text}
             </p>
           </motion.div>
@@ -113,14 +117,32 @@ export const AdoptionProcess: React.FC = () => {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
-        className="mt-16 text-center"
+        className="mt-8 sm:mt-16 text-center"
       >
-        <h3 className="text-2xl font-bold text-gray-800 mb-2">You're Never Alone</h3>
-        <p className="text-gray-600 max-w-md mx-auto leading-relaxed text-sm">
-          We stay connected with you even after the adoption to ensure your puppy grows in a loving,
+        <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2" style={{ fontFamily: 'Playpen Sans, cursive' }}>You're Never Alone</h3>
+        <p className="text-gray-600 max-w-md mx-auto leading-relaxed text-sm" style={{ fontFamily: 'Playpen Sans, cursive' }}>
+          We stay connected with you even after adoption to ensure your puppy grows in a loving,
           healthy environment.
         </p>
       </motion.div>
+
+      {/* Why Choose FurryFriend Section */}
+      <section className="py-4 sm:py-8 md:py-12 mt-8 sm:mt-16">
+        <h2 className="text-xl sm:text-2xl md:text-5xl font-bold text-center text-gray-800 mb-2 sm:mb-4 md:mb-10" style={{ fontFamily: 'Playpen Sans, cursive' }}>
+          Why Choose <span className="text-orange-600">FurryFriend</span>?
+        </h2>
+        <div className="flex justify-center">
+          <img src="/afe.png" alt="Why Choose FurryFriend" className="max-w-full h-auto rounded-lg shadow-lg" />
+        </div>
+      </section>
+
+      {/* Instagram Grid Section */}
+      <section className="py-4 sm:py-8 md:py-12">
+        <h2 className="text-xl sm:text-2xl md:text-5xl font-bold text-center text-gray-800 mb-2 sm:mb-4 md:mb-10" style={{ fontFamily: 'Playpen Sans, cursive' }}>
+          Follow Our <span className="text-orange-600">Journey</span>
+        </h2>
+        <InstagramGrid />
+      </section>
     </main>
   );
 };
