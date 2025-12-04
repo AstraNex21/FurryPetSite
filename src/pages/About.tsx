@@ -1,12 +1,14 @@
 import React from "react";
 import { Heart, Shield, Award, Users, Star, Check } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import InstagramGrid from "../components/InstagramGrid";
 
 // Import Playpen Sans font
 import './PlaypenSans.css';
 
 export const About: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen bg-white" style={{ fontFamily: 'Playpen Sans, cursive' }}>
       {/* Hero Section removed */}
@@ -125,22 +127,33 @@ export const About: React.FC = () => {
         </div>
       </section>
 
-      {/* Why Choose FurryFriend Section */}
-      <section className="py-4 sm:py-8 md:py-12">
-        <h2 className="text-xl sm:text-2xl md:text-5xl font-bold text-center text-gray-800 mb-2 sm:mb-4 md:mb-10" style={{ fontFamily: 'Playpen Sans, cursive' }}>
-          Why Choose <span className="text-orange-600">FurryFriend</span>?
-        </h2>
-        <div className="flex justify-center">
-          <img src="/afe.png" alt="Why Choose FurryFriend" className="max-w-full h-auto rounded-lg shadow-lg" />
-        </div>
-      </section>
-
       {/* Instagram Grid Section */}
       <section className="py-4 sm:py-8 md:py-12">
         <h2 className="text-xl sm:text-2xl md:text-5xl font-bold text-center text-gray-800 mb-2 sm:mb-4 md:mb-10" style={{ fontFamily: 'Playpen Sans, cursive' }}>
           Follow Our <span className="text-orange-600">Journey</span>
         </h2>
         <InstagramGrid />
+      </section>
+
+      {/* Contact Us Section */}
+      <section className="py-8 sm:py-12 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-center">
+            <button
+              onClick={() => navigate('/contact')}
+              className="relative overflow-hidden rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300"
+            >
+              <img 
+                src="/COntactUs.png" 
+                alt="Contact Us" 
+                className="w-full h-auto object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
+                <span className="text-white font-bold text-lg">Get in Touch</span>
+              </div>
+            </button>
+          </div>
+        </div>
       </section>
     </div>
   );

@@ -13,7 +13,6 @@ const FloatingContacts = () => {
   const [showGetInTouchButton, setShowGetInTouchButton] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
-    email: '',
     phone: '',
     breed: '',
     message: ''
@@ -59,7 +58,7 @@ const FloatingContacts = () => {
     // Handle form submission
     console.log('Form submitted:', formData);
     setShowForm(false);
-    setFormData({ name: '', email: '', phone: '', breed: '', message: '' });
+    setFormData({ name: '', phone: '', breed: '', message: '' });
   };
 
   return (
@@ -137,17 +136,6 @@ const FloatingContacts = () => {
                   value={formData.name}
                   onChange={handleFormChange}
                   placeholder="Your Name"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleFormChange}
-                  placeholder="Your Email"
                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
                 />
               </div>

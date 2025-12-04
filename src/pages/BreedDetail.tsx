@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { Heart, Award, Calendar, Weight, Menu, X, ChevronDown } from 'lucide-react';
+import { Heart, Calendar, Weight, X, Activity } from 'lucide-react';
 import { motion } from 'framer-motion';
 import InstagramGrid from '../components/InstagramGrid';
 // Remove the Header import since it should be rendered by the layout component
@@ -236,10 +236,10 @@ export const BreedDetail: React.FC = () => {
   const [showQuoteForm, setShowQuoteForm] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
-    email: '',
     phone: '',
     message: ''
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (slug && breedDatabase[slug]) {
@@ -261,9 +261,18 @@ export const BreedDetail: React.FC = () => {
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Quote request submitted:', { breed: breed?.name, ...formData });
-    setFormData({ name: '', email: '', phone: '', message: '' });
+    setFormData({ name: '', phone: '', message: '' });
     setShowQuoteForm(false);
     alert('Thank you for your inquiry! We will contact you soon.');
+  };
+
+  // Get the puppy to adult image based on breed
+  const getPupAdultImage = () => {
+    if (breed?.slug === 'french-mastiff') return '/FMPupAdult.png';
+    if (breed?.slug === 'maltese') return '/maltpupadult.png';
+    if (breed?.slug === 'toy-poodle') return '/TPpupAdult.png';
+    if (breed?.slug === 'yorkshire-terrier') return '/YTPupadult.png';
+    return '';
   };
 
   if (!breed) {
@@ -332,8 +341,6 @@ export const BreedDetail: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white" style={{ fontFamily: 'Playpen Sans, cursive' }}>
-      {/* Removed the Header component since it should be rendered by the layout component */}
-
       {/* Hero Section with Image Gallery - Mobile Optimized */}
       <section className="relative pt-4 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-4">
@@ -365,27 +372,18 @@ export const BreedDetail: React.FC = () => {
                 </div>
               </div>
 
-              {/* Mobile Quick Stats */}
+              {/* Mobile Quick Stats - Updated to only show 4 traits */}
               <div className="grid grid-cols-2 gap-3 px-2">
-                <div className="bg-white p-3 rounded-xl shadow-md">
+                <div className="bg-white p-3 rounded-xl shadow-md liquid-border">
                   <div className="flex items-center space-x-2 mb-1">
                     <Weight className="h-4 w-4 text-[#E97451]" />
-                    <span className="text-xs text-gray-600">Adult Weight</span>
+                    <span className="text-xs text-gray-600">Weight</span>
                   </div>
                   <p className="font-semibold text-gray-800 text-sm">
                     {breed.weight}
                   </p>
                 </div>
-                <div className="bg-white p-3 rounded-xl shadow-md">
-                  <div className="flex items-center space-x-2 mb-1">
-                    <Weight className="h-4 w-4 text-[#E97451]" />
-                    <span className="text-xs text-gray-600">Puppy Weight</span>
-                  </div>
-                  <p className="font-semibold text-gray-800 text-sm">
-                    {breed.puppyWeight}
-                  </p>
-                </div>
-                <div className="bg-white p-3 rounded-xl shadow-md">
+                <div className="bg-white p-3 rounded-xl shadow-md liquid-border">
                   <div className="flex items-center space-x-2 mb-1">
                     <Calendar className="h-4 w-4 text-[#E97451]" />
                     <span className="text-xs text-gray-600">Lifespan</span>
@@ -394,22 +392,22 @@ export const BreedDetail: React.FC = () => {
                     {breed.lifespan}
                   </p>
                 </div>
-                <div className="bg-white p-3 rounded-xl shadow-md">
+                <div className="bg-white p-3 rounded-xl shadow-md liquid-border">
                   <div className="flex items-center space-x-2 mb-1">
                     <Heart className="h-4 w-4 text-[#E97451]" />
-                    <span className="text-xs text-gray-600">Healthcare</span>
-                  </div>
-                  <p className="font-semibold text-gray-800 text-sm">
-                    {breed.health.vetCheckups}
-                  </p>
-                </div>
-                <div className="bg-white p-3 rounded-xl shadow-md col-span-2">
-                  <div className="flex items-center space-x-2 mb-1">
-                    <Award className="h-4 w-4 text-[#E97451]" />
-                    <span className="text-xs text-gray-600">Care Needs</span>
+                    <span className="text-xs text-gray-600">Grooming & Healthcare</span>
                   </div>
                   <p className="font-semibold text-gray-800 text-sm">
                     {breed.care.grooming.split(',')[0]}
+                  </p>
+                </div>
+                <div className="bg-white p-3 rounded-xl shadow-md liquid-border">
+                  <div className="flex items-center space-x-2 mb-1">
+                    <Activity className="h-4 w-4 text-[#E97451]" />
+                    <span className="text-xs text-gray-600">Temperament</span>
+                  </div>
+                  <p className="font-semibold text-gray-800 text-sm">
+                    {breed.temperament[0]}
                   </p>
                 </div>
               </div>
@@ -473,25 +471,16 @@ export const BreedDetail: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Desktop Quick Stats */}
+                {/* Desktop Quick Stats - Updated to only show 4 traits */}
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-white p-4 rounded-xl shadow-md">
+                  <div className="bg-white p-4 rounded-xl shadow-md liquid-border">
                     <div className="flex items-center space-x-2 mb-1">
                       <Weight className="h-4 w-4 text-[#E97451]" />
-                      <span className="text-sm text-gray-600">Adult Weight</span>
+                      <span className="text-sm text-gray-600">Weight</span>
                     </div>
                     <p className="font-semibold text-gray-800">{breed.weight}</p>
                   </div>
-                  <div className="bg-white p-4 rounded-xl shadow-md">
-                    <div className="flex items-center space-x-2 mb-1">
-                      <Weight className="h-4 w-4 text-[#E97451]" />
-                      <span className="text-sm text-gray-600">Puppy Weight</span>
-                    </div>
-                    <p className="font-semibold text-gray-800">
-                      {breed.puppyWeight}
-                    </p>
-                  </div>
-                  <div className="bg-white p-4 rounded-xl shadow-md">
+                  <div className="bg-white p-4 rounded-xl shadow-md liquid-border">
                     <div className="flex items-center space-x-2 mb-1">
                       <Calendar className="h-4 w-4 text-[#E97451]" />
                       <span className="text-sm text-gray-600">Lifespan</span>
@@ -500,22 +489,22 @@ export const BreedDetail: React.FC = () => {
                       {breed.lifespan}
                     </p>
                   </div>
-                  <div className="bg-white p-4 rounded-xl shadow-md">
+                  <div className="bg-white p-4 rounded-xl shadow-md liquid-border">
                     <div className="flex items-center space-x-2 mb-1">
                       <Heart className="h-4 w-4 text-[#E97451]" />
-                      <span className="text-sm text-gray-600">Healthcare</span>
-                    </div>
-                    <p className="font-semibold text-gray-800 text-sm">
-                      {breed.health.vetCheckups}
-                    </p>
-                  </div>
-                  <div className="bg-white p-4 rounded-xl shadow-md">
-                    <div className="flex items-center space-x-2 mb-1">
-                      <Award className="h-4 w-4 text-[#E97451]" />
-                      <span className="text-sm text-gray-600">Care Needs</span>
+                      <span className="text-sm text-gray-600">Grooming & Healthcare</span>
                     </div>
                     <p className="font-semibold text-gray-800 text-sm">
                       {breed.care.grooming.split(',')[0]}
+                    </p>
+                  </div>
+                  <div className="bg-white p-4 rounded-xl shadow-md liquid-border">
+                    <div className="flex items-center space-x-2 mb-1">
+                      <Activity className="h-4 w-4 text-[#E97451]" />
+                      <span className="text-sm text-gray-600">Temperament</span>
+                    </div>
+                    <p className="font-semibold text-gray-800 text-sm">
+                      {breed.temperament[0]}
                     </p>
                   </div>
                 </div>
@@ -550,63 +539,22 @@ export const BreedDetail: React.FC = () => {
         </div>
       </section>
 
-      {/* Puppy to Adult Comparison Section - Mobile Optimized */}
+      {/* Puppy to Adult Comparison Section - Updated to show single image at full size */}
       <section className="py-8 sm:py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
-            {/* Puppy */}
+          <div className="flex justify-center">
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="relative"
+              className="relative w-full max-w-5xl"
             >
-              <div className="bg-gradient-to-br from-[#FFB5A7]/20 to-[#F4C2C2]/20 p-4 sm:p-6 rounded-2xl">
-                <h3 className="font-display text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4 text-center" style={{ fontFamily: 'Playpen Sans, cursive' }}>
-                  Puppy Stage
-                </h3>
-                <div className="relative overflow-hidden rounded-xl shadow-lg mb-3 sm:mb-4 bg-gray-100">
-                  <div className="aspect-[4/5] sm:aspect-[7/9] w-full">
-                    <img
-                      src={breed.puppyToAdult.puppy}
-                      alt={`${breed.name} puppy`}
-                      className="w-full h-full object-cover object-center"
-                    />
-                  </div>
-                </div>
-                <p className="text-gray-700 text-sm sm:text-base">
-                  {breed.name} puppies are adorable, energetic, and require special care
-                  during their early months. They need proper socialization, training,
-                  and nutrition to grow into healthy adult dogs.
-                </p>
-              </div>
-            </motion.div>
-
-            {/* Adult */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative"
-            >
-              <div className="bg-gradient-to-br from-[#E6B8D4]/20 to-white p-4 sm:p-6 rounded-2xl">
-                <h3 className="font-display text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4 text-center" style={{ fontFamily: 'Playpen Sans, cursive' }}>
-                  Adult Stage
-                </h3>
-                <div className="relative overflow-hidden rounded-xl shadow-lg mb-3 sm:mb-4 bg-gray-100">
-                  <div className="aspect-[4/5] sm:aspect-[7/9] w-full">
-                    <img
-                      src={breed.puppyToAdult.adult}
-                      alt={`${breed.name} adult`}
-                      className="w-full h-full object-cover object-center"
-                    />
-                  </div>
-                </div>
-                <p className="text-gray-700 text-sm sm:text-base">
-                  Adult {breed.name.toLowerCase()}s showcase their full beauty and
-                  personality. They have established their temperament and are
-                  well-adjusted to their environment with proper training.
-                </p>
+              <div className="relative overflow-hidden rounded-2xl shadow-xl bg-gray-100">
+                <img
+                  src={getPupAdultImage()}
+                  alt={`${breed.name} puppy to adult`}
+                  className="w-full h-auto object-contain"
+                />
               </div>
             </motion.div>
           </div>
@@ -691,6 +639,27 @@ export const BreedDetail: React.FC = () => {
         </div>
       </section>
 
+      {/* Contact Us Section - Added below Instagram Grid */}
+      <section className="py-8 sm:py-12 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-center">
+            <button
+              onClick={() => navigate('/contact')}
+              className="relative overflow-hidden rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300"
+            >
+              <img 
+                src="/COntactUs.png" 
+                alt="Contact Us" 
+                className="w-full h-auto object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
+                <span className="text-white font-bold text-lg">Get in Touch</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* Quote Request Modal */}
       {showQuoteForm && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -713,8 +682,7 @@ export const BreedDetail: React.FC = () => {
             </div>
 
             <p className="text-gray-600 mb-6">
-              Interested in {breed?.name}? Fill out form below and we'll get back to
-              you with a quote.
+              Interested in {breed?.name}? Fill out the form below and we'll get back to you with a quote.
             </p>
 
             <form onSubmit={handleFormSubmit} className="space-y-4">
@@ -730,22 +698,6 @@ export const BreedDetail: React.FC = () => {
                   required
                   className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-[#E97451] transition-colors"
                   placeholder="John Doe"
-                  style={{ fontFamily: 'Playpen Sans, cursive' }}
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2" style={{ fontFamily: 'Playpen Sans, cursive' }}>
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleFormChange}
-                  required
-                  className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-[#E97451] transition-colors"
-                  placeholder="john@example.com"
                   style={{ fontFamily: 'Playpen Sans, cursive' }}
                 />
               </div>
